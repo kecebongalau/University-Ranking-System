@@ -26,7 +26,7 @@ public:
 		}
 		else
 		{
-			newNode->next = head;
+			newNode->nextAdd = head;
 			head = newNode;
 		}
 
@@ -41,12 +41,12 @@ public:
 		else
 		{
 			T* current = head;
-			while (current->next != NULL)
+			while (current->nextAdd != NULL)
 			{
-				current = current->next;
+				current = current->nextAdd;
 			}
 
-			current->next = newNode;
+			current->nextAdd = newNode;
 		}
 
 		size++;
@@ -56,7 +56,7 @@ public:
 		T* current = head;
 		for (int i = 0; i < index; i++)
 		{
-			current = current->next;
+			current = current->nextAdd;
 		}
 
 		return current
@@ -67,18 +67,27 @@ public:
 		T* nextNode;
 		for (int i = 0; i < index - 1; i++)
 		{
-			current = current->next;
+			current = current->nextAdd;
 		}
 
-		nextNode = current->next;
+		nextNode = current->nextAdd;
 
-		delete current->next;
+		delete current->nextAdd;
 
-		current->next = newNode;
+		current->nextAdd = newNode;
 
-		newNode->next = nextNode->next;
+		newNode->nextAdd = nextNode->nextAdd;
 	}
 
+/// <summary>
+/// Template Specilization for display list
+/// </summary>
+/// <typeparam name="T"></typeparam>
+
+	template <>
+	void displayList<University> {
+
+	}
 private:
 	int size;
 
