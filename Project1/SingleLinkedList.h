@@ -16,8 +16,12 @@ public:
 		return size;
 	}
 
-	SingleLinkedList();
-	~SingleLinkedList();
+	SingleLinkedList() {
+		size = 0;
+		head = NULL;
+	};
+	~SingleLinkedList() {
+	};
 
 	void insertFront(T * newNode) {
 		if (head == NULL)
@@ -59,7 +63,7 @@ public:
 			current = current->nextAdd;
 		}
 
-		return current
+		return current;
 	}
 
 	void setValueAt(T* newNode, int index) {
@@ -84,10 +88,10 @@ public:
 /// </summary>
 /// <typeparam name="T"></typeparam>
 
-	template <>
-	void displayList<University> {
+//	template <>
+//	void displayList<University> {
 
-	}
+//	}
 private:
 	int size;
 
