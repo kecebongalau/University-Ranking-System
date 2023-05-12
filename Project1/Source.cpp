@@ -303,7 +303,7 @@ int menu(University* univ, RegisteredUsers* regis)
 				regis->login(ID, password);
 				break;
 			case 3:
-				univ->univSLL.displayAll();
+				univ->displayUniversityInfo();
 				break;
 			default:
 				cout << "Invalid input, please try again" << endl;
