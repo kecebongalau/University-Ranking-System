@@ -1,6 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <ctime>
+#include "SingleLinkedList.h"
+#pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
+
+
 using namespace std;
 
 class University
@@ -116,6 +121,7 @@ void University::insertToEndList(string rank, string instituion, string Location
 	}*/
 
 	univSLL.insertEnd(newnode);
+
 	
 }
 
@@ -367,7 +373,7 @@ int menu(University* univ, RegisteredUsers* regis)
 		}
 
 		// univ->displayUniversityInfo();
-
+		
 		menu(univ, regis);
 }
 
