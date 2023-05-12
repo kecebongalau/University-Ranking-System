@@ -2,31 +2,29 @@
 #include <iostream>
 using namespace std;
 
-/// <summary>
-/// SingleLinkedList can only be used by Univeristy, Users, and Admin Accounts
-/// </summary>
-/// <typeparam name="T"></typeparam>
 template <class T>
-class SingleLinkedList
+class DoubleLinkedList
 {
 public:
 	T* head;
+	T* tail;
 
 	int getSize() {
 		return size;
 	}
 
-	SingleLinkedList() {
+	DoubleLinkedList() {
 		size = 0;
 		head = NULL;
+		tail = NULL;
 	};
-	~SingleLinkedList() {
+	~DoubleLinkedList() {
 	};
 
-	void insertFront(T * newNode) {
+	void insertFront(T* newNode) { // O(1)
 		if (head == NULL)
 		{
-			head = newNode;
+			head = tail = newNode;
 		}
 		else
 		{
@@ -37,26 +35,21 @@ public:
 		size++;
 	}
 
-	void insertEnd(T * newNode) {
+	void insertEnd() { // O(1)
 		if (head == NULL)
 		{
-			head = newNode;
+			head = tail = newNode;
 		}
 		else
 		{
-			T* current = head;
-			while (current->nextAdd != NULL)
-			{
-				current = current->nextAdd;
-			}
-
-			current->nextAdd = newNode;
+			tail->nextAdd = newNode;
+			tail = newNode;
 		}
 
 		size++;
 	}
 
-	T* getValueAt(int index) {
+	T* getValueAt(int index) { // O(n)
 		T* current = head;
 		for (int i = 0; i < index; i++)
 		{
@@ -66,7 +59,7 @@ public:
 		return current;
 	}
 
-	void setValueAt(T* newNode, int index) {
+	void setValueAt(T* newNode, int index) { // O(n)
 		T* current = head;
 		T* nextNode;
 		for (int i = 0; i < index - 1; i++)
@@ -82,9 +75,9 @@ public:
 
 		newNode->nextAdd = nextNode->nextAdd;
 	}
-	
-	void displayAll(){
-		T * current = head;
+
+	void displayAll() { // O(n)
+		T* current = head;
 
 		while (current != NULL)
 		{
@@ -95,7 +88,6 @@ public:
 
 		cout << "List is ended here!" << endl;
 	}
-
 private:
 	int size;
 
