@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "SingleLinkedList.h"
 using namespace std;
 
 class University
@@ -93,6 +94,7 @@ public:
 		string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled);
 	void search();
 	void displayUniversityInfo();
+	void display();
 };
 
 void University::insertToEndList(string rank, string instituion, string LocationCode, string Location, string ArScore, string ArRank,
@@ -111,6 +113,31 @@ void University::insertToEndList(string rank, string instituion, string Location
 		newnode->prevAdd = tail;
 		tail = newnode;
 	}
+}
+
+void University::display() {
+	cout << "Rank: " << rank << endl;
+	cout << "Institution: " << institution << endl;
+	cout << "Location Code: " << LocationCode << endl;
+	cout << "Location: " << Location << endl;
+	cout << "Academic Reputation Score: " << ArScore << endl;
+	cout << "Academic Reputation Rank: " << ArRank << endl;
+	cout << "Employer Reputation Score: " << ErScore << endl;
+	cout << "Employer Reputation Rank: " << ErRank << endl;
+	cout << "Academic Reputation Rank: " << ErRank << endl;
+	cout << "Faculty/student ratio Score: " << FsrScore << endl;
+	cout << "Faculty/student ratio Rank: " << FsrRank << endl;
+	cout << "Citations per faculty Score: " << CpfScore << endl;
+	cout << "Citations per faculty Rank: " << CpfRank << endl;
+	cout << "International faculty ratio Score: " << IfrScore << endl;
+	cout << "International faculty ratio Rank: " << IfrRank << endl;
+	cout << "International student ratio Score: " << IsrScore << endl;
+	cout << "International student ratio Rank: " << IsrRank << endl;
+	cout << "International research network Score: " << IrnScore << endl;
+	cout << "International research network Rank: " << IrnRank << endl;
+	cout << "Employment Outcome Score: " << GerScore << endl;
+	cout << "Employment Outcome Rank: " << GerRank << endl;
+	cout << "Score Scaled: " << ScoreScaled << endl;
 }
 
 void University::displayUniversityInfo() //Big O - O(n)
@@ -228,6 +255,7 @@ int main() {
 	}
 
 	univ->displayUniversityInfo();
+
 	return 0;
 }
 
