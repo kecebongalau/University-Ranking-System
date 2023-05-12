@@ -29,6 +29,7 @@ public:
 		else
 		{
 			newNode->nextAdd = head;
+			head->prevAdd = newNode;
 			head = newNode;
 		}
 
@@ -43,6 +44,7 @@ public:
 		else
 		{
 			tail->nextAdd = newNode;
+			newNode->prevAdd = tail;
 			tail = newNode;
 		}
 
