@@ -198,65 +198,99 @@ public:
 	void feedback();
 };
 
-//class Admin : public RegisteredUsers {
-//public: 
-//	Admin(string ID, string name, string password) {
-//		this->ID = ID;
-//		this->name = name;
-//		this->password = password;
-//		this->nextAdd = NULL;
-//		this->prevAdd = NULL;
-//	}
-//
-//	bool login();
-//	void logout();
-//	void insertToEndList(string ID, string name, string password, string lastActiveDate);
-//	void deleteFromList(string ID, int position);
-//	void search(string ID);
-//	void replyFeedback();
-//	void summarize();
-//};
-
-int main() {
-	ifstream file("2023 QS World University Rankings.csv");
-	string rank, institution, LocationCode, Location, ArScore, ArRank, ErScore, ErRank, FsrScore, FsrRank, CpfScore, 
-		CpfRank, IfrScore, IfrRank, IsrScore, IsrRank, IrnScore, IrnRank, GerScore, GerRank, ScoreScaled;
-	University* univ = new University();
-	while (file.good())
+int menu(University* univ)
+{
+	int opt;
+	do
 	{
-		getline(file, rank, ',');
-		getline(file, institution, ',');
-		getline(file, LocationCode, ',');
-		getline(file, Location, ',');
-		getline(file, ArScore, ',');
-		getline(file, ArRank, ',');
-		getline(file, ErScore, ',');
-		getline(file, ErRank, ',');
-		getline(file, FsrScore, ',');
-		getline(file, FsrRank, ',');
-		getline(file, CpfScore, ',');
-		getline(file, CpfRank, ',');
-		getline(file, IfrScore, ',');
-		getline(file, IfrRank, ',');
-		getline(file, IsrScore, ',');
-		getline(file, IsrRank, ',');
-		getline(file, IrnScore, ',');
-		getline(file, IrnRank, ',');
-		getline(file, GerScore, ',');
-		getline(file, GerRank, ',');
-		getline(file, ScoreScaled);
-
+		cout << "WELCOME TO UNIVERSITY RANK SYSTEM" << endl;
+		cout << "Select the option below: " << endl;
+		cout << " 1. Register" << endl;
+		cout << " 2. Login" << endl;
+		cout << " 3. Show University List" << endl;
+		cout << " 4. Exit" << endl;
+		cin >> opt;
 		
-
-		univ->insertToEndList(rank, institution, LocationCode, Location, ArScore, ArRank,
-			ErScore, ErRank, FsrScore, FsrRank, CpfScore,
-			CpfRank, IfrScore, IfrRank, IsrScore,
-		    IsrRank, IrnScore, IrnRank, GerScore, GerRank, ScoreScaled);
+		switch(opt)
+		{
+			case 1:
+				//register();
+				break;
+			case 2:
+				//login();
+				break;
+			case 3:
+				univ->displayUniversityInfo();
+				break;
+			default:
+				cout << "Invalid input, please try again" << endl;
+				break;
+		}
 	}
 
-	univ->displayUniversityInfo();
-
+	while(opt != 4);
+  
 	return 0;
+}
+
+	// class Admin : public RegisteredUsers {
+	// public:
+	//	Admin(string ID, string name, string password) {
+	//		this->ID = ID;
+	//		this->name = name;
+	//		this->password = password;
+	//		this->nextAdd = NULL;
+	//		this->prevAdd = NULL;
+	//	}
+	//
+	//	bool login();
+	//	void logout();
+	//	void insertToEndList(string ID, string name, string password, string lastActiveDate);
+	//	void deleteFromList(string ID, int position);
+	//	void search(string ID);
+	//	void replyFeedback();
+	//	void summarize();
+	// };
+
+	int main()
+	{
+		ifstream file("2023 QS World University Rankings.csv");
+		string rank, institution, LocationCode, Location, ArScore, ArRank, ErScore, ErRank, FsrScore, FsrRank, CpfScore,
+			CpfRank, IfrScore, IfrRank, IsrScore, IsrRank, IrnScore, IrnRank, GerScore, GerRank, ScoreScaled;
+		University *univ = new University();
+		while (file.good())
+		{
+				getline(file, rank, ',');
+				getline(file, institution, ',');
+				getline(file, LocationCode, ',');
+				getline(file, Location, ',');
+				getline(file, ArScore, ',');
+				getline(file, ArRank, ',');
+				getline(file, ErScore, ',');
+				getline(file, ErRank, ',');
+				getline(file, FsrScore, ',');
+				getline(file, FsrRank, ',');
+				getline(file, CpfScore, ',');
+				getline(file, CpfRank, ',');
+				getline(file, IfrScore, ',');
+				getline(file, IfrRank, ',');
+				getline(file, IsrScore, ',');
+				getline(file, IsrRank, ',');
+				getline(file, IrnScore, ',');
+				getline(file, IrnRank, ',');
+				getline(file, GerScore, ',');
+				getline(file, GerRank, ',');
+				getline(file, ScoreScaled);
+
+				univ->insertToEndList(rank, institution, LocationCode, Location, ArScore, ArRank,
+									  ErScore, ErRank, FsrScore, FsrRank, CpfScore,
+									  CpfRank, IfrScore, IfrRank, IsrScore,
+									  IsrRank, IrnScore, IrnRank, GerScore, GerRank, ScoreScaled);
+		}
+
+		// univ->displayUniversityInfo();
+
+		menu(univ);
 }
 
 
