@@ -1,6 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <ctime>
+#include "SingleLinkedList.h"
+#pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
 using namespace std;
 
 class University
@@ -30,7 +33,8 @@ public:
 	string ScoreScaled;
 	University* nextAdd;
 	University* prevAdd;
-	
+	SingleLinkedList<University> univSLL;
+
 	University(string rank, string instituion, string LocationCode, string Location, string ArScore, string ArRank,
 		string ErScore, string ErRank, string FsrScore, string FsrRank, string CpfScore, string CpfRank, string IfrScore, string IfrRank, string IsrScore,
 		string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled) {
@@ -99,10 +103,11 @@ void University::insertToEndList(string rank, string instituion, string Location
 	string ErScore, string ErRank, string FsrScore, string FsrRank, string CpfScore, string CpfRank, string IfrScore, string IfrRank, string IsrScore,
 	string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled) 
 {
+	
 	University* newnode = new University(rank, instituion, LocationCode, Location, ArScore, ArRank, ErScore, ErRank,
 		FsrScore, FsrRank, CpfScore, CpfRank, IfrScore, IfrRank, IsrScore, IsrRank, IrnSCore, IrnRank, GerScore, GerRank,
 		ScoreScaled);
-	if (head == NULL) {
+	/*if (head == NULL) {
 		head = newnode;
 		tail = newnode;
 	}
@@ -110,7 +115,10 @@ void University::insertToEndList(string rank, string instituion, string Location
 		tail->nextAdd= newnode;
 		newnode->prevAdd = tail;
 		tail = newnode;
-	}
+	}*/
+
+	univSLL.insertEnd(newnode);
+	
 }
 
 void University::displayUniversityInfo() //Big O - O(n)
@@ -145,15 +153,27 @@ void University::displayUniversityInfo() //Big O - O(n)
 	cout << "List is ended here! " << endl;
 }
 
-
-class RegisteredUsers {
+class Users {
 public:
 	string ID;
 	string name;
 	string password;
+};
+class RegisteredUsers : Users {
+public:
+	SingleLinkedList<RegisteredUsers> regisSLL;
 	string lastActiveDate;
+	RegisteredUsers* head, * tail;
 	RegisteredUsers* nextAdd;
 	RegisteredUsers* prevAdd;
+	RegisteredUsers() {
+		this->ID = "";
+		this->name = "";
+		this->password = "";
+		this->lastActiveDate = "";
+		this->nextAdd = NULL;
+		this->prevAdd = NULL;
+	}
 	RegisteredUsers(string ID, string name, string password, string lastActiveDate) {
 		this->ID = ID;
 		this->name = name;
@@ -163,17 +183,73 @@ public:
 		this->prevAdd = NULL;
 	}
 
-	bool login();
+	void user_register();
+	void login(string ID, string password);
+	void generateID();
 	void logout();
-	void insertToEndList(string ID, string name, string password, string lastActiveDate);
 	void deleteFromList(string ID, int position);
 	void search(string ID);
 	void feedback();
 };
+void RegisteredUsers::generateID() {
+	
+}
 
-int menu(University* univ)
+void RegisteredUsers::user_register() {
+	string ID = "1", name, password, lastActiveDate;
+	// current date/time based on current system
+	time_t now = time(NULL);
+
+	// convert now to string form
+	char* dt = ctime(&now);
+	lastActiveDate = dt;
+	cout << "Enter your name: ";
+	getline(cin, name);
+
+	cout << "Enter your password: ";
+	getline(cin, password);
+
+
+	RegisteredUsers* newnode = new RegisteredUsers(ID, name, password, lastActiveDate);
+	regisSLL.insertEnd(newnode);
+	cout << regisSLL.head->name << endl;
+
+
+	RegisteredUsers* current = regisSLL.head;
+	while (current != NULL) //means still not the end of the list
+	{
+		cout << "id: " << current->ID << endl;
+		cout << "name: " << current->name << endl;
+		cout << "password: " << current->password << endl;
+		cout << "last activity date: " << current->lastActiveDate << endl << endl;
+
+		current = current->nextAdd; //if you forgot this, will become a infinity loop
+	}
+	cout << "List is ended here! " << endl;
+
+}
+void RegisteredUsers::login(string ID, string password) {
+	RegisteredUsers* current = regisSLL.head;
+	while (current != NULL) {
+		if (ID == current->ID && password == current->password) {
+			cout << "Hello " << current->name << endl;
+			// current date/time based on current system
+			time_t now = time(NULL);
+
+			// convert now to string form
+			char* dt = ctime(&now);
+			current->lastActiveDate = dt;
+
+			return ;
+		}
+		current = current->nextAdd;
+	}
+	cout << "User not found!" << endl;
+}
+int menu(University* univ, RegisteredUsers* regis)
 {
 	int opt;
+	string ID, password;
 	do
 	{
 		cout << "WELCOME TO UNIVERSITY RANK SYSTEM" << endl;
@@ -183,14 +259,19 @@ int menu(University* univ)
 		cout << " 3. Show University List" << endl;
 		cout << " 4. Exit" << endl;
 		cin >> opt;
-		
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 		switch(opt)
 		{
 			case 1:
-				//register();
+				regis->user_register();
 				break;
 			case 2:
-				//login();
+				cout << "Enter your ID: ";
+				getline(cin, ID);
+				cout << "Enter your password: ";
+				getline(cin, password);
+				regis->login(ID, password);
 				break;
 			case 3:
 				univ->displayUniversityInfo();
@@ -229,6 +310,7 @@ int menu(University* univ)
 		string rank, institution, LocationCode, Location, ArScore, ArRank, ErScore, ErRank, FsrScore, FsrRank, CpfScore,
 			CpfRank, IfrScore, IfrRank, IsrScore, IsrRank, IrnScore, IrnRank, GerScore, GerRank, ScoreScaled;
 		University *univ = new University();
+		RegisteredUsers* regis = new RegisteredUsers();
 		while (file.good())
 		{
 				getline(file, rank, ',');
@@ -261,7 +343,7 @@ int menu(University* univ)
 
 		// univ->displayUniversityInfo();
 
-		menu(univ);
+		menu(univ, regis);
 }
 
 
