@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DoubleLinkedList.h" />
+    <ClInclude Include="InsertionSort.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="SingleLinkedList.h" />
   </ItemGroup>
