@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "HelperNode.h"
 using namespace std;
 
 template <class T>
@@ -36,7 +37,7 @@ public:
 		size++;
 	}
 
-	void insertEnd() { // O(1)
+	void insertEnd(T* newNode) { // O(1)
 		if (head == NULL)
 		{
 			head = tail = newNode;
