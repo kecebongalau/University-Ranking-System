@@ -3,8 +3,8 @@
 #include <string>
 #include <ctime>
 #include "SingleLinkedList.h"
+#include "InsertionSort.h"
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
-
 
 using namespace std;
 
@@ -37,12 +37,12 @@ public:
 	University* prevAdd;
 	SingleLinkedList<University> univSLL;
 
-	University(string rank, string instituion, string LocationCode, string Location, string ArScore, string ArRank,
+	University(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
 		string ErScore, string ErRank, string FsrScore, string FsrRank, string CpfScore, string CpfRank, string IfrScore, string IfrRank, string IsrScore,
 		string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled) {
 
 		this->rank = rank;
-		this->institution = instituion;
+		this->institution = institution;
 		this->LocationCode = LocationCode;
 		this->Location = Location;
 		this->ArScore = ArScore;
@@ -94,20 +94,25 @@ public:
 
 
 
-	void insertToEndList(string rank, string instituion, string LocationCode, string Location, string ArScore, string ArRank,
+	void insertToEndList(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
 		string ErScore, string ErRank, string FsrScore, string FsrRank, string CpfScore, string CpfRank, string IfrScore, string IfrRank, string IsrScore,
 		string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled);
 	void search();
+	void Univ_InsertionSort();
 	void displayUniversityInfo();
 	void display();
 };
 
-void University::insertToEndList(string rank, string instituion, string LocationCode, string Location, string ArScore, string ArRank,
+void University::Univ_InsertionSort() {
+	insertionSort(univSLL.head, institution);
+}
+
+void University::insertToEndList(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
 	string ErScore, string ErRank, string FsrScore, string FsrRank, string CpfScore, string CpfRank, string IfrScore, string IfrRank, string IsrScore,
 	string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled) 
 {
 	
-	University* newnode = new University(rank, instituion, LocationCode, Location, ArScore, ArRank, ErScore, ErRank,
+	University* newnode = new University(rank, institution, LocationCode, Location, ArScore, ArRank, ErScore, ErRank,
 		FsrScore, FsrRank, CpfScore, CpfRank, IfrScore, IfrRank, IsrScore, IsrRank, IrnSCore, IrnRank, GerScore, GerRank,
 		ScoreScaled);
 	/*if (head == NULL) {
@@ -152,34 +157,7 @@ void University::display() {
 
 void University::displayUniversityInfo() //Big O - O(n)
 {
-	University* current = head;
-	while (current!=NULL) //means still not the end of the list
-	{
-		cout << "Rank: " << current->rank << endl;
-		cout << "Institution: " << current->institution << endl;
-		cout << "Location Code: " << current->LocationCode << endl;
-		cout << "Location: " << current->Location << endl;
-		cout << "Academic Reputation Score: " << current->ArScore << endl;
-		cout << "Academic Reputation Rank: " << current->ArRank << endl;
-		cout << "Employer Reputation Score: " << current->ErScore << endl;
-		cout << "Employer Reputation Rank: " << current->ErRank << endl;
-		cout << "Academic Reputation Rank: " << current->ErRank << endl;
-		cout << "Faculty/student ratio Score: " << current->FsrScore << endl;
-		cout << "Faculty/student ratio Rank: " << current->FsrRank << endl;
-		cout << "Citations per faculty Score: " << current->CpfScore << endl;
-		cout << "Citations per faculty Rank: " << current->CpfRank << endl;
-		cout << "International faculty ratio Score: " << current->IfrScore << endl;
-		cout << "International faculty ratio Rank: " << current->IfrRank << endl;
-		cout << "International student ratio Score: " << current->IsrScore << endl;
-		cout << "International student ratio Rank: " << current->IsrRank << endl;
-		cout << "International research network Score: " << current->IrnScore << endl;
-		cout << "International research network Rank: " << current->IrnRank << endl;
-		cout << "Employment Outcome Score: " << current->GerScore << endl;
-		cout << "Employment Outcome Rank: " << current->GerRank << endl;
-		cout << "Score Scaled: " << current->ScoreScaled << endl <<endl;
-		current = current->nextAdd; //if you forgot this, will become a infinity loop
-	}
-	cout << "List is ended here! " << endl;
+	univSLL.displayAll();
 }
 
 class Users {
@@ -211,7 +189,7 @@ public:
 		this->nextAdd = NULL;
 		this->prevAdd = NULL;
 	}
-
+	void menu(RegisteredUsers* users, University* univ);
 	void user_register();
 	void login(string ID, string password);
 	void generateID();
@@ -220,6 +198,41 @@ public:
 	void search(string ID);
 	void feedback();
 };
+
+void RegisteredUsers::menu(RegisteredUsers* users, University* univ) {
+	int opt;
+	do
+	{
+		cout << "WELCOME TO UNIVERSITY RANK SYSTEM" << endl;
+		cout << "Select the option below: " << endl;
+		cout << " 1. Search University" << endl;
+		cout << " 2. Show University List" << endl;
+		cout << " 3. Feedback" << endl;
+		cout << " 3. Logout" << endl;
+		cout << " 4. Exit" << endl;
+		cin >> opt;
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+		switch (opt)
+		{
+		case 1:
+			cout << "This is search" <<endl;
+			break;
+		case 2:
+			univ->Univ_InsertionSort();
+			univ->displayUniversityInfo();
+			break;
+		case 3:
+			
+			break;
+		default:
+			cout << "Invalid input, please try again" << endl;
+			break;
+		}
+	}
+
+	while (opt != 4);
+}
 void RegisteredUsers::generateID() {
 	
 }
@@ -294,6 +307,7 @@ int menu(University* univ, RegisteredUsers* regis)
 		{
 			case 1:
 				regis->user_register();
+				regis->menu(regis, univ);
 				break;
 			case 2:
 				cout << "Enter your ID: ";
@@ -334,6 +348,7 @@ int menu(University* univ, RegisteredUsers* regis)
 	//	void replyFeedback();
 	//	void summarize();
 	// };
+		
 
 	int main()
 	{
