@@ -104,7 +104,7 @@ public:
 };
 
 void University::Univ_InsertionSort() {
-	insertionSort(univSLL.head, institution);
+	univSLL.head = insertionSort(univSLL.head, "institution");
 }
 
 void University::insertToEndList(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
