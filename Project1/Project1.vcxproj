@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="DoubleLinkedList.h" />
     <ClInclude Include="HelperNode.h" />
+    <ClInclude Include="InsertionSort.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="MergeSort.h" />
     <ClInclude Include="SingleLinkedList.h" />
