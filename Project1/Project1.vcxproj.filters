@@ -35,5 +35,8 @@
     <ClInclude Include="HelperNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NewMergeSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
