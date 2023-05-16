@@ -2,8 +2,12 @@
 #include <fstream>
 #include <string>
 #include <ctime>
+#include <iomanip>
+#include <sstream>
 #include "SingleLinkedList.h"
 #include "InsertionSort.h"
+#include "DoubleLinkedList.h"
+
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
 
 using namespace std;
@@ -124,7 +128,6 @@ void University::insertToEndList(string rank, string institution, string Locatio
 		newnode->prevAdd = tail;
 		tail = newnode;
 	}*/
-
 	univSLL.insertEnd(newnode);
 
 	
@@ -157,6 +160,7 @@ void University::display() {
 
 void University::displayUniversityInfo() //Big O - O(n)
 {
+	cout << univSLL.head->institution << endl;
 	univSLL.displayAll();
 }
 
@@ -168,7 +172,7 @@ public:
 };
 class RegisteredUsers : Users {
 public:
-	SingleLinkedList<RegisteredUsers> regisSLL;
+	DoubleLinkedList<RegisteredUsers> regisDLL;
 	string lastActiveDate;
 	RegisteredUsers* head, * tail;
 	RegisteredUsers* nextAdd;
@@ -191,14 +195,22 @@ public:
 	}
 	void menu(RegisteredUsers* users, University* univ);
 	void user_register();
-	void login(string ID, string password);
-	void generateID();
-	void logout();
+	RegisteredUsers* login(string ID, string password);
+	string generateID();
+	void insertToList(string ID, string name, string password, string lastactivedate);
+	void writeData(RegisteredUsers* users);
 	void deleteFromList(string ID, int position);
 	void search(string ID);
 	void feedback();
 };
-
+void RegisteredUsers::insertToList(string ID, string name, string password, string lastactivedate) {
+	RegisteredUsers* newnode = new RegisteredUsers(ID, name, password, lastactivedate);
+	regisDLL.insertEnd(newnode);
+}
+void RegisteredUsers::writeData(RegisteredUsers* users) {
+	FILE* fp = fopen("Users.csv", "w");
+	
+}
 void RegisteredUsers::menu(RegisteredUsers* users, University* univ) {
 	int opt;
 	do
@@ -208,8 +220,8 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ) {
 		cout << " 1. Search University" << endl;
 		cout << " 2. Show University List" << endl;
 		cout << " 3. Feedback" << endl;
-		cout << " 3. Logout" << endl;
-		cout << " 4. Exit" << endl;
+		cout << " 4. Logout" << endl;
+		cout << " 5. Exit" << endl;
 		cin >> opt;
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
@@ -223,8 +235,14 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ) {
 			univ->displayUniversityInfo();
 			break;
 		case 3:
-			
+			cout << "This will be feedback" << endl;
+
 			break;
+		case 4:
+			break;
+
+		case 5:
+			exit(0);
 		default:
 			cout << "Invalid input, please try again" << endl;
 			break;
@@ -233,12 +251,38 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ) {
 
 	while (opt != 4);
 }
-void RegisteredUsers::generateID() {
+string RegisteredUsers::generateID() {
+	if (regisDLL.head == NULL) {
+		string newID = "US0001";
+		return newID;
+	}
+	else if(regisDLL.head != NULL) {
+		cout << regisDLL.tail->prevAdd->ID << endl; // ini masi error
+		try {
+			string lastID = regisDLL.tail->prevAdd->ID.substr(2, 4); // ini juga masi (prev add works some times)
+			int lastDigit = stoi(lastID);
+			std::stringstream buffer;
+			buffer << "US" << setw(4) << setfill('0') << lastDigit + 1;
+			string newID = buffer.str();
+			return newID;
+		}
+		catch (const std::invalid_argument& e) {
+			std::cerr << "Invalid argument: " << e.what() << std::endl;
+			// handle the error, e.g. return an error code or throw an exception
+		}
+		catch (const std::out_of_range& e) {
+			std::cerr << "Out of range: " << e.what() << std::endl;
+
+			// handle the error, e.g. return an error code or throw an exception
+		}
+	}
 	
+
 }
 
 void RegisteredUsers::user_register() {
-	string ID = "1", name, password, lastActiveDate;
+	string ID = generateID();
+	string name, password, lastActiveDate;
 	// current date/time based on current system
 	time_t now = time(NULL);
 
@@ -251,27 +295,35 @@ void RegisteredUsers::user_register() {
 	cout << "Enter your password: ";
 	getline(cin, password);
 
-
+	ofstream file_new("RegisUsers.csv", std::ios::app);
 	RegisteredUsers* newnode = new RegisteredUsers(ID, name, password, lastActiveDate);
-	regisSLL.insertEnd(newnode);
-	cout << regisSLL.head->name << endl;
+	regisDLL.insertEnd(newnode);
+	cout << regisDLL.head->name << endl;
 
+	if (file_new.is_open()) {
+		RegisteredUsers* current = regisDLL.tail;
+		while (current != NULL) //means still not the end of the list
+		{
+			cout << "id: " << current->ID << endl;
+			cout << "name: " << current->name << endl;
+			cout << "password: " << current->password << endl;
+			cout << "last activity date: " << current->lastActiveDate << endl << endl;
 
-	RegisteredUsers* current = regisSLL.head;
-	while (current != NULL) //means still not the end of the list
-	{
-		cout << "id: " << current->ID << endl;
-		cout << "name: " << current->name << endl;
-		cout << "password: " << current->password << endl;
-		cout << "last activity date: " << current->lastActiveDate << endl << endl;
+			file_new <<  current->ID << ',';
+			file_new << current->name << ',';
+			file_new << current->password << ',';
+			file_new << current->lastActiveDate;
 
-		current = current->nextAdd; //if you forgot this, will become a infinity loop
+			current = current->nextAdd; //if you forgot this, will become a infinity loop
+		}
+		cout << "List is ended here! " << endl;
 	}
-	cout << "List is ended here! " << endl;
+	file_new.close();
+	
 
 }
-void RegisteredUsers::login(string ID, string password) {
-	RegisteredUsers* current = regisSLL.head;
+RegisteredUsers* RegisteredUsers::login(string ID, string password) {
+	RegisteredUsers* current = regisDLL.head;
 	while (current != NULL) {
 		if (ID == current->ID && password == current->password) {
 			cout << "Hello " << current->name << endl;
@@ -282,16 +334,18 @@ void RegisteredUsers::login(string ID, string password) {
 			char* dt = ctime(&now);
 			current->lastActiveDate = dt;
 
-			return ;
+			return current;
 		}
 		current = current->nextAdd;
 	}
 	cout << "User not found!" << endl;
+	return NULL;
 }
 int menu(University* univ, RegisteredUsers* regis)
 {
 	int opt;
 	string ID, password;
+	RegisteredUsers* Log_User;
 	do
 	{
 		cout << "WELCOME TO UNIVERSITY RANK SYSTEM" << endl;
@@ -314,11 +368,17 @@ int menu(University* univ, RegisteredUsers* regis)
 				getline(cin, ID);
 				cout << "Enter your password: ";
 				getline(cin, password);
-				regis->login(ID, password);
+				Log_User = regis->login(ID, password);
+				if (Log_User != NULL) {
+					regis->menu(Log_User, univ);
+				}
 				break;
 			case 3:
 				univ->displayUniversityInfo();
 				break;
+			case 4:
+				cout << "Thank you for using this program!" << endl;
+				exit(0);
 			default:
 				cout << "Invalid input, please try again" << endl;
 				break;
@@ -352,13 +412,16 @@ int menu(University* univ, RegisteredUsers* regis)
 
 	int main()
 	{
-		ifstream file("2023 QS World University Rankings.csv");
+		
 		string rank, institution, LocationCode, Location, ArScore, ArRank, ErScore, ErRank, FsrScore, FsrRank, CpfScore,
 			CpfRank, IfrScore, IfrRank, IsrScore, IsrRank, IrnScore, IrnRank, GerScore, GerRank, ScoreScaled;
+		string ID, name, password, lastactivedate;
 		University *univ = new University();
 		RegisteredUsers* regis = new RegisteredUsers();
-		while (file.good())
-		{
+		fstream file("2023 QS World University Rankings.csv",ios::in);
+		if (file.is_open()) {
+			while (file.good())
+			{
 				getline(file, rank, ',');
 				getline(file, institution, ',');
 				getline(file, LocationCode, ',');
@@ -381,13 +444,30 @@ int menu(University* univ, RegisteredUsers* regis)
 				getline(file, GerRank, ',');
 				getline(file, ScoreScaled);
 
-				univ->insertToEndList(rank, institution, LocationCode, Location, ArScore, ArRank,
-									  ErScore, ErRank, FsrScore, FsrRank, CpfScore,
-									  CpfRank, IfrScore, IfrRank, IsrScore,
-									  IsrRank, IrnScore, IrnRank, GerScore, GerRank, ScoreScaled);
-		}
 
-		// univ->displayUniversityInfo();
+				univ->insertToEndList(rank, institution, LocationCode, Location, ArScore, ArRank,
+					ErScore, ErRank, FsrScore, FsrRank, CpfScore,
+					CpfRank, IfrScore, IfrRank, IsrScore,
+					IsrRank, IrnScore, IrnRank, GerScore, GerRank, ScoreScaled);
+			}
+		}
+		
+		
+		file.close();
+
+		ifstream file_regis("RegisUsers.csv", ios::in);
+		if (file_regis.is_open()) {
+			while (file_regis.good() && !file_regis == NULL) {
+				getline(file_regis, ID, ',');
+				getline(file_regis, name, ',');
+				getline(file_regis, password, ',');
+				getline(file_regis, lastactivedate);
+				regis->insertToList(ID, name, password, lastactivedate);
+			}
+			
+		}
+		file_regis.close();
+		
 		
 		menu(univ, regis);
 }
