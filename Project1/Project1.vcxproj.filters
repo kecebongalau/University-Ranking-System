@@ -29,6 +29,10 @@
     <ClInclude Include="DoubleLinkedList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MergeSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HelperNode.h">
     <ClInclude Include="InsertionSort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
