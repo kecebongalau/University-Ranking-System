@@ -11,7 +11,115 @@
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
 
 using namespace std;
+class Favorite {
+public:
+	
+	string regisID;
+	string regisName;
+	string institution;
+	Favorite* nextAdd;
+	Favorite* prevAdd;
+	DoubleLinkedList<Favorite> favDLL;
 
+	Favorite(string regisID, string regisName, string institution) {
+		this->regisID = regisID;
+		this->regisName = regisName;
+		this->institution = institution;
+		this->nextAdd = NULL;
+		this->prevAdd = NULL;
+	}
+
+	Favorite() {
+		this->regisID = "";
+		this->regisName = "";
+		this->institution = "";
+		this->nextAdd = NULL;
+		this->prevAdd = NULL;
+	}
+
+	void insertToFavorite(string regisID, string regisName, string institution) {
+		Favorite* newnode = new Favorite(regisID, regisName, institution);
+		favDLL.insertEnd(newnode);
+		ofstream file("Favorite.csv", std::ios::app);
+		if (file.is_open() ){
+			Favorite* current = favDLL.tail;
+			while (current != NULL) //means still not the end of the list
+			{
+				cout << "User ID: " << current->regisID << endl;
+				cout << "User Name: " << current->regisName << endl;
+				cout << "Favorite Institution: " << current->institution << endl;
+
+				file << current->regisID << ',';
+				file << current->regisName << ',';
+				file << current->institution << endl;
+
+				current = current->nextAdd; //if you forgot this, will become a infinity loop
+			}
+			cout << "List is ended here! " << endl;
+		}
+	}
+
+
+};
+
+
+class Feedback {
+public:
+	string userID;
+	string userName;
+	string institution;
+	string feedback;
+	Feedback* nextAdd;
+	Feedback* prevAdd;
+	DoubleLinkedList<Feedback> feedDLL;
+
+	Feedback() {
+		this->userID = "";
+		this->userName = "";
+		this->institution = "";
+		this->feedback = "";
+		this->nextAdd = NULL;
+		this->prevAdd = NULL;
+
+	}
+	Feedback(string userID, string userName, string institution, string feedback) {
+		this->userID = userID;
+		this->userName = userName;
+		this->institution = institution;
+		this->feedback = feedback;
+		this->nextAdd = NULL;
+		this->prevAdd = NULL;
+
+	}
+
+	void InsertFeedback(string userID, string userName, string institution, string feedback) {
+		Feedback* newnode = new Feedback(userID, userName, institution, feedback);
+		feedDLL.insertEnd(newnode);
+
+		ofstream file("Feedback.csv", std::ios::app);
+		if (file.is_open()) {
+			Feedback* current = feedDLL.tail;
+			cout << current->feedback << endl;
+			while (current != NULL) //means still not the end of the list
+			{
+				cout << "User ID: " << current->userID << endl;
+				cout << "User Name: " << current->userName << endl;
+				cout << "Institution: " << current->institution << endl;
+				cout << "Feedback: " << current->feedback << endl;
+
+				file << current->userID << ',';
+				file << current->userName << ',';
+				file << current->institution << ',';
+				file << current->feedback << endl;
+
+				current = current->nextAdd; //if you forgot this, will become a infinity loop
+			}
+			cout << "List is ended here! " << endl;
+		}
+		file.close();
+	}
+	
+};
 class University
 {
 	University* head; University* tail;
@@ -201,8 +309,45 @@ public:
 	void writeData(RegisteredUsers* users);
 	void deleteFromList(string ID, int position);
 	void search(string ID);
-	void feedback();
+	void feedback(string ID, string name, University* univ);
+	void favorite(string ID, string name, University* univ);
 };
+void RegisteredUsers::feedback(string ID, string name, University* univ) {
+	string univ_chosen, feedback;
+	Feedback* feed = new Feedback();
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	cout << "Choose the university based on the rank number: ";
+	getline(cin, univ_chosen);
+	cout << "What's your feedback?";
+	getline(cin, feedback);
+	University* current = univ->univSLL.head;
+	
+	while (current != NULL) {
+		if (univ_chosen.compare(current->ArRank) == 0) {
+			cout << "TES" << endl;
+			cout << current->institution << endl;
+			feed->InsertFeedback(ID, name, current->institution, feedback);
+		}
+		current = current->nextAdd;
+	}
+}
+void RegisteredUsers::favorite(string ID, string name, University* univ) {
+
+	string univ_chosen;
+	Favorite* fav = new Favorite();
+
+	cout << "Choose the university based on the rank number: ";
+	cin >> univ_chosen;
+	University* current = univ->univSLL.head;
+	while (current != NULL) {
+		if (univ_chosen.compare(current->ArRank) == 0) {
+			fav->insertToFavorite(ID, name, current->institution);
+		}
+		current = current->nextAdd;
+	}
+
+
+}
 void RegisteredUsers::insertToList(string ID, string name, string password, string lastactivedate) {
 	RegisteredUsers* newnode = new RegisteredUsers(ID, name, password, lastactivedate);
 	regisDLL.insertEnd(newnode);
@@ -233,6 +378,29 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ) {
 		case 2:
 			univ->Univ_InsertionSort();
 			univ->displayUniversityInfo();
+			int op;
+			cout << "Please select one of the option" << endl;
+			cout << "1. Back to menu" << endl;
+			cout << "2. Set Favorite University" << endl;
+			cout << "3. Give Feedback to University" << endl;
+			cin >> op;
+			switch (op) {
+			case 1:
+				break;
+			case 2:
+				favorite(users->ID, users->name, univ);
+				break;
+			case 3:
+				feedback(users->ID, users->name, univ);
+				break;
+			default:
+				cout << "Invalid input, please try again" << endl;
+				break;
+			
+			}
+
+
+			
 			break;
 		case 3:
 			cout << "This will be feedback" << endl;
@@ -257,25 +425,16 @@ string RegisteredUsers::generateID() {
 		return newID;
 	}
 	else if(regisDLL.head != NULL) {
-		cout << regisDLL.tail->ID << endl; // ini masi error
-		try {
+		
 			string lastID = regisDLL.tail->ID.substr(2, 4); // ini juga masi (prev add works some times)
 			int lastDigit = stoi(lastID);
 			std::stringstream buffer;
 			buffer << "US" << setw(4) << setfill('0') << lastDigit + 1;
 			string newID = buffer.str();
 			return newID;
-		}
-		catch (const std::invalid_argument& e) {
-			std::cerr << "Invalid argument: " << e.what() << std::endl;
-			// handle the error, e.g. return an error code or throw an exception
-		}
-		catch (const std::out_of_range& e) {
-			std::cerr << "Out of range: " << e.what() << std::endl;
-
-			// handle the error, e.g. return an error code or throw an exception
-		}
+		
 	}
+
 	
 
 }
@@ -296,7 +455,7 @@ void RegisteredUsers::user_register() {
 
 	cout << "Enter your password: ";
 	getline(cin, password);
-
+	//std::ios::app
 	ofstream file_new("RegisUsers.csv", std::ios::app);
 	RegisteredUsers* newnode = new RegisteredUsers(ID, name, password, lastActiveDate);
 	regisDLL.insertEnd(newnode);
@@ -459,15 +618,18 @@ int menu(University* univ, RegisteredUsers* regis)
 
 		ifstream file_regis("RegisUsers.csv", ios::in);
 		if (file_regis.is_open()) {
-			while (file_regis.good() && !file_regis == NULL) {
+			while (file_regis.peek() != EOF) {
 				getline(file_regis, ID, ',');
 				getline(file_regis, name, ',');
 				getline(file_regis, password, ',');
 				getline(file_regis, lastactivedate, '\n');
+				cout << "ID: " << ID << endl;
+				cout << "Name: " << name << endl;
+				cout << "Tes: " << lastactivedate <<endl;
 				regis->insertToList(ID, name, password, lastactivedate);
-				
+
 			}
-			
+
 		}
 		file_regis.close();
 		
