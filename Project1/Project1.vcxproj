@@ -147,6 +147,7 @@
     <ClInclude Include="InsertionSort.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="MergeSort.h" />
+    <ClInclude Include="NewMergeSort.h" />
     <ClInclude Include="SingleLinkedList.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
