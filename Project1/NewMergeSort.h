@@ -13,7 +13,7 @@ public:
 	~MergedSort() {};
 
 private:
-	U* sortedMerge(U* a, U* b) {
+	U* sortedMerge(U* a, U* b, string attribute) {
 		U* result = NULL;
 
 		if (a == NULL)
@@ -24,16 +24,15 @@ private:
 			return a;
 		}
 
-		// TODO: Add compare data method
-		if (true)
+		if (a->compareAttributes(b, attribute))
 		{
 			result = a;
-			result->nextAdd = sortedMerge(a->nextAdd, b);
+			result->nextAdd = sortedMerge(a->nextAdd, b, attribute);
 		}
 		else
 		{
 			result = b;
-			result->nextAdd = sortedMerge(a, b->nextAdd);
+			result->nextAdd = sortedMerge(a, b->nextAdd, attribute);
 		}
 
 		return result;
@@ -58,7 +57,7 @@ private:
 		*backRef = slow->nextAdd;
 		slow->nextAdd = NULL;
 	}
-	void mergeSort(U** headRef) {
+	void mergeSort(U** headRef, string attribute) {
 
 		U* head = *headRef;
 		U* a;
@@ -71,10 +70,10 @@ private:
 
 		frontBackSplit(head, &a, &b);
 
-		mergeSort(&a);
-		mergeSort(&b);
+		mergeSort(&a, attribute);
+		mergeSort(&b, attribute);
 
-		*headRef = sortedMerge(a, b);
+		*headRef = sortedMerge(a, b, attribute);
 	}
 
 };

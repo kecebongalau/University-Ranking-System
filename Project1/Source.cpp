@@ -213,6 +213,7 @@ public:
 	void Univ_InsertionSort();
 	void displayUniversityInfo();
 	void display();
+	bool compareAttributes(University * otherUniversity, string attribute);
 };
 
 void University::Univ_InsertionSort() {
@@ -239,6 +240,85 @@ void University::insertToEndList(string rank, string institution, string Locatio
 	univSLL.insertEnd(newnode);
 
 	
+}
+
+bool University::compareAttributes(University* otherUniversity, string attribute) {
+	if (attribute == "Institution")
+	{
+		return (institution.compare(otherUniversity->institution));
+	}
+	else if (attribute == "Rank")
+	{
+		return (rank.compare(otherUniversity->rank));
+	}
+	else if (attribute == "Location Code")
+	{
+		return (LocationCode.compare(otherUniversity->LocationCode));
+	}
+	else if (attribute == "Location")
+	{
+		return (Location.compare(otherUniversity->Location));
+	}
+	else if (attribute == "ArRank")
+	{
+		return (ArRank.compare(otherUniversity->ArRank));
+	}
+	else if (attribute == "ArScore")
+	{
+		return (ArScore.compare(otherUniversity->ArScore));
+	}
+	else if (attribute == "ErRank")
+	{
+		return (ErRank.compare(otherUniversity->ErRank));
+	}
+	else if (attribute == "ErScore")
+	{
+		return (ErScore.compare(otherUniversity->ErScore));
+	}
+	else if (attribute == "FsrRank")
+	{
+		return (FsrRank.compare(otherUniversity->FsrRank));
+	}
+	else if (attribute == "FsrScore")
+	{
+		return (FsrScore.compare(otherUniversity->FsrScore));
+	}
+	else if (attribute == "CpfRank")
+	{
+		return (CpfRank.compare(otherUniversity->CpfRank));
+	}
+	else if (attribute == "CpfScore")
+	{
+		return (CpfScore.compare(otherUniversity->CpfScore));
+	}
+	else if (attribute == "IfrRank")
+	{
+		return (IfrRank.compare(otherUniversity->IfrRank));
+	}
+	else if (attribute == "IfrScore")
+	{
+		return (IfrScore.compare(otherUniversity->IfrScore));
+	}
+	else if (attribute == "IsrRank")
+	{
+		return (IfrRank.compare(otherUniversity->IfrRank));
+	}
+	else if (attribute == "IsrScore")
+	{
+		return (IsrScore.compare(otherUniversity->IsrScore));
+	}
+	else if (attribute == "GerRank")
+	{
+		return (GerRank.compare(otherUniversity->GerRank));
+	}
+	else if (attribute == "GerScore")
+	{
+		return (GerScore.compare(otherUniversity->GerScore));
+	}
+	else if (attribute == "Score Scaled")
+	{
+		return (ScoreScaled.compare(otherUniversity->ScoreScaled));
+	}
 }
 
 void University::display() {
