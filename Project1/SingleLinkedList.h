@@ -23,7 +23,9 @@ public:
 	};
 	~SingleLinkedList() {
 	};
+	bool isEmpty(){
 
+	}
 	void insertFront(T * newNode) {
 		if (head == NULL)
 		{

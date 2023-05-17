@@ -6,6 +6,8 @@
 class HelperNode
 {
 public:
+	HelperNode* nextAdd;
+	HelperNode* prevAdd;
 	bool compareAttributes(HelperNode * otherNode, string attribute);
 	string getValueOf(string attributes) {
 	}
