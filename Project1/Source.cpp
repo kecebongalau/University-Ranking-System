@@ -257,9 +257,9 @@ string RegisteredUsers::generateID() {
 		return newID;
 	}
 	else if(regisDLL.head != NULL) {
-		cout << regisDLL.tail->prevAdd->ID << endl; // ini masi error
+		cout << regisDLL.tail->ID << endl; // ini masi error
 		try {
-			string lastID = regisDLL.tail->prevAdd->ID.substr(2, 4); // ini juga masi (prev add works some times)
+			string lastID = regisDLL.tail->ID.substr(2, 4); // ini juga masi (prev add works some times)
 			int lastDigit = stoi(lastID);
 			std::stringstream buffer;
 			buffer << "US" << setw(4) << setfill('0') << lastDigit + 1;
@@ -281,6 +281,7 @@ string RegisteredUsers::generateID() {
 }
 
 void RegisteredUsers::user_register() {
+	//cout << regisDLL.tail->ID << endl;
 	string ID = generateID();
 	string name, password, lastActiveDate;
 	// current date/time based on current system
@@ -288,6 +289,7 @@ void RegisteredUsers::user_register() {
 
 	// convert now to string form
 	char* dt = ctime(&now);
+	dt[strlen(dt) - 1] = '\0';
 	lastActiveDate = dt;
 	cout << "Enter your name: ";
 	getline(cin, name);
@@ -298,7 +300,7 @@ void RegisteredUsers::user_register() {
 	ofstream file_new("RegisUsers.csv", std::ios::app);
 	RegisteredUsers* newnode = new RegisteredUsers(ID, name, password, lastActiveDate);
 	regisDLL.insertEnd(newnode);
-	cout << regisDLL.head->name << endl;
+	cout << regisDLL.tail->ID << endl;
 
 	if (file_new.is_open()) {
 		RegisteredUsers* current = regisDLL.tail;
@@ -312,7 +314,7 @@ void RegisteredUsers::user_register() {
 			file_new <<  current->ID << ',';
 			file_new << current->name << ',';
 			file_new << current->password << ',';
-			file_new << current->lastActiveDate;
+			file_new << current->lastActiveDate << endl;
 
 			current = current->nextAdd; //if you forgot this, will become a infinity loop
 		}
@@ -461,8 +463,9 @@ int menu(University* univ, RegisteredUsers* regis)
 				getline(file_regis, ID, ',');
 				getline(file_regis, name, ',');
 				getline(file_regis, password, ',');
-				getline(file_regis, lastactivedate);
+				getline(file_regis, lastactivedate, '\n');
 				regis->insertToList(ID, name, password, lastactivedate);
+				
 			}
 			
 		}
