@@ -7,6 +7,7 @@
 #include "SingleLinkedList.h"
 #include "InsertionSort.h"
 #include "DoubleLinkedList.h"
+#include "BinarySearch.h"
 
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
 
@@ -148,6 +149,7 @@ public:
 	University* nextAdd;
 	University* prevAdd;
 	SingleLinkedList<University> univSLL;
+	DoubleLinkedList<University> univDLL;
 
 	University(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
 		string ErScore, string ErRank, string FsrScore, string FsrRank, string CpfScore, string CpfRank, string IfrScore, string IfrRank, string IsrScore,
@@ -209,7 +211,7 @@ public:
 	void insertToEndList(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
 		string ErScore, string ErRank, string FsrScore, string FsrRank, string CpfScore, string CpfRank, string IfrScore, string IfrRank, string IsrScore,
 		string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled);
-	void search();
+	void Univ_Search();
 	void Univ_InsertionSort();
 	void displayUniversityInfo();
 	void display();
@@ -350,6 +352,14 @@ void University::displayUniversityInfo() //Big O - O(n)
 {
 	cout << univSLL.head->institution << endl;
 	univSLL.displayAll();
+}
+
+void University::Univ_Search(){
+	string targetUniv;
+	cout << "Enter what to search: " << endl;
+	cin >> targetUniv;
+	cin.ignore();
+	binarySearch(univDLL.head, targetUniv);
 }
 
 class Users {
