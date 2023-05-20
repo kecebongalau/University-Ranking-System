@@ -98,42 +98,44 @@ using namespace std;
 //    return  NULL;
 //}
 
-template <class T>
-T* binarySearch(T* head, string targetUniv){
-    T *start = head;
-    T *end = nullptr;
-
-    while(start != end){
-        T *midNode = start;
-        int count = 0;
-
-        while (midNode != end && midNode->nextAdd != end) {
-            midNode = midNode->nextAdd;
-            count++;
-        }
-
-        if(midNode == nullptr){
-            break;
-        }
-
-        for (int i = 0; i < count / 2; i++){
-            midNode = midNode->prevAdd;
-        }
-
-        if (midNode->institution.compare(targetUniv) == 0) {
-            return midNode;
-        }
-        else if(midNode->institution.compare(targetUniv) < 0){
-            start = midNode->nextAdd;
-        }
-
-        else{
-            end = midNode;
-            
-        }
-    }
-    return nullptr;
-}
+//template <class T>
+//T* binarySearch(T* head, string targetUniv){
+//    T *start = head;
+//    T *end = nullptr;
+//    cout << head->institution << endl;
+//    cout << targetUniv << endl;
+//
+//    while(start != end){
+//        T *midNode = start;
+//        int count = 0;
+//
+//        while (midNode != end && midNode->nextAdd != end) {
+//            midNode = midNode->nextAdd;
+//            count++;
+//        }
+//
+//        if(midNode == nullptr){
+//            break;
+//        }
+//
+//        for (int i = 0; i < count / 2; i++){
+//            midNode = midNode->prevAdd;
+//        }
+//
+//        if (midNode->institution.compare(targetUniv) == 0) {
+//            return midNode;
+//        }
+//        else if(midNode->institution.compare(targetUniv) < 0){
+//            start = midNode->nextAdd;
+//        }
+//
+//        else{
+//            end = midNode;
+//            
+//        }
+//    }
+//    return nullptr;
+//}
 //template <class T>
 //T* BinarySearch(T* head, T* tail,string data)
 //{
@@ -187,3 +189,47 @@ T* binarySearch(T* head, string targetUniv){
 //    }
 //    return NULL;
 //}
+
+template <class T>
+T* middle(T* start, T* end) {
+	if (start == NULL) {
+		return NULL;
+	}
+	T* slow = start;
+	T* fast = start->nextAdd;
+	
+	while (fast != end && fast != NULL)
+	{
+		fast = fast->nextAdd;
+		if (fast != end && fast != NULL) {
+			slow = slow->nextAdd;
+			fast = fast->nextAdd;
+		}
+	}
+	
+	return slow;
+}
+
+template <class T>
+T* binarySearch(T* head, string data) {
+	T* start = head;
+	T* end = NULL;
+	//finding middle node
+	while (start != end) {
+		T* midNode = middle(start, end);
+		if (stoi(data) == midNode->rank){
+			return midNode;
+		}
+
+		else if (midNode->rank > stoi(data)) {
+			end = midNode->prevAdd;
+		}
+
+		else {
+			start = midNode->nextAdd;
+		}
+	}
+	return NULL;
+
+	
+}
