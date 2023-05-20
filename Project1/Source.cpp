@@ -8,10 +8,12 @@
 #include "InsertionSort.h"
 #include "DoubleLinkedList.h"
 #include "BinarySearch.h"
+#include <chrono>
 
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
 
 using namespace std;
+using namespace std::chrono;
 class Favorite {
 public:
 	
@@ -70,6 +72,7 @@ public:
 	string userName;
 	string institution;
 	string feedback;
+	string reply; // for admin
 	Feedback* nextAdd;
 	Feedback* prevAdd;
 	DoubleLinkedList<Feedback> feedDLL;
@@ -81,6 +84,7 @@ public:
 		this->feedback = "";
 		this->nextAdd = NULL;
 		this->prevAdd = NULL;
+		this->reply = "";
 
 	}
 	Feedback(string userID, string userName, string institution, string feedback) {
@@ -90,9 +94,15 @@ public:
 		this->feedback = feedback;
 		this->nextAdd = NULL;
 		this->prevAdd = NULL;
+		this->reply = "";
 
 	}
-
+	void setReply(string reply) {
+		this->reply = reply;
+	}
+	string getReply() {
+		return this->reply;
+	}
 	void InsertFeedback(string userID, string userName, string institution, string feedback) {
 		Feedback* newnode = new Feedback(userID, userName, institution, feedback);
 		feedDLL.insertEnd(newnode);
@@ -148,7 +158,7 @@ public:
 	string ScoreScaled;
 	University* nextAdd;
 	University* prevAdd;
-	SingleLinkedList<University> univSLL;
+	//SingleLinkedList<University> univDLL;
 	DoubleLinkedList<University> univDLL;
 
 	University(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
@@ -212,14 +222,20 @@ public:
 		string ErScore, string ErRank, string FsrScore, string FsrRank, string CpfScore, string CpfRank, string IfrScore, string IfrRank, string IsrScore,
 		string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled);
 	void Univ_Search();
-	void Univ_InsertionSort();
+	void Univ_InsertionSort(string data);
 	void displayUniversityInfo();
 	void display();
 	bool compareAttributes(University * otherUniversity, string attribute);
 };
 
-void University::Univ_InsertionSort() {
-	univSLL.head = insertionSort(univSLL.head, "institution");
+void University::Univ_InsertionSort(string data) {
+	auto start = high_resolution_clock::now();
+	univDLL.head = insertionSort(univDLL.head, data);
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds> (stop - start);
+	cout << "Time taken by insertion sort algorithm: ";
+	cout << duration.count() << " microseconds. " << endl;
+
 }
 
 void University::insertToEndList(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
@@ -239,7 +255,7 @@ void University::insertToEndList(string rank, string institution, string Locatio
 		newnode->prevAdd = tail;
 		tail = newnode;
 	}*/
-	univSLL.insertEnd(newnode);
+	univDLL.insertEnd(newnode);
 
 	
 }
@@ -350,16 +366,27 @@ void University::display() {
 
 void University::displayUniversityInfo() //Big O - O(n)
 {
-	cout << univSLL.head->institution << endl;
-	univSLL.displayAll();
+	cout << univDLL.head->institution << endl;
+	univDLL.displayAll();
 }
 
 void University::Univ_Search(){
-	string targetUniv;
-	cout << "Enter what to search: " << endl;
-	cin >> targetUniv;
-	cin.ignore();
-	binarySearch(univDLL.head, targetUniv);
+	string institution;
+	cout << "Enter what to search: ";
+	getline(cin, institution);
+	//univDLL.head = insertionSort(univDLL.head, rank);
+	univDLL.head = insertionSort(univDLL.head, "institution");
+	cout << univDLL.head->nextAdd->institution << endl;
+	University* found = binarySearch(univDLL.head, institution);
+	if (found != NULL) {
+		cout << "Rank: " << found->rank << endl;
+		cout << "Univ: " << found->institution << endl;
+		cout << "Rank: " << found->nextAdd->rank << endl;
+	}
+	else {
+		cout << "Error" << endl;
+	}
+	
 }
 
 class Users {
@@ -410,7 +437,7 @@ void RegisteredUsers::feedback(string ID, string name, University* univ) {
 	getline(cin, univ_chosen);
 	cout << "What's your feedback?";
 	getline(cin, feedback);
-	University* current = univ->univSLL.head;
+	University* current = univ->univDLL.head;
 	
 	while (current != NULL) {
 		if (univ_chosen.compare(current->ArRank) == 0) {
@@ -428,7 +455,7 @@ void RegisteredUsers::favorite(string ID, string name, University* univ) {
 
 	cout << "Choose the university based on the rank number: ";
 	cin >> univ_chosen;
-	University* current = univ->univSLL.head;
+	University* current = univ->univDLL.head;
 	while (current != NULL) {
 		if (univ_chosen.compare(current->ArRank) == 0) {
 			fav->insertToFavorite(ID, name, current->institution);
@@ -448,6 +475,7 @@ void RegisteredUsers::writeData(RegisteredUsers* users) {
 }
 void RegisteredUsers::menu(RegisteredUsers* users, University* univ) {
 	int opt;
+	bool is_sort, is_chosen;
 	do
 	{
 		cout << "WELCOME TO UNIVERSITY RANK SYSTEM" << endl;
@@ -466,31 +494,63 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ) {
 			cout << "This is search" <<endl;
 			break;
 		case 2:
-			univ->Univ_InsertionSort();
-			univ->displayUniversityInfo();
-			int op;
-			cout << "Please select one of the option" << endl;
-			cout << "1. Back to menu" << endl;
-			cout << "2. Set Favorite University" << endl;
-			cout << "3. Give Feedback to University" << endl;
-			cin >> op;
-			switch (op) {
-			case 1:
-				break;
-			case 2:
-				favorite(users->ID, users->name, univ);
-				break;
-			case 3:
-				feedback(users->ID, users->name, univ);
-				break;
-			default:
-				cout << "Invalid input, please try again" << endl;
-				break;
-			
+			int choice;
+			int category;
+			is_sort = false;
+			is_chosen = false;
+			while (!is_sort) {
+				cout << "Which sorting algorithm will you choose?" << endl;
+				cout << "1. Insertion Sort" << endl;
+				cout << "2. Merge Sort" << endl;
+				cin >> choice;
+				switch (choice) {
+				case 1:
+					while (!is_chosen) {
+						cout << "Which category will you sort on ?" << endl;
+						cout << "1. Institution" << endl;
+						cout << "2. Academic Reputation " << endl;
+						cout << "3. Faculty/Student Ratio " << endl;
+						cout << "4. Employer Reputation Score" << endl;
+						cin >> category;
+						switch (category)
+						{
+						case 1:
+							univ->Univ_InsertionSort("institution");
+							univ->displayUniversityInfo();
+							break;
+						case 2:
+							univ->Univ_InsertionSort("ArScore");
+							univ->displayUniversityInfo();
+							break;
+						case 3:
+							univ->Univ_InsertionSort("FsrScore");
+							univ->displayUniversityInfo();
+							break;
+						case 4:
+							univ->Univ_InsertionSort("ErScore");
+							univ->displayUniversityInfo();
+							break;
+						default:
+							break;
+						}
+					}
+					
+					is_sort = true;
+					break;
+				case 2:
+					cout << "This is merge sort" << endl;
+					is_sort = true;
+					break;
+				default:
+					cout << "Invalid Option" << endl;
+					break;
+
+				}
 			}
 
 
-			
+
+			univ->displayUniversityInfo();
 			break;
 		case 3:
 			cout << "This will be feedback" << endl;
@@ -516,7 +576,7 @@ string RegisteredUsers::generateID() {
 	}
 	else if(regisDLL.head != NULL) {
 		
-			string lastID = regisDLL.tail->ID.substr(2, 4); // ini juga masi (prev add works some times)
+			string lastID = regisDLL.tail->ID.substr(2, 4); 
 			int lastDigit = stoi(lastID);
 			std::stringstream buffer;
 			buffer << "US" << setw(4) << setfill('0') << lastDigit + 1;
@@ -595,6 +655,7 @@ RegisteredUsers* RegisteredUsers::login(string ID, string password) {
 int menu(University* univ, RegisteredUsers* regis)
 {
 	int opt;
+	bool is_sort = false;
 	string ID, password;
 	RegisteredUsers* Log_User;
 	do
@@ -604,6 +665,7 @@ int menu(University* univ, RegisteredUsers* regis)
 		cout << " 1. Register" << endl;
 		cout << " 2. Login" << endl;
 		cout << " 3. Show University List" << endl;
+		cout << " 4. Search University" << endl;
 		cout << " 4. Exit" << endl;
 		cin >> opt;
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -625,9 +687,32 @@ int menu(University* univ, RegisteredUsers* regis)
 				}
 				break;
 			case 3:
+				int choice;
+				while (!is_sort) {
+					cout << "Which sorting algorithm will you choose?" << endl;
+					cout << "1. Insertion Sort" << endl;
+					cout << "2. Merge Sort" << endl;
+					cin >> choice;
+					switch (choice) {
+					case 1:
+						univ->Univ_InsertionSort("institution");
+						is_sort = true;
+						break;
+					case 2:
+						cout << "This is merge sort" << endl;
+						is_sort = true;
+						break;
+					default:
+						cout << "Invalid Option" << endl;
+						break;
+
+					}
+				}
 				univ->displayUniversityInfo();
 				break;
 			case 4:
+				univ->Univ_Search();
+			case 5:
 				cout << "Thank you for using this program!" << endl;
 				exit(0);
 			default:
