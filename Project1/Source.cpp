@@ -564,10 +564,10 @@ public:
 };
 
 void RegisteredUsers::insertToFile() {
-	ofstream file_new("RegisUsers.csv", std::ios::app);
+	ofstream file_new("RegisUsers.csv");
 
 	if (file_new.is_open()) {
-		RegisteredUsers* current = regisDLL.tail;
+		RegisteredUsers* current = regisDLL.head;
 		while (current != NULL) //means still not the end of the list
 		{
 			cout << "id: " << current->ID << endl;
@@ -881,14 +881,13 @@ int menu(University* univ, RegisteredUsers* regis)
 			case 5:
 				cout << "Thank you for using this program!" << endl;
 				regis->insertToFile();
-				return 0;
+				exit(0);
 			default:
 				cout << "Invalid input, please try again" << endl;
 				break;
 		}
 	}
-
-	while(opt != 4);
+	while(opt != 5);
   
 	return 0;
 }
