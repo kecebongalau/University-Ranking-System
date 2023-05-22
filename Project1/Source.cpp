@@ -8,6 +8,8 @@
 #include "InsertionSort.h"
 #include "DoubleLinkedList.h"
 #include "BinarySearch.h"
+#include "LinearSearch.h"
+
 #include <chrono>
 
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
@@ -227,7 +229,9 @@ public:
 	void insertToEndList(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
 		string ErScore, string ErRank, string FsrScore, string FsrRank, string CpfScore, string CpfRank, string IfrScore, string IfrRank, string IsrScore,
 		string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled);
-	void Univ_Search();
+	void Bin_Search();
+	void Lin_Search();
+
 	void Univ_InsertionSort(string data);
 	void displayUniversityInfo();
 	void display();
@@ -505,7 +509,7 @@ void University::displayUniversityInfo() //Big O - O(n)
 	univDLL.displayAll();
 }
 
-void University::Univ_Search(){
+void University::Bin_Search(){
 	string rank;
 	cout << "Enter what to search: ";
 	getline(cin, rank);
@@ -518,7 +522,21 @@ void University::Univ_Search(){
 	else {
 		cout << "Error" << endl;
 	}
-	
+}
+
+void University::Lin_Search() {
+	string rank;
+	cout << "Enter what to search: ";
+	getline(cin, rank);
+	//univDLL.head = insertionSort(univDLL.head, rank);
+	University* found = linearSearch(univDLL.head, rank);
+	if (found != NULL) {
+		cout << "Rank: " << found->rank << endl;
+		cout << "Univ: " << found->institution << endl;
+	}
+	else {
+		cout << "Error" << endl;
+	}
 }
 
 class Users {
@@ -828,63 +846,85 @@ int menu(University* univ, RegisteredUsers* regis)
 		cout << " 2. Login" << endl;
 		cout << " 3. Show University List" << endl;
 		cout << " 4. Search University" << endl;
-		cout << " 4. Exit" << endl;
+		cout << " 5. Exit" << endl;
 		cin >> opt;
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-		switch(opt)
+		switch (opt)
 		{
+		case 1:
+			regis->user_register();
+			regis->menu(regis, univ);
+			break;
+		case 2:
+			cout << "Enter your ID: ";
+			getline(cin, ID);
+			cout << "Enter your password: ";
+			getline(cin, password);
+			Log_User = regis->login(ID, password);
+			if (Log_User != NULL) {
+				regis->menu(Log_User, univ);
+			}
+			return 0;
+		case 3:
+			int choice;
+			while (!is_sort) {
+				cout << "Which sorting algorithm will you choose?" << endl;
+				cout << "1. Insertion Sort" << endl;
+				cout << "2. Merge Sort" << endl;
+				cout << "3. Rank" << endl;
+				cin >> choice;
+				switch (choice) {
+				case 1:
+					univ->Univ_InsertionSort("institution");
+					is_sort = true;
+					break;
+				case 2:
+					cout << "This is merge sort" << endl;
+					is_sort = true;
+					break;
+				case 3:
+					is_sort = true;
+					break;
+				default:
+					cout << "Invalid Option" << endl;
+					break;
+
+				}
+			}
+			univ->displayUniversityInfo();
+			break;
+		case 4:
+			//univ->Univ_Search();
+			int opt;
+			//bool stat = false;
+			cout << "Which searching algorithm will you choose?" << endl;
+			cout << "1. Binary Search" << endl;
+			cout << "2. Linear Search" << endl;
+			cin >> opt;
+			switch (opt) {
 			case 1:
-				regis->user_register();
-				regis->menu(regis, univ);
+				cout << "ini bin sea" << endl;
+				univ->Bin_Search();
+				//stat = true;
 				break;
 			case 2:
-				cout << "Enter your ID: ";
-				getline(cin, ID);
-				cout << "Enter your password: ";
-				getline(cin, password);
-				Log_User = regis->login(ID, password);
-				if (Log_User != NULL) {
-					regis->menu(Log_User, univ);
-				}
-				return 0;
-			case 3:
-				int choice;
-				while (!is_sort) {
-					cout << "Which sorting algorithm will you choose?" << endl;
-					cout << "1. Insertion Sort" << endl;
-					cout << "2. Merge Sort" << endl;
-					cout << "3. Rank" << endl;
-					cin >> choice;
-					switch (choice) {
-					case 1:
-						univ->Univ_InsertionSort("institution");
-						is_sort = true;
-						break;
-					case 2:
-						cout << "This is merge sort" << endl;
-						is_sort = true;
-						break;
-					case 3:
-						is_sort = true;
-						break;
-					default:
-						cout << "Invalid Option" << endl;
-						break;
-
-					}
-				}
-				univ->displayUniversityInfo();
+				univ->Lin_Search();
+				//stat = true;
 				break;
-			case 4:
-				univ->Univ_Search();
-			case 5:
-				cout << "Thank you for using this program!" << endl;
-				regis->insertToFile();
-				exit(0);
 			default:
-				cout << "Invalid input, please try again" << endl;
+				cout << "Invalid Option" << endl;
 				break;
+			}
+	
+
+		case 5:
+			cout << "Thank you for using this program!" << endl;
+			regis->insertToFile();
+			exit(0);
+		default:
+			cout << "Invalid input, please try again" << endl;
+			break;
 		}
 	}
 	while(opt != 5);
