@@ -9,6 +9,7 @@
 #include "DoubleLinkedList.h"
 #include "BinarySearch.h"
 #include "LinearSearch.h"
+#include "NewMergeSort.h"
 
 #include <chrono>
 
@@ -233,6 +234,7 @@ public:
 	void Lin_Search();
 
 	void Univ_InsertionSort(string data);
+	void Univ_MergedSort(string attribute);
 	void displayUniversityInfo();
 	void display();
 	bool compareAttributes(University * otherUniversity, string attribute);
@@ -245,7 +247,16 @@ void University::Univ_InsertionSort(string data) {
 	auto duration = duration_cast<microseconds> (stop - start);
 	cout << "Time taken by insertion sort algorithm: ";
 	cout << duration.count() << " microseconds. " << endl;
+}
 
+void University::Univ_MergedSort(string attribute) {
+	auto start = high_resolution_clock::now();
+	MergedSort<University> mergeSortClass;
+	mergeSortClass.mergeSort(&(univDLL.head), attribute);
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds> (stop - start);
+	cout << "Time taken by merge sort algorithm: ";
+	cout << duration.count() << " microseconds. " << endl;
 }
 
 void University::insertToEndList(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
@@ -400,84 +411,84 @@ void University::insertToEndList(string rank, string institution, string Locatio
 	
 }
 
-//bool University::compareAttributes(University* otherUniversity, string attribute) {
-//	if (attribute == "Institution")
-//	{
-//		return (institution.compare(otherUniversity->institution));
-//	}
-//	else if (attribute == "Rank")
-//	{
-//		return (rank.compare(otherUniversity->rank));
-//	}
-//	else if (attribute == "Location Code")
-//	{
-//		return (LocationCode.compare(otherUniversity->LocationCode));
-//	}
-//	else if (attribute == "Location")
-//	{
-//		return (Location.compare(otherUniversity->Location));
-//	}
-//	else if (attribute == "ArRank")
-//	{
-//		return (ArRank.compare(otherUniversity->ArRank));
-//	}
-//	else if (attribute == "ArScore")
-//	{
-//		return (ArScore.compare(otherUniversity->ArScore));
-//	}
-//	else if (attribute == "ErRank")
-//	{
-//		return (ErRank.compare(otherUniversity->ErRank));
-//	}
-//	else if (attribute == "ErScore")
-//	{
-//		return (ErScore.compare(otherUniversity->ErScore));
-//	}
-//	else if (attribute == "FsrRank")
-//	{
-//		return (FsrRank.compare(otherUniversity->FsrRank));
-//	}
-//	else if (attribute == "FsrScore")
-//	{
-//		return (FsrScore.compare(otherUniversity->FsrScore));
-//	}
-//	else if (attribute == "CpfRank")
-//	{
-//		return (CpfRank.compare(otherUniversity->CpfRank));
-//	}
-//	else if (attribute == "CpfScore")
-//	{
-//		return (CpfScore.compare(otherUniversity->CpfScore));
-//	}
-//	else if (attribute == "IfrRank")
-//	{
-//		return (IfrRank.compare(otherUniversity->IfrRank));
-//	}
-//	else if (attribute == "IfrScore")
-//	{
-//		return (IfrScore.compare(otherUniversity->IfrScore));
-//	}
-//	else if (attribute == "IsrRank")
-//	{
-//		return (IfrRank.compare(otherUniversity->IfrRank));
-//	}
-//	else if (attribute == "IsrScore")
-//	{
-//		return (IsrScore.compare(otherUniversity->IsrScore));
-//	}
-//	else if (attribute == "GerRank")
-//	{
-//		return (GerRank.compare(otherUniversity->GerRank));
-//	}
-//	else if (attribute == "GerScore")
-//	{
-//		return (GerScore.compare(otherUniversity->GerScore));
-//	}
-//	else if (attribute == "Score Scaled")
-//	{
-//		return (ScoreScaled.compare(otherUniversity->ScoreScaled));
-//	}
-//}
+bool University::compareAttributes(University* otheruniversity, string attribute) {
+	if (attribute == "institution")
+	{
+		return (institution.compare(otheruniversity->institution) <= 0);
+	}
+	else if (attribute == "rank")
+	{
+		return (rank <= otheruniversity->rank);
+	}
+	else if (attribute == "location code")
+	{
+		return (LocationCode.compare(otheruniversity->LocationCode) <= 0);
+	}
+	else if (attribute == "location")
+	{
+		return (Location.compare(otheruniversity->Location) <= 0);
+	}
+	else if (attribute == "arrank")
+	{
+		return (ArRank <= otheruniversity->ArRank);
+	}
+	else if (attribute == "arscore")
+	{
+		return (ArScore<= otheruniversity->ArScore);
+	}
+	else if (attribute == "errank")
+	{
+		return (ErRank <= otheruniversity->ErRank);
+	}
+	else if (attribute == "erscore")
+	{
+		return (ErScore <= otheruniversity->ErScore);
+	}
+	else if (attribute == "fsrrank")
+	{
+		return (FsrRank <= otheruniversity->FsrRank);
+	}
+	else if (attribute == "fsrscore")
+	{
+		return (FsrScore <= otheruniversity->FsrScore);
+	}
+	else if (attribute == "cpfrank")
+	{
+		return (CpfRank	<= otheruniversity->CpfRank);
+	}
+	else if (attribute == "cpfscore")
+	{
+		return (CpfScore <= otheruniversity->CpfScore);
+	}
+	else if (attribute == "ifrrank")
+	{
+		return (IfrRank <= otheruniversity->IfrRank);
+	}
+	else if (attribute == "ifrscore")
+	{
+		return (IfrScore <= otheruniversity->IfrScore);
+	}
+	else if (attribute == "isrrank")
+	{
+		return (IsrRank <= otheruniversity->IsrRank);
+	}
+	else if (attribute == "isrscore")
+	{
+		return (IsrScore <= otheruniversity->IsrScore);
+	}
+	else if (attribute == "gerrank")
+	{
+		return (GerRank <= otheruniversity->GerRank);
+	}
+	else if (attribute == "gerscore")
+	{
+		return (GerScore <= otheruniversity->GerScore);
+	}
+	else if (attribute == "score scaled")
+	{
+		return (ScoreScaled <= otheruniversity->ScoreScaled);
+	}
+}
 
 void University::display() {
 	cout << "Rank: " << rank << endl;
@@ -880,6 +891,7 @@ int menu(University* univ, RegisteredUsers* regis)
 					is_sort = true;
 					break;
 				case 2:
+					univ->Univ_MergedSort("institution");
 					cout << "This is merge sort" << endl;
 					is_sort = true;
 					break;
