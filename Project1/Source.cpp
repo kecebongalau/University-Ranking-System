@@ -541,10 +541,12 @@ void University::Lin_Search() {
 	string data,rank,institution;
 	cout << "Enter what to search: "<< endl;
 	cin >> data;
-
+	cout << data, "masuk";
 	auto start = high_resolution_clock::now();
-	univDLL.head = insertionSort(univDLL.head, data);
+	univDLL.head = linearSearch(univDLL.head, data);
+	cout << "masuk2" << endl;
 	University* found = linearSearch(univDLL.head, data);
+	cout << found;
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds> (stop - start);
 	cout << "Time taken by linear search algorithm: ";
