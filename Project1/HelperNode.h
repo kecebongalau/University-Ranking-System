@@ -1,19 +1,24 @@
-//#pragma once
 //#include <string>
+//#pragma once
 //
-//class HelperNode
+//// just to make the intellisense work for template
+//
+//class helpernode
 //{
 //public:
-//	HelperNode* nextAdd;
-//	HelperNode* prevAdd;
-//	string getValueOf(string attributes) {
-//	}
-//	HelperNode() {
+//	helpernode* nextadd;
+//	helpernode* prevadd;
+//	bool compareattributes(helpernode* othernode, string attribute) {
+//		return null;
 //	};
-//	~HelperNode() {
+//	string getvalueof(string attributes) {
+//		return null;
+//	}
+//	helpernode() {
+//	};
+//	~helpernode() {
 //	};
 //
 //private:
-//	void display() {
-//	};
+//	void display() {};
 //};

@@ -7,43 +7,171 @@
 #include "SingleLinkedList.h"
 #include "InsertionSort.h"
 #include "DoubleLinkedList.h"
+#include "BinarySearch.h"
+#include "LinearSearch.h"
+#include "NewMergeSort.h"
+
+#include <chrono>
 
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
 
 using namespace std;
+using namespace std::chrono;
+class Favorite {
+public:
+	string regisID;
+	string regisName;
+	string institution;
+	Favorite* nextAdd;
+	Favorite* prevAdd;
+	DoubleLinkedList<Favorite> favDLL;
 
+	Favorite(string regisID, string regisName, string institution) {
+		this->regisID = regisID;
+		this->regisName = regisName;
+		this->institution = institution;
+		this->nextAdd = NULL;
+		this->prevAdd = NULL;
+	}
+
+	Favorite() {
+		this->regisID = "";
+		this->regisName = "";
+		this->institution = "";
+		this->nextAdd = NULL;
+		this->prevAdd = NULL;
+	}
+
+	void insertToFavorite(string regisID, string regisName, string institution) {
+		Favorite* newnode = new Favorite(regisID, regisName, institution);
+		favDLL.insertEnd(newnode);
+		
+	}
+
+	void insertToFile() {
+		ofstream file("Favorite.csv", std::ios::app);
+		if (file.is_open()) {
+			Favorite* current = favDLL.tail;
+			while (current != NULL) //means still not the end of the list
+			{
+				cout << "User ID: " << current->regisID << endl;
+				cout << "User Name: " << current->regisName << endl;
+				cout << "Favorite Institution: " << current->institution << endl;
+
+				file << current->regisID << ',';
+				file << current->regisName << ',';
+				file << current->institution << endl;
+
+				current = current->nextAdd; //if you forgot this, will become a infinity loop
+			}
+			cout << "List is ended here! " << endl;
+		}
+	}
+
+
+};
+
+
+class Feedback {
+public:
+	string userID;
+	string userName;
+	string institution;
+	string feedback;
+	string reply; // for admin
+	Feedback* nextAdd;
+	Feedback* prevAdd;
+	DoubleLinkedList<Feedback> feedDLL;
+
+	Feedback() {
+		this->userID = "";
+		this->userName = "";
+		this->institution = "";
+		this->feedback = "";
+		this->nextAdd = NULL;
+		this->prevAdd = NULL;
+		this->reply = "";
+
+	}
+	Feedback(string userID, string userName, string institution, string feedback) {
+		this->userID = userID;
+		this->userName = userName;
+		this->institution = institution;
+		this->feedback = feedback;
+		this->nextAdd = NULL;
+		this->prevAdd = NULL;
+		this->reply = "";
+
+	}
+	void setReply(string reply) {
+		this->reply = reply;
+	}
+	string getReply() {
+		return this->reply;
+	}
+	void InsertFeedback(string userID, string userName, string institution, string feedback) {
+		Feedback* newnode = new Feedback(userID, userName, institution, feedback);
+		feedDLL.insertEnd(newnode);
+
+		
+	}
+	void InsertToFile() {
+		ofstream file("Feedback.csv", std::ios::app);
+		if (file.is_open()) {
+			Feedback* current = feedDLL.tail;
+			cout << current->feedback << endl;
+			while (current != NULL) //means still not the end of the list
+			{
+				cout << "User ID: " << current->userID << endl;
+				cout << "User Name: " << current->userName << endl;
+				cout << "Institution: " << current->institution << endl;
+				cout << "Feedback: " << current->feedback << endl;
+
+				file << current->userID << ',';
+				file << current->userName << ',';
+				file << current->institution << ',';
+				file << current->feedback << endl;
+
+				current = current->nextAdd; //if you forgot this, will become a infinity loop
+			}
+			cout << "List is ended here! " << endl;
+		}
+		file.close();
+	}
+};
 class University
 {
 	University* head; University* tail;
 public:
-	string rank;
+	int rank;
 	string institution;
 	string LocationCode;
 	string Location;
-	string ArScore;
-	string ArRank;
-	string ErScore;
-	string ErRank;
-	string FsrScore;
-	string FsrRank;
-	string CpfScore;
-	string CpfRank;
-	string IfrScore;
-	string IfrRank;
-	string IsrScore;
-	string IsrRank;
-	string IrnScore;
-	string IrnRank;
-	string GerScore;
-	string GerRank;
-	string ScoreScaled;
+	double ArScore;
+	int ArRank;
+	double ErScore;
+	int ErRank;
+	double FsrScore;
+	int FsrRank;
+	double CpfScore;
+	int CpfRank;
+	double IfrScore;
+	int IfrRank;
+	double IsrScore;
+	int IsrRank;
+	double IrnScore;
+	int IrnRank;
+	double GerScore;
+	int GerRank;
+	double ScoreScaled;
 	University* nextAdd;
 	University* prevAdd;
-	SingleLinkedList<University> univSLL;
+	//SingleLinkedList<University> univDLL;
+	DoubleLinkedList<University> univDLL;
 
-	University(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
-		string ErScore, string ErRank, string FsrScore, string FsrRank, string CpfScore, string CpfRank, string IfrScore, string IfrRank, string IsrScore,
-		string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled) {
+	University(int rank, string institution, string LocationCode, string Location, double ArScore, int ArRank,
+		double ErScore, int ErRank, double FsrScore, int FsrRank, double CpfScore, int CpfRank, double IfrScore, int IfrRank, double IsrScore,
+		int IsrRank, double IrnSCore, int IrnRank, double GerScore, int GerRank, double ScoreScaled) {
 
 		this->rank = rank;
 		this->institution = institution;
@@ -71,66 +199,289 @@ public:
 	}
 
 	University() {
-		this->rank = "";
+		this->rank = NULL;
 		this->institution = "";
 		this->LocationCode = "";
 		this->Location = "";
-		this->ArScore = "";
-		this->ArRank = "";
-		this->ErScore = "";
-		this->ErRank = "";
-		this->FsrScore = "";
-		this->FsrRank = "";
-		this->CpfScore = "";
-		this->CpfRank = "";
-		this->IfrScore = "";
-		this->IfrRank = "";
-		this->IsrScore = "";
-		this->IsrRank = "";
-		this->IrnScore = "";
-		this->IrnRank = "";
-		this->GerScore = "";
-		this->GerRank = "";
-		this->ScoreScaled = "";
+		this->ArScore = NULL;
+		this->ArRank = NULL;
+		this->ErScore = NULL;
+		this->ErRank = NULL;
+		this->FsrScore = NULL;
+		this->FsrRank = NULL;
+		this->CpfScore = NULL;
+		this->CpfRank = NULL;
+		this->IfrScore = NULL;
+		this->IfrRank = NULL;
+		this->IsrScore = NULL;
+		this->IsrRank = NULL;
+		this->IrnScore = NULL;
+		this->IrnRank = NULL;
+		this->GerScore = NULL;
+		this->GerRank = NULL;
+		this->ScoreScaled = NULL;
 		this->nextAdd = NULL;
 		this->prevAdd = NULL;
 	}
 
-
-
 	void insertToEndList(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
 		string ErScore, string ErRank, string FsrScore, string FsrRank, string CpfScore, string CpfRank, string IfrScore, string IfrRank, string IsrScore,
 		string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled);
-	void search();
-	void Univ_InsertionSort();
+	void Bin_Search();
+	void Lin_Search();
+
+	void Univ_InsertionSort(string data);
+	void Univ_MergedSort(string attribute);
 	void displayUniversityInfo();
 	void display();
+	bool compareAttributes(University * otherUniversity, string attribute);
 };
 
-void University::Univ_InsertionSort() {
-	univSLL.head = insertionSort(univSLL.head, "institution");
+void University::Univ_InsertionSort(string data) {
+	auto start = high_resolution_clock::now();
+	univDLL.head = insertionSort(univDLL.head, data);
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds> (stop - start);
+	cout << "Time taken by insertion sort algorithm: ";
+	cout << duration.count() << " microseconds. " << endl;
+}
+
+void University::Univ_MergedSort(string attribute) {
+	auto start = high_resolution_clock::now();
+	MergedSort<University> mergeSortClass;
+	mergeSortClass.mergeSort(&(univDLL.head), attribute);
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds> (stop - start);
+	cout << "Time taken by merge sort algorithm: ";
+	cout << duration.count() << " microseconds. " << endl;
 }
 
 void University::insertToEndList(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
 	string ErScore, string ErRank, string FsrScore, string FsrRank, string CpfScore, string CpfRank, string IfrScore, string IfrRank, string IsrScore,
-	string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled) 
-{
-	
-	University* newnode = new University(rank, institution, LocationCode, Location, ArScore, ArRank, ErScore, ErRank,
-		FsrScore, FsrRank, CpfScore, CpfRank, IfrScore, IfrRank, IsrScore, IsrRank, IrnSCore, IrnRank, GerScore, GerRank,
-		ScoreScaled);
-	/*if (head == NULL) {
-		head = newnode;
-		tail = newnode;
+	string IsrRank, string IrnScore, string IrnRank, string GerScore, string GerRank, string ScoreScaled) 
+{	
+	int new_rank, new_ArRank, new_ErRank, new_FsrRank, new_CpfRank, new_IfrRank, new_IsrRank, new_IrnRank, new_GerRank;
+	double new_ArScore, new_ErScore, new_FsrScore, new_CpfScore, new_IfrScore, new_IsrScore, new_IrnScore, new_GerScore, new_Score;
+	try {
+		new_rank = stoi(rank);
 	}
-	else {
-		tail->nextAdd= newnode;
-		newnode->prevAdd = tail;
-		tail = newnode;
-	}*/
-	univSLL.insertEnd(newnode);
+	catch (...) {
+		new_rank = -1;
+	}
+	try {
+		new_ArScore = stod(ArScore);
+	}
+	catch (...) {
+		new_ArScore = -1;
+	}
+	try {
+		new_ArRank = stoi(ArRank);
+	}
+	catch (...) {
+		new_rank = -1;
+	}
+	try {
+		new_ErScore = stod(ErScore);
+	}
+	catch (...) {
+		new_ErScore = -1;
+	}
+	try {
+		new_ErRank = stoi(ErRank);
+	}
+	catch (...) {
+		new_ErRank = -1;
+
+	}
+
+	try {
+		new_FsrScore = stod(FsrScore);
+	}
+	catch (...) {
+		new_FsrScore = -1;
+
+	}
+
+	try {
+		new_FsrRank = stoi(ErRank);
+	}
+	catch (...) {
+		new_FsrRank = -1;
+
+	}
+
+	try {
+		new_CpfScore= stod(CpfScore);
+	}
+	catch (...) {
+		new_CpfScore = -1;
+
+	}
+
+	try {
+		new_CpfRank = stoi(CpfRank);
+	}
+	catch (...) {
+		new_CpfRank = -1;
+
+	}
+	try {
+		new_IfrScore = stod(IfrScore);
+	}
+	catch (...) {
+		new_IfrScore = -1;
+
+	}
+
+	try {
+		new_IfrRank = stoi(IfrRank);
+	}
+	catch (...) {
+		new_IfrRank = -1;
+
+	}
+
+	try {
+		new_IsrScore = stod(IsrScore);
+	}
+	catch (...) {
+		new_IsrScore = -1;
+
+	}
+
+	try {
+		new_IsrRank = stoi(IsrRank);
+	}
+	catch (...) {
+		new_IsrRank = -1;
+
+	}
+
+	try {
+		new_IrnScore = stod(IrnScore);
+	}
+	catch (...) {
+		new_IrnScore = -1;
+
+	}
+
+	try {
+		new_IrnRank = stoi(IrnRank);
+	}
+	catch (...) {
+		new_IrnRank = -1;
+
+	}
+
+	try {
+		new_GerScore = stod(GerScore);
+	}
+	catch (...) {
+		new_GerScore = -1;
+
+	}
+
+	try {
+		new_GerRank = stoi(GerRank);
+	}
+	catch (...) {
+		new_GerRank = -1;
+
+	}
+
+	try {
+		new_Score = stod(ScoreScaled);
+	}
+	catch (...) {
+		new_Score = -1;
+
+	}
+
+	University* newnode = new University(new_rank, institution, LocationCode, Location, new_ArScore, new_ArRank, new_ErScore, 
+		new_ErRank, new_FsrScore, new_FsrRank, new_CpfScore, new_CpfRank, new_IfrScore, new_IfrRank, new_IsrScore, 
+		new_IsrRank, new_IrnScore, new_IrnRank, new_GerScore, new_GerRank, new_Score);
+	univDLL.insertEnd(newnode);
 
 	
+}
+
+bool University::compareAttributes(University* otheruniversity, string attribute) {
+	if (attribute == "institution")
+	{
+		return (institution.compare(otheruniversity->institution) <= 0);
+	}
+	else if (attribute == "rank")
+	{
+		return (rank <= otheruniversity->rank);
+	}
+	else if (attribute == "location code")
+	{
+		return (LocationCode.compare(otheruniversity->LocationCode) <= 0);
+	}
+	else if (attribute == "location")
+	{
+		return (Location.compare(otheruniversity->Location) <= 0);
+	}
+	else if (attribute == "arrank")
+	{
+		return (ArRank <= otheruniversity->ArRank);
+	}
+	else if (attribute == "arscore")
+	{
+		return (ArScore<= otheruniversity->ArScore);
+	}
+	else if (attribute == "errank")
+	{
+		return (ErRank <= otheruniversity->ErRank);
+	}
+	else if (attribute == "erscore")
+	{
+		return (ErScore <= otheruniversity->ErScore);
+	}
+	else if (attribute == "fsrrank")
+	{
+		return (FsrRank <= otheruniversity->FsrRank);
+	}
+	else if (attribute == "fsrscore")
+	{
+		return (FsrScore <= otheruniversity->FsrScore);
+	}
+	else if (attribute == "cpfrank")
+	{
+		return (CpfRank	<= otheruniversity->CpfRank);
+	}
+	else if (attribute == "cpfscore")
+	{
+		return (CpfScore <= otheruniversity->CpfScore);
+	}
+	else if (attribute == "ifrrank")
+	{
+		return (IfrRank <= otheruniversity->IfrRank);
+	}
+	else if (attribute == "ifrscore")
+	{
+		return (IfrScore <= otheruniversity->IfrScore);
+	}
+	else if (attribute == "isrrank")
+	{
+		return (IsrRank <= otheruniversity->IsrRank);
+	}
+	else if (attribute == "isrscore")
+	{
+		return (IsrScore <= otheruniversity->IsrScore);
+	}
+	else if (attribute == "gerrank")
+	{
+		return (GerRank <= otheruniversity->GerRank);
+	}
+	else if (attribute == "gerscore")
+	{
+		return (GerScore <= otheruniversity->GerScore);
+	}
+	else if (attribute == "score scaled")
+	{
+		return (ScoreScaled <= otheruniversity->ScoreScaled);
+	}
 }
 
 void University::display() {
@@ -160,8 +511,64 @@ void University::display() {
 
 void University::displayUniversityInfo() //Big O - O(n)
 {
-	cout << univSLL.head->institution << endl;
-	univSLL.displayAll();
+	univDLL.displayAll();
+}
+
+void University::Bin_Search(){
+	string rank;
+	cout << "Enter what to search: ";
+	getline(cin, rank);
+	//univDLL.head = insertionSort(univDLL.head, rank);
+	University* found = binarySearch(univDLL.head, rank);
+	if (found != NULL) {
+		cout << "Rank: " << found->rank << endl;
+		cout << "Univ: " << found->institution << endl;
+	}
+	else {
+		cout << "Error" << endl;
+	}
+}
+
+void University::Lin_Search() {
+//	string rank;
+//	cout << "Enter what to search(lin): " << endl;
+//	getline(cin, rank);
+//
+//	cout << "satu";
+//	University* found = linearSearch(univDLL.head, rank);
+//	cout << "2";
+//}
+
+//	if (found != NULL) {
+//		cout << "3";
+//		cout << "Rank: " << found->rank << endl;
+//		cout << "Univ: " << found->institution << endl;
+//	}
+//	else {
+//		cout << "Error" << endl;
+//	}
+//}
+
+	string data,rank,institution;
+	cout << "Enter what to search: "<< endl;
+	cin >> data;
+	cout << data, "masuk";
+	auto start = high_resolution_clock::now();
+	univDLL.head = linearSearch(univDLL.head, data);
+	cout << "masuk2" << endl;
+	University* found = linearSearch(univDLL.head, data);
+	cout << found;
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds> (stop - start);
+	cout << "Time taken by linear search algorithm: ";
+	cout << duration.count() << " microseconds. " << endl;
+	if (found != NULL) {
+		cout << "Rank: " << found->rank << endl;
+		cout << "Univ: " << found->institution << endl;
+	}
+	else {
+		cout << "Error" << endl;
+	}
 }
 
 class Users {
@@ -206,7 +613,71 @@ public:
 	void feedback();
 	void Regis_InsertionSort(string attribute);
 	void Regis_MergeSort(string attribute);
+	void feedback(string ID, string name, University* univ);
+	void favorite(string ID, string name, University* univ);
+	void insertToFile();
 };
+
+void RegisteredUsers::insertToFile() {
+	ofstream file_new("RegisUsers.csv");
+
+	if (file_new.is_open()) {
+		RegisteredUsers* current = regisDLL.head;
+		while (current != NULL) //means still not the end of the list
+		{
+			cout << "id: " << current->ID << endl;
+			cout << "name: " << current->name << endl;
+			cout << "password: " << current->password << endl;
+			cout << "last activity date: " << current->lastActiveDate << endl << endl;
+
+			file_new << current->ID << ',';
+			file_new << current->name << ',';
+			file_new << current->password << ',';
+			file_new << current->lastActiveDate << endl;
+
+			current = current->nextAdd; //if you forgot this, will become a infinity loop
+		}
+		cout << "List is ended here! " << endl;
+	}
+	file_new.close();
+}
+void RegisteredUsers::feedback(string ID, string name, University* univ) {
+	int univ_chosen;
+	string feedback;
+	Feedback* feed = new Feedback();
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	cout << "Choose the university based on the rank number: ";
+	cin >> univ_chosen;
+	cout << "What's your feedback?";
+	getline(cin, feedback);
+	University* current = univ->univDLL.head;
+	
+	while (current != NULL) {
+		if (univ_chosen==current->ArRank) {
+			cout << "TES" << endl;
+			cout << current->institution << endl;
+			feed->InsertFeedback(ID, name, current->institution, feedback);
+		}
+		current = current->nextAdd;
+	}
+}
+void RegisteredUsers::favorite(string ID, string name, University* univ) {
+
+	int univ_chosen;
+	Favorite* fav = new Favorite();
+
+	cout << "Choose the university based on the rank number: ";
+	cin >> univ_chosen;
+	University* current = univ->univDLL.head;
+	while (current != NULL) {
+		if (univ_chosen == current->ArRank) {
+			fav->insertToFavorite(ID, name, current->institution);
+		}
+		current = current->nextAdd;
+	}
+
+
+}
 void RegisteredUsers::insertToList(string ID, string name, string password, string lastactivedate) {
 	RegisteredUsers* newnode = new RegisteredUsers(ID, name, password, lastactivedate);
 	regisDLL.insertEnd(newnode);
@@ -217,6 +688,7 @@ void RegisteredUsers::writeData(RegisteredUsers* users) {
 }
 void RegisteredUsers::menu(RegisteredUsers* users, University* univ) {
 	int opt;
+	bool is_sort, is_chosen;
 	do
 	{
 		cout << "WELCOME TO UNIVERSITY RANK SYSTEM" << endl;
@@ -235,8 +707,85 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ) {
 			cout << "This is search" <<endl;
 			break;
 		case 2:
-			univ->Univ_InsertionSort();
+			int choice;
+			int category;
+			is_sort = false;
+			is_chosen = false;
+			while (!is_sort) {
+				cout << "Which sorting algorithm will you choose?" << endl;
+				cout << "1. Insertion Sort" << endl;
+				cout << "2. Merge Sort" << endl;
+				cin >> choice;
+				switch (choice) {
+				case 1:
+					while (!is_chosen) {
+						cout << "Which category will you sort on ?" << endl;
+						cout << "1. Institution" << endl;
+						cout << "2. Academic Reputation " << endl;
+						cout << "3. Faculty/Student Ratio " << endl;
+						cout << "4. Employer Reputation Score" << endl;
+						cin >> category;
+						switch (category)
+						{
+						case 1:
+							univ->Univ_InsertionSort("institution");
+							univ->displayUniversityInfo();
+							is_chosen = true;
+							break;
+						case 2:
+							univ->Univ_InsertionSort("ArScore");
+							univ->displayUniversityInfo();
+							is_chosen = true;
+							break;
+						case 3:
+							univ->Univ_InsertionSort("FsrScore");
+							univ->displayUniversityInfo();
+							is_chosen = true;
+							break;
+						case 4:
+							univ->Univ_InsertionSort("ErScore");
+							univ->displayUniversityInfo();
+							is_chosen = true;
+							break;
+						default:
+							break;
+						}
+					}
+					
+					is_sort = true;
+					break;
+				case 2:
+					cout << "This is merge sort" << endl;
+					is_sort = true;
+					break;
+				default:
+					cout << "Invalid Option" << endl;
+					break;
+
+				}
+			}
+
 			univ->displayUniversityInfo();
+			int op;
+			cout << "Please select one of the option" << endl;
+			cout << "1. Back to menu" << endl;
+			cout << "2. Set Favorite University" << endl;
+			cout << "3. Give Feedback to University" << endl;
+			cin >> op;
+			switch (op) {
+			case 1:
+				break;
+			case 2:
+				favorite(users->ID, users->name, univ);
+				break;
+			case 3:
+				feedback(users->ID, users->name, univ);
+				break;
+			default:
+				cout << "Invalid input, please try again" << endl;
+				break;
+
+			}
 			break;
 		case 3:
 			cout << "This will be feedback" << endl;
@@ -246,7 +795,7 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ) {
 			break;
 
 		case 5:
-			exit(0);
+			return;
 		default:
 			cout << "Invalid input, please try again" << endl;
 			break;
@@ -261,27 +810,15 @@ string RegisteredUsers::generateID() {
 		return newID;
 	}
 	else if(regisDLL.head != NULL) {
-		cout << regisDLL.tail->ID << endl; // ini masi error
-		try {
-			string lastID = regisDLL.tail->ID.substr(2, 4); // ini juga masi (prev add works some times)
+		
+			string lastID = regisDLL.tail->ID.substr(2, 4); 
 			int lastDigit = stoi(lastID);
 			std::stringstream buffer;
 			buffer << "US" << setw(4) << setfill('0') << lastDigit + 1;
 			string newID = buffer.str();
 			return newID;
-		}
-		catch (const std::invalid_argument& e) {
-			std::cerr << "Invalid argument: " << e.what() << std::endl;
-			// handle the error, e.g. return an error code or throw an exception
-		}
-		catch (const std::out_of_range& e) {
-			std::cerr << "Out of range: " << e.what() << std::endl;
-
-			// handle the error, e.g. return an error code or throw an exception
-		}
+		
 	}
-	
-
 }
 void RegisteredUsers::Regis_InsertionSort(string attribute) {
 	// regisDLL.head = insertionSort(regisDLL.head, attribute);
@@ -306,34 +843,13 @@ void RegisteredUsers::user_register() {
 
 	cout << "Enter your password: ";
 	getline(cin, password);
-
-	ofstream file_new("RegisUsers.csv", std::ios::app);
+	//std::ios::app
+	
 	RegisteredUsers* newnode = new RegisteredUsers(ID, name, password, lastActiveDate);
 	regisDLL.insertEnd(newnode);
-	cout << regisDLL.tail->ID << endl;
-
-	if (file_new.is_open()) {
-		RegisteredUsers* current = regisDLL.tail;
-		while (current != NULL) //means still not the end of the list
-		{
-			cout << "id: " << current->ID << endl;
-			cout << "name: " << current->name << endl;
-			cout << "password: " << current->password << endl;
-			cout << "last activity date: " << current->lastActiveDate << endl << endl;
-
-			file_new <<  current->ID << ',';
-			file_new << current->name << ',';
-			file_new << current->password << ',';
-			file_new << current->lastActiveDate << endl;
-
-			current = current->nextAdd; //if you forgot this, will become a infinity loop
-		}
-		cout << "List is ended here! " << endl;
-	}
-	file_new.close();
-	
-
 }
+
+
 RegisteredUsers* RegisteredUsers::login(string ID, string password) {
 	RegisteredUsers* current = regisDLL.head;
 	while (current != NULL) {
@@ -463,6 +979,7 @@ public:
 int menu(University* univ, RegisteredUsers* regis)
 {
 	int opt;
+	bool is_sort = false;
 	string ID, password;
 	RegisteredUsers* Log_User;
 	do
@@ -472,39 +989,92 @@ int menu(University* univ, RegisteredUsers* regis)
 		cout << " 1. Register" << endl;
 		cout << " 2. Login" << endl;
 		cout << " 3. Show University List" << endl;
-		cout << " 4. Exit" << endl;
+		cout << " 4. Search University" << endl;
+		cout << " 5. Exit" << endl;
 		cin >> opt;
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-		switch(opt)
+		switch (opt)
 		{
+		case 1:
+			regis->user_register();
+			regis->menu(regis, univ);
+			break;
+		case 2:
+			cout << "Enter your ID: ";
+			getline(cin, ID);
+			cout << "Enter your password: ";
+			getline(cin, password);
+			Log_User = regis->login(ID, password);
+			if (Log_User != NULL) {
+				regis->menu(Log_User, univ);
+			}
+			return 0;
+		case 3:
+			int choice;
+			while (!is_sort) {
+				cout << "Which sorting algorithm will you choose?" << endl;
+				cout << "1. Insertion Sort" << endl;
+				cout << "2. Merge Sort" << endl;
+				cout << "3. Rank" << endl;
+				cin >> choice;
+				switch (choice) {
+				case 1:
+					univ->Univ_InsertionSort("institution");
+					is_sort = true;
+					break;
+				case 2:
+					univ->Univ_MergedSort("institution");
+					cout << "This is merge sort" << endl;
+					is_sort = true;
+					break;
+				case 3:
+					is_sort = true;
+					break;
+				default:
+					cout << "Invalid Option" << endl;
+					break;
+
+				}
+			}
+			univ->displayUniversityInfo();
+			break;
+		case 4:
+			//univ->Univ_Search();
+			int opt;
+			//bool stat = false;
+			cout << "Which searching algorithm will you choose?" << endl;
+			cout << "1. Binary Search" << endl;
+			cout << "2. Linear Search" << endl;
+			cin >> opt;
+			switch (opt) {
 			case 1:
-				regis->user_register();
-				regis->menu(regis, univ);
+				cout << "ini bin sea" << endl;
+				univ->Bin_Search();
+				//stat = true;
 				break;
 			case 2:
-				cout << "Enter your ID: ";
-				getline(cin, ID);
-				cout << "Enter your password: ";
-				getline(cin, password);
-				Log_User = regis->login(ID, password);
-				if (Log_User != NULL) {
-					regis->menu(Log_User, univ);
-				}
+				cout << "ini lin " << endl;
+				univ->Lin_Search();
+				cout << "ini 2lin " << endl;
+				//stat = true;
 				break;
-			case 3:
-				univ->displayUniversityInfo();
-				break;
-			case 4:
-				cout << "Thank you for using this program!" << endl;
-				exit(0);
 			default:
-				cout << "Invalid input, please try again" << endl;
+				cout << "Invalid Option" << endl;
 				break;
+			}
+	
+
+		case 5:
+			cout << "Thank you for using this program!" << endl;
+			regis->insertToFile();
+			exit(0);
+		default:
+			cout << "Invalid input, please try again" << endl;
+			break;
 		}
 	}
-
-	while(opt != 4);
+	while(opt != 5);
   
 	return 0;
 }
@@ -528,13 +1098,22 @@ int menu(University* univ, RegisteredUsers* regis)
 	//	void summarize();
 	// };
 		
+	void exit_file() {
+		RegisteredUsers* current = new RegisteredUsers();
+		Feedback* feed = new Feedback();
+		Favorite* fav = new Favorite();
+		current->insertToFile();
+		feed->InsertToFile();
+		fav->insertToFile();
 
+	}
 	int main()
 	{
 		
 		string rank, institution, LocationCode, Location, ArScore, ArRank, ErScore, ErRank, FsrScore, FsrRank, CpfScore,
 			CpfRank, IfrScore, IfrRank, IsrScore, IsrRank, IrnScore, IrnRank, GerScore, GerRank, ScoreScaled;
 		string ID, name, password, lastactivedate;
+		int counter = 0;
 		University *univ = new University();
 		RegisteredUsers* regis = new RegisteredUsers();
 		fstream file("2023 QS World University Rankings.csv",ios::in);
@@ -563,11 +1142,13 @@ int menu(University* univ, RegisteredUsers* regis)
 				getline(file, GerRank, ',');
 				getline(file, ScoreScaled);
 
-
-				univ->insertToEndList(rank, institution, LocationCode, Location, ArScore, ArRank,
-					ErScore, ErRank, FsrScore, FsrRank, CpfScore,
-					CpfRank, IfrScore, IfrRank, IsrScore,
-					IsrRank, IrnScore, IrnRank, GerScore, GerRank, ScoreScaled);
+				if (counter > 0) {
+					univ->insertToEndList(rank, institution, LocationCode, Location, ArScore, ArRank,
+						ErScore, ErRank, FsrScore, FsrRank, CpfScore,
+						CpfRank, IfrScore, IfrRank, IsrScore,
+						IsrRank, IrnScore, IrnRank, GerScore, GerRank, ScoreScaled);
+				}
+				counter++;
 			}
 		}
 		
@@ -576,20 +1157,21 @@ int menu(University* univ, RegisteredUsers* regis)
 
 		ifstream file_regis("RegisUsers.csv", ios::in);
 		if (file_regis.is_open()) {
-			while (file_regis.good() && !file_regis == NULL) {
+			while (file_regis.peek() != EOF) {
 				getline(file_regis, ID, ',');
 				getline(file_regis, name, ',');
 				getline(file_regis, password, ',');
 				getline(file_regis, lastactivedate, '\n');
 				regis->insertToList(ID, name, password, lastactivedate);
-				
+
 			}
-			
+
 		}
 		file_regis.close();
 		
 		
 		menu(univ, regis);
+		exit_file();
 }
 
 

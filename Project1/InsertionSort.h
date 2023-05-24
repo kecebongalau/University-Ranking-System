@@ -21,19 +21,87 @@ T* insertionSort(T* head, string data) {
 
 template <class T>
 T* sortedInsert(T* sortedHead, T* current, string data) {
-	//Sorting the head position first
-	if (sortedHead == NULL || sortedHead->institution.compare(current->institution)<=0) {
-		current->nextAdd = sortedHead;
-		return current;
+	if (data == "institution") {
+		if (sortedHead == NULL || sortedHead->institution.compare(current->institution) >= 0) {
+			current->nextAdd = sortedHead;
+			return current;
+		}
+
+		else {
+			T* temp = sortedHead;
+			while (temp->nextAdd != NULL && temp->nextAdd->institution.compare(current->institution) < 0) {
+				temp = temp->nextAdd;
+			}
+			current->nextAdd = temp->nextAdd;
+			temp->nextAdd = current;
+		}
+		return sortedHead;
+	}
+	else if (data == "rank") {
+		if (sortedHead == NULL || sortedHead->rank <= current->rank) {
+			current->nextAdd = sortedHead;
+			return current;
+		}
+
+		else {
+			T* temp = sortedHead;
+			while (temp->nextAdd != NULL && temp->nextAdd->rank > current->rank) {
+				temp = temp->nextAdd;
+			}
+			current->nextAdd = temp->nextAdd;
+			temp->nextAdd = current;
+		}
+		return sortedHead;
+	}
+	else if (data == "ArScore") {
+		if (sortedHead == NULL || sortedHead->ArScore <= current->ArScore) {
+			current->nextAdd = sortedHead;
+			return current;
+		}
+
+		else  {
+			T* temp = sortedHead;
+			while (temp->nextAdd != NULL && temp->nextAdd->ArScore > current->ArScore) {
+				temp = temp->nextAdd;
+			}
+			current->nextAdd = temp->nextAdd;
+			temp->nextAdd = current;
+		}
+		return sortedHead;
+	}
+	else if (data == "FsrScore") {
+		if (sortedHead == NULL || sortedHead->FsrScore <=  current->FsrScore) {
+			current->nextAdd = sortedHead;
+			return current;
+		}
+
+		else {
+			T* temp = sortedHead;
+			while (temp->nextAdd != NULL && temp->nextAdd->FsrScore > current->FsrScore) {
+				temp = temp->nextAdd;
+			}
+			current->nextAdd = temp->nextAdd;
+			temp->nextAdd = current;
+		}
+		return sortedHead;
 	}
 
-	else {
-		T* temp = sortedHead;
-		while (temp->nextAdd != NULL && temp->nextAdd->institution.compare(current->institution) >0) {
-			temp = temp->nextAdd;
+	else if (data == "ErScore") {
+		if (sortedHead == NULL || sortedHead->ErScore <= current->ErScore) {
+			current->nextAdd = sortedHead;
+			return current;
 		}
-		current->nextAdd = temp->nextAdd;
-		temp->nextAdd = current;
+
+		else {
+			T* temp = sortedHead;
+			while (temp->nextAdd != NULL && temp->nextAdd->ErScore > current->ErScore) {
+				temp = temp->nextAdd;
+			}
+			current->nextAdd = temp->nextAdd;
+			temp->nextAdd = current;
+		}
+		return sortedHead;
 	}
-	return sortedHead;
+	return NULL;
+	
 }

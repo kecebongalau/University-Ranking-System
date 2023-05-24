@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "DoubleLinkedList.h"
 #include "HelperNode.h"
 using namespace std;
 
@@ -11,9 +10,27 @@ class MergedSort
 public:
 	MergedSort() {};
 	~MergedSort() {};
+	void mergeSort(U** headRef, string attribute) {
+
+		U* head = *headRef;
+		U* a;
+		U* b;
+
+		if ((head == NULL) || (head->nextAdd == NULL))
+		{
+			return;
+		}
+
+		frontBackSplit(head, &a, &b);
+
+		mergeSort(&a, attribute);
+		mergeSort(&b, attribute);
+
+		*headRef = sortedMerge(a, b, attribute);
+	}
 
 private:
-	U* sortedMerge(U* a, U* b) {
+	U* sortedMerge(U* a, U* b, string attribute) {
 		U* result = NULL;
 
 		if (a == NULL)
@@ -24,16 +41,15 @@ private:
 			return a;
 		}
 
-		// TODO: Add compare data method
-		if (true)
+		if (a->compareAttributes(b, attribute))
 		{
 			result = a;
-			result->nextAdd = sortedMerge(a->nextAdd, b);
+			result->nextAdd = sortedMerge(a->nextAdd, b, attribute);
 		}
 		else
 		{
 			result = b;
-			result->nextAdd = sortedMerge(a, b->nextAdd);
+			result->nextAdd = sortedMerge(a, b->nextAdd, attribute);
 		}
 
 		return result;
@@ -58,23 +74,4 @@ private:
 		*backRef = slow->nextAdd;
 		slow->nextAdd = NULL;
 	}
-	void mergeSort(U** headRef) {
-
-		U* head = *headRef;
-		U* a;
-		U* b;
-
-		if ((head == NULL) || (head->nextAdd == NULL))
-		{
-			return;
-		}
-
-		frontBackSplit(head, &a, &b);
-
-		mergeSort(&a);
-		mergeSort(&b);
-
-		*headRef = sortedMerge(a, b);
-	}
-
 };
