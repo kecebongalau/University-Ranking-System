@@ -8,10 +8,10 @@ template <class T>
 T* linearSearch(T* head, string data) {
 	T* node = head;
 	while (node != NULL) {
-		if (stoi(data) != node->rank) {
-			return node;
+			if (stoi(data) == node->rank || data == node->institution) {
+				return node;
+			}
+			node = node->nextAdd;
 		}
-		node = node->nextAdd;
-	}
-	return nullptr;
+		return nullptr;
 }

@@ -19,7 +19,6 @@ using namespace std;
 using namespace std::chrono;
 class Favorite {
 public:
-	
 	string regisID;
 	string regisName;
 	string institution;
@@ -225,8 +224,6 @@ public:
 		this->prevAdd = NULL;
 	}
 
-
-
 	void insertToEndList(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
 		string ErScore, string ErRank, string FsrScore, string FsrRank, string CpfScore, string CpfRank, string IfrScore, string IfrRank, string IsrScore,
 		string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled);
@@ -400,9 +397,6 @@ void University::insertToEndList(string rank, string institution, string Locatio
 
 	}
 
-
-
-
 	University* newnode = new University(new_rank, institution, LocationCode, Location, new_ArScore, new_ArRank, new_ErScore, 
 		new_ErRank, new_FsrScore, new_FsrRank, new_CpfScore, new_CpfRank, new_IfrScore, new_IfrRank, new_IsrScore, 
 		new_IsrRank, new_IrnScore, new_IrnRank, new_GerScore, new_GerRank, new_Score);
@@ -536,11 +530,38 @@ void University::Bin_Search(){
 }
 
 void University::Lin_Search() {
-	string rank;
-	cout << "Enter what to search: ";
-	getline(cin, rank);
-	//univDLL.head = insertionSort(univDLL.head, rank);
-	University* found = linearSearch(univDLL.head, rank);
+//	string rank;
+//	cout << "Enter what to search(lin): " << endl;
+//	getline(cin, rank);
+//
+//	cout << "satu";
+//	University* found = linearSearch(univDLL.head, rank);
+//	cout << "2";
+//}
+
+//	if (found != NULL) {
+//		cout << "3";
+//		cout << "Rank: " << found->rank << endl;
+//		cout << "Univ: " << found->institution << endl;
+//	}
+//	else {
+//		cout << "Error" << endl;
+//	}
+//}
+
+	string data,rank,institution;
+	cout << "Enter what to search: "<< endl;
+	cin >> data;
+	cout << data, "masuk";
+	auto start = high_resolution_clock::now();
+	univDLL.head = linearSearch(univDLL.head, data);
+	cout << "masuk2" << endl;
+	University* found = linearSearch(univDLL.head, data);
+	cout << found;
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds> (stop - start);
+	cout << "Time taken by linear search algorithm: ";
+	cout << duration.count() << " microseconds. " << endl;
 	if (found != NULL) {
 		cout << "Rank: " << found->rank << endl;
 		cout << "Univ: " << found->institution << endl;
@@ -793,9 +814,6 @@ string RegisteredUsers::generateID() {
 			return newID;
 		
 	}
-
-	
-
 }
 
 void RegisteredUsers::user_register() {
@@ -818,9 +836,6 @@ void RegisteredUsers::user_register() {
 	
 	RegisteredUsers* newnode = new RegisteredUsers(ID, name, password, lastActiveDate);
 	regisDLL.insertEnd(newnode);
-	
-	
-
 }
 
 
@@ -921,7 +936,9 @@ int menu(University* univ, RegisteredUsers* regis)
 				//stat = true;
 				break;
 			case 2:
+				cout << "ini lin " << endl;
 				univ->Lin_Search();
+				cout << "ini 2lin " << endl;
 				//stat = true;
 				break;
 			default:
