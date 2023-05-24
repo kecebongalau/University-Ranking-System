@@ -172,87 +172,6 @@ public:
 };
 
 
-class Admin : Users {
-public:
-	DoubleLinkedList<Admin> adminDLL;
-	Admin* nextAdd;
-	Admin* prevAdd;
-	Admin() {
-		this->ID = "";
-		this->name = "";
-		this->password = "";
-		this->nextAdd = NULL;
-		this->prevAdd = NULL;
-	}
-	Admin(string ID, string name, string password) {
-		this->ID = ID;
-		this->name = name;
-		this->password = password;
-		this->nextAdd = NULL;
-		this->prevAdd = NULL;
-	};
-	~Admin() {};
-	void menu(Admin* admin, DoubleLinkedList<RegisteredUsers> regisDLL) {
-		int opt;
-		do
-		{
-			cout << "WELCOME TO UNIVERSITY RANK SYSTEM" << endl;
-			cout << "Select the option below: " << endl;
-			cout << " 1. Manage Users" << endl;
-			cout << " 2. Manage Feedback" << endl;
-			cout << " 3. Reply to Feedback" << endl;
-			cout << " 4. Generate Report" << endl;
-			cout << " 5. Logout" << endl;
-			cout << " 6. Exit" << endl;
-			cin >> opt;
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-			switch (opt)
-			{
-			case 1:
-				cout << "Manage User Menu" << endl;
-				break;
-			case 2:
-				cout << "Manage Feedback Menu" << endl;
-				break;
-			case 3:
-				cout << "Reply to Feedback Menu" << endl;
-				break;
-			case 4:
-				cout << "Generate Report" << endl;
-				break;
-			case 5:
-				cout << "Logout" << endl;
-				break;
-			case 6:
-				exit(0);
-			default:
-				cout << "Invalid input, please try again" << endl;
-				break;
-			}
-		}
-
-		while (opt != 4);
-	};
-	Admin* login(string ID, string password) {
-		Admin* current = adminDLL.head;
-		while (current != NULL) {
-			if (ID == current->ID && password == current->password) {
-
-				cout << "Hello " << current->name << endl;
-				return current;
-
-			}
-
-			current = current->nextAdd;
-		}
-		cout << "User not found!" << endl;
-		return NULL;
-	}
-
-};
-
-
 class RegisteredUsers : Users {
 public:
 	DoubleLinkedList<RegisteredUsers> regisDLL;
@@ -285,6 +204,8 @@ public:
 	void deleteFromList(string ID, int position);
 	void search(string ID);
 	void feedback();
+	void Regis_InsertionSort(string attribute);
+	void Regis_MergeSort(string attribute);
 };
 void RegisteredUsers::insertToList(string ID, string name, string password, string lastactivedate) {
 	RegisteredUsers* newnode = new RegisteredUsers(ID, name, password, lastactivedate);
@@ -362,6 +283,12 @@ string RegisteredUsers::generateID() {
 	
 
 }
+void RegisteredUsers::Regis_InsertionSort(string attribute) {
+	// regisDLL.head = insertionSort(regisDLL.head, attribute);
+}
+void RegisteredUsers::Regis_MergeSort(string attribute) {
+
+}
 
 void RegisteredUsers::user_register() {
 	//cout << regisDLL.tail->ID << endl;
@@ -426,6 +353,113 @@ RegisteredUsers* RegisteredUsers::login(string ID, string password) {
 	cout << "User not found!" << endl;
 	return NULL;
 }
+
+class Admin : Users {
+public:
+	DoubleLinkedList<Admin> adminDLL;
+	Admin* nextAdd;
+	Admin* prevAdd;
+	Admin() {
+		this->ID = "";
+		this->name = "";
+		this->password = "";
+		this->nextAdd = NULL;
+		this->prevAdd = NULL;
+	}
+	Admin(string ID, string name, string password) {
+		this->ID = ID;
+		this->name = name;
+		this->password = password;
+		this->nextAdd = NULL;
+		this->prevAdd = NULL;
+	};
+	~Admin() {};
+	void menu(Admin* admin, RegisteredUsers* regis) {
+		int opt;
+		do
+		{
+			cout << "WELCOME TO UNIVERSITY RANK SYSTEM" << endl;
+			cout << "Select the option below: " << endl;
+			cout << " 1. Manage Users" << endl;
+			cout << " 2. Manage Feedback" << endl;
+			cout << " 3. Reply to Feedback" << endl;
+			cout << " 4. Generate Report" << endl;
+			cout << " 5. Logout" << endl;
+			cout << " 6. Exit" << endl;
+			cin >> opt;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+			switch (opt)
+			{
+			case 1:
+				cout << "Manage User Menu" << endl;
+				break;
+			case 2:
+				cout << "Manage Feedback Menu" << endl;
+				break;
+			case 3:
+				cout << "Reply to Feedback Menu" << endl;
+				break;
+			case 4:
+				cout << "Generate Report" << endl;
+				break;
+			case 5:
+				cout << "Logout" << endl;
+				break;
+			case 6:
+				exit(0);
+			default:
+				cout << "Invalid input, please try again" << endl;
+				break;
+			}
+		}
+
+		while (opt != 4);
+	};
+	Admin* login(string ID, string password) {
+		Admin* current = adminDLL.head;
+		while (current != NULL) {
+			if (ID == current->ID && password == current->password) {
+
+				cout << "Hello " << current->name << endl;
+				return current;
+
+			}
+
+			current = current->nextAdd;
+		}
+		cout << "User not found!" << endl;
+		return NULL;
+	}
+	void displayAllRegisteredUsers(RegisteredUsers* regis) {
+		int choice;
+		bool is_sort = false;
+
+		while (is_sort)
+		{
+			cout << "Which sorting algorithm will you choose?" << endl;
+			cout << "1. Insertion Sort" << endl;
+			cout << "2. Merge Sort" << endl;
+			cin >> choice;
+			switch (choice)
+			{
+			case 1:
+				regis;
+				cout << "This is insertion sort" << endl;
+				is_sort = true;
+			case 2:
+				regis;
+				cout << "This is merge sort" << endl;
+				is_sort = true;
+			default:
+				break;
+			}
+		}
+		regis;
+	}
+
+};
+
 int menu(University* univ, RegisteredUsers* regis)
 {
 	int opt;
