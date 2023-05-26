@@ -7,13 +7,16 @@ using namespace std;
 template <class T>
 T* linearSearch(T* head, string data, int opt) {
 	T* node = head;
+
 	if (opt == 1){
 		while (node != NULL) {
 			if (stoi(data) == node->rank) {
+
 				return node;
 			}
 			node = node->nextAdd;
 		}
+
 	}
 	else if (opt == 2){
 		while (node != NULL) {
@@ -34,3 +37,4 @@ T* linearSearch(T* head, string data, int opt) {
 
 	return nullptr;
 }
+

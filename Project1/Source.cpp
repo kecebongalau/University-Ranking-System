@@ -9,6 +9,7 @@
 #include "DoubleLinkedList.h"
 #include "BinarySearch.h"
 #include "LinearSearch.h"
+#include "NewMergeSort.h"
 
 #include <chrono>
 
@@ -18,7 +19,6 @@ using namespace std;
 using namespace std::chrono;
 class Favorite {
 public:
-	
 	string regisID;
 	string regisName;
 	string institution;
@@ -224,8 +224,6 @@ public:
 		this->prevAdd = NULL;
 	}
 
-
-
 	void insertToEndList(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
 		string ErScore, string ErRank, string FsrScore, string FsrRank, string CpfScore, string CpfRank, string IfrScore, string IfrRank, string IsrScore,
 		string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled);
@@ -233,6 +231,7 @@ public:
 	void Lin_Search();
 
 	void Univ_InsertionSort(string data);
+	void Univ_MergedSort(string attribute);
 	void displayUniversityInfo();
 	void display();
 	bool compareAttributes(University * otherUniversity, string attribute);
@@ -245,7 +244,16 @@ void University::Univ_InsertionSort(string data) {
 	auto duration = duration_cast<microseconds> (stop - start);
 	cout << "Time taken by insertion sort algorithm: ";
 	cout << duration.count() << " microseconds. " << endl;
+}
 
+void University::Univ_MergedSort(string attribute) {
+	auto start = high_resolution_clock::now();
+	MergedSort<University> mergeSortClass;
+	mergeSortClass.mergeSort(&(univDLL.head), attribute);
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds> (stop - start);
+	cout << "Time taken by merge sort algorithm: ";
+	cout << duration.count() << " microseconds. " << endl;
 }
 
 void University::insertToEndList(string rank, string institution, string LocationCode, string Location, string ArScore, string ArRank,
@@ -389,9 +397,6 @@ void University::insertToEndList(string rank, string institution, string Locatio
 
 	}
 
-
-
-
 	University* newnode = new University(new_rank, institution, LocationCode, Location, new_ArScore, new_ArRank, new_ErScore, 
 		new_ErRank, new_FsrScore, new_FsrRank, new_CpfScore, new_CpfRank, new_IfrScore, new_IfrRank, new_IsrScore, 
 		new_IsrRank, new_IrnScore, new_IrnRank, new_GerScore, new_GerRank, new_Score);
@@ -400,84 +405,84 @@ void University::insertToEndList(string rank, string institution, string Locatio
 	
 }
 
-//bool University::compareAttributes(University* otherUniversity, string attribute) {
-//	if (attribute == "Institution")
-//	{
-//		return (institution.compare(otherUniversity->institution));
-//	}
-//	else if (attribute == "Rank")
-//	{
-//		return (rank.compare(otherUniversity->rank));
-//	}
-//	else if (attribute == "Location Code")
-//	{
-//		return (LocationCode.compare(otherUniversity->LocationCode));
-//	}
-//	else if (attribute == "Location")
-//	{
-//		return (Location.compare(otherUniversity->Location));
-//	}
-//	else if (attribute == "ArRank")
-//	{
-//		return (ArRank.compare(otherUniversity->ArRank));
-//	}
-//	else if (attribute == "ArScore")
-//	{
-//		return (ArScore.compare(otherUniversity->ArScore));
-//	}
-//	else if (attribute == "ErRank")
-//	{
-//		return (ErRank.compare(otherUniversity->ErRank));
-//	}
-//	else if (attribute == "ErScore")
-//	{
-//		return (ErScore.compare(otherUniversity->ErScore));
-//	}
-//	else if (attribute == "FsrRank")
-//	{
-//		return (FsrRank.compare(otherUniversity->FsrRank));
-//	}
-//	else if (attribute == "FsrScore")
-//	{
-//		return (FsrScore.compare(otherUniversity->FsrScore));
-//	}
-//	else if (attribute == "CpfRank")
-//	{
-//		return (CpfRank.compare(otherUniversity->CpfRank));
-//	}
-//	else if (attribute == "CpfScore")
-//	{
-//		return (CpfScore.compare(otherUniversity->CpfScore));
-//	}
-//	else if (attribute == "IfrRank")
-//	{
-//		return (IfrRank.compare(otherUniversity->IfrRank));
-//	}
-//	else if (attribute == "IfrScore")
-//	{
-//		return (IfrScore.compare(otherUniversity->IfrScore));
-//	}
-//	else if (attribute == "IsrRank")
-//	{
-//		return (IfrRank.compare(otherUniversity->IfrRank));
-//	}
-//	else if (attribute == "IsrScore")
-//	{
-//		return (IsrScore.compare(otherUniversity->IsrScore));
-//	}
-//	else if (attribute == "GerRank")
-//	{
-//		return (GerRank.compare(otherUniversity->GerRank));
-//	}
-//	else if (attribute == "GerScore")
-//	{
-//		return (GerScore.compare(otherUniversity->GerScore));
-//	}
-//	else if (attribute == "Score Scaled")
-//	{
-//		return (ScoreScaled.compare(otherUniversity->ScoreScaled));
-//	}
-//}
+bool University::compareAttributes(University* otheruniversity, string attribute) {
+	if (attribute == "institution")
+	{
+		return (institution.compare(otheruniversity->institution) <= 0);
+	}
+	else if (attribute == "rank")
+	{
+		return (rank <= otheruniversity->rank);
+	}
+	else if (attribute == "location code")
+	{
+		return (LocationCode.compare(otheruniversity->LocationCode) <= 0);
+	}
+	else if (attribute == "location")
+	{
+		return (Location.compare(otheruniversity->Location) <= 0);
+	}
+	else if (attribute == "arrank")
+	{
+		return (ArRank <= otheruniversity->ArRank);
+	}
+	else if (attribute == "arscore")
+	{
+		return (ArScore<= otheruniversity->ArScore);
+	}
+	else if (attribute == "errank")
+	{
+		return (ErRank <= otheruniversity->ErRank);
+	}
+	else if (attribute == "erscore")
+	{
+		return (ErScore <= otheruniversity->ErScore);
+	}
+	else if (attribute == "fsrrank")
+	{
+		return (FsrRank <= otheruniversity->FsrRank);
+	}
+	else if (attribute == "fsrscore")
+	{
+		return (FsrScore <= otheruniversity->FsrScore);
+	}
+	else if (attribute == "cpfrank")
+	{
+		return (CpfRank	<= otheruniversity->CpfRank);
+	}
+	else if (attribute == "cpfscore")
+	{
+		return (CpfScore <= otheruniversity->CpfScore);
+	}
+	else if (attribute == "ifrrank")
+	{
+		return (IfrRank <= otheruniversity->IfrRank);
+	}
+	else if (attribute == "ifrscore")
+	{
+		return (IfrScore <= otheruniversity->IfrScore);
+	}
+	else if (attribute == "isrrank")
+	{
+		return (IsrRank <= otheruniversity->IsrRank);
+	}
+	else if (attribute == "isrscore")
+	{
+		return (IsrScore <= otheruniversity->IsrScore);
+	}
+	else if (attribute == "gerrank")
+	{
+		return (GerRank <= otheruniversity->GerRank);
+	}
+	else if (attribute == "gerscore")
+	{
+		return (GerScore <= otheruniversity->GerScore);
+	}
+	else if (attribute == "score scaled")
+	{
+		return (ScoreScaled <= otheruniversity->ScoreScaled);
+	}
+}
 
 void University::display() {
 	cout << "Rank: " << rank << endl;
@@ -525,6 +530,7 @@ void University::Bin_Search(){
 }
 
 void University::Lin_Search() {
+
 	string data;
 	int opt;
 	cout << "Enter what to search: " << endl;
@@ -556,6 +562,7 @@ void University::Lin_Search() {
 		else {
 			cout << "Error" << endl;
 		}
+
 }
 
 class Users {
@@ -564,6 +571,8 @@ public:
 	string name;
 	string password;
 };
+
+
 class RegisteredUsers : Users {
 public:
 	DoubleLinkedList<RegisteredUsers> regisDLL;
@@ -595,6 +604,9 @@ public:
 	void writeData(RegisteredUsers* users);
 	void deleteFromList(string ID, int position);
 	void search(string ID);
+	void feedback();
+	void Regis_InsertionSort(string attribute);
+	void Regis_MergeSort(string attribute);
 	void feedback(string ID, string name, University* univ);
 	void favorite(string ID, string name, University* univ);
 	void insertToFile();
@@ -801,8 +813,11 @@ string RegisteredUsers::generateID() {
 			return newID;
 		
 	}
-
-	
+}
+void RegisteredUsers::Regis_InsertionSort(string attribute) {
+	// regisDLL.head = insertionSort(regisDLL.head, attribute);
+}
+void RegisteredUsers::Regis_MergeSort(string attribute) {
 
 }
 
@@ -826,9 +841,6 @@ void RegisteredUsers::user_register() {
 	
 	RegisteredUsers* newnode = new RegisteredUsers(ID, name, password, lastActiveDate);
 	regisDLL.insertEnd(newnode);
-	
-	
-
 }
 
 
@@ -851,6 +863,113 @@ RegisteredUsers* RegisteredUsers::login(string ID, string password) {
 	cout << "User not found!" << endl;
 	return NULL;
 }
+
+class Admin : Users {
+public:
+	DoubleLinkedList<Admin> adminDLL;
+	Admin* nextAdd;
+	Admin* prevAdd;
+	Admin() {
+		this->ID = "";
+		this->name = "";
+		this->password = "";
+		this->nextAdd = NULL;
+		this->prevAdd = NULL;
+	}
+	Admin(string ID, string name, string password) {
+		this->ID = ID;
+		this->name = name;
+		this->password = password;
+		this->nextAdd = NULL;
+		this->prevAdd = NULL;
+	};
+	~Admin() {};
+	void menu(Admin* admin, RegisteredUsers* regis) {
+		int opt;
+		do
+		{
+			cout << "WELCOME TO UNIVERSITY RANK SYSTEM" << endl;
+			cout << "Select the option below: " << endl;
+			cout << " 1. Manage Users" << endl;
+			cout << " 2. Manage Feedback" << endl;
+			cout << " 3. Reply to Feedback" << endl;
+			cout << " 4. Generate Report" << endl;
+			cout << " 5. Logout" << endl;
+			cout << " 6. Exit" << endl;
+			cin >> opt;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+			switch (opt)
+			{
+			case 1:
+				cout << "Manage User Menu" << endl;
+				break;
+			case 2:
+				cout << "Manage Feedback Menu" << endl;
+				break;
+			case 3:
+				cout << "Reply to Feedback Menu" << endl;
+				break;
+			case 4:
+				cout << "Generate Report" << endl;
+				break;
+			case 5:
+				cout << "Logout" << endl;
+				break;
+			case 6:
+				exit(0);
+			default:
+				cout << "Invalid input, please try again" << endl;
+				break;
+			}
+		}
+
+		while (opt != 4);
+	};
+	Admin* login(string ID, string password) {
+		Admin* current = adminDLL.head;
+		while (current != NULL) {
+			if (ID == current->ID && password == current->password) {
+
+				cout << "Hello " << current->name << endl;
+				return current;
+
+			}
+
+			current = current->nextAdd;
+		}
+		cout << "User not found!" << endl;
+		return NULL;
+	}
+	void displayAllRegisteredUsers(RegisteredUsers* regis) {
+		int choice;
+		bool is_sort = false;
+
+		while (is_sort)
+		{
+			cout << "Which sorting algorithm will you choose?" << endl;
+			cout << "1. Insertion Sort" << endl;
+			cout << "2. Merge Sort" << endl;
+			cin >> choice;
+			switch (choice)
+			{
+			case 1:
+				regis;
+				cout << "This is insertion sort" << endl;
+				is_sort = true;
+			case 2:
+				regis;
+				cout << "This is merge sort" << endl;
+				is_sort = true;
+			default:
+				break;
+			}
+		}
+		regis;
+	}
+
+};
+
 int menu(University* univ, RegisteredUsers* regis)
 {
 	int opt;
@@ -899,6 +1018,7 @@ int menu(University* univ, RegisteredUsers* regis)
 					is_sort = true;
 					break;
 				case 2:
+					univ->Univ_MergedSort("institution");
 					cout << "This is merge sort" << endl;
 					is_sort = true;
 					break;
@@ -928,7 +1048,9 @@ int menu(University* univ, RegisteredUsers* regis)
 				//stat = true;
 				break;
 			case 2:
+				cout << "ini lin " << endl;
 				univ->Lin_Search();
+				cout << "ini 2lin " << endl;
 				//stat = true;
 				break;
 			default:
