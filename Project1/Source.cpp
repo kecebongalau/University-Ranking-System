@@ -1010,6 +1010,7 @@ public:
 
 		while (opt != 4);
 	};
+
 	Admin* login(string ID, string password) {
 		Admin* current = adminDLL.head;
 		while (current != NULL) {
@@ -1025,6 +1026,7 @@ public:
 		cout << "User not found!" << endl;
 		return NULL;
 	}
+
 	void displayAllRegisteredUsers(RegisteredUsers* regis) {
 		int choice;
 		bool is_sort = false;
@@ -1050,6 +1052,11 @@ public:
 			}
 		}
 		regis;
+	}
+
+	void deleteRegisUser(string ID, RegisteredUsers* regis) {
+		RegisteredUsers* users = linearSearch<RegisteredUsers>(regis->head, ID, "userId");
+		regis->regisDLL.deleteNode(users);
 	}
 
 };
