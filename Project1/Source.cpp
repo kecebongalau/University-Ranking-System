@@ -285,7 +285,7 @@ public:
 		string IsrRank, string IrnSCore, string IrnRank, string GerScore, string GerRank, string ScoreScaled);
 	void Bin_Search();
 	void Lin_Search();
-
+	void Location_LinSearch();
 	void Univ_InsertionSort(string data);
 	void Univ_MergedSort(string attribute);
 	void displayUniversityInfo();
@@ -669,8 +669,7 @@ void University::Bin_Search() {
 
 void University::Lin_Search() {
 
-
-	string data, input;
+	string data,input;
 	int opt;
 	cout << "Enter what to search: " << endl;
 	cout << "1. Rank" << endl;
@@ -696,6 +695,42 @@ void University::Lin_Search() {
 		case 2:
 			cout << "Institution " << found->institution << endl;
 			input = "instituion";
+			break;
+		}
+	}
+	else {
+		cout << "Error" << endl;
+	}
+
+}
+
+void University::Location_LinSearch() {
+	string data,input;
+	int opt;
+	cout << "Enter what to search: " << endl;
+	cout << "1. Location" << endl;
+	cout << "2. Location Code" << endl;
+	cin >> opt;
+	cout << "Enter what to search: " << endl;
+	cin >> data;
+	auto start = high_resolution_clock::now();
+	cout << "disini" << endl;
+	University* found = linearSearch(univDLL.head, data, input);
+	cout << found << endl;
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds> (stop - start);
+	cout << "Time taken by linear search algorithm: ";
+	cout << duration.count() << " microseconds. " << endl;
+	if (found != NULL) {
+		switch (opt)
+		{
+		case 1:
+			cout << "Location: " << found->rank << endl;
+			input == "location";
+			break;
+		case 2:
+			cout << "Location Code: " << found->institution << endl;
+			input == "loc_code";
 			break;
 		}
 	}
@@ -1064,6 +1099,7 @@ public:
 
 		while (opt != 4);
 	};
+
 	Admin* login(string ID, string password) {
 		Admin* current = adminDLL.head;
 		while (current != NULL) {
@@ -1079,6 +1115,7 @@ public:
 		cout << "User not found!" << endl;
 		return NULL;
 	}
+
 	void displayAllRegisteredUsers(RegisteredUsers* regis) {
 		int choice;
 		bool is_sort = false;
@@ -1104,6 +1141,11 @@ public:
 			}
 		}
 		regis;
+	}
+
+	void deleteRegisUser(string ID, RegisteredUsers* regis) {
+		RegisteredUsers* users = linearSearch<RegisteredUsers>(regis->head, ID, "userId");
+		regis->regisDLL.deleteNode(users);
 	}
 
 };

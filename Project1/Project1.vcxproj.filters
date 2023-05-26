@@ -11,5 +11,7 @@
     <ClInclude Include="MergeSort.h" />
     <ClInclude Include="NewMergeSort.h" />
     <ClInclude Include="SingleLinkedList.h" />
+    <ClInclude Include="HashMap.h" />
+    <ClInclude Include="HashMapNode.h" />
   </ItemGroup>
 </Project>
