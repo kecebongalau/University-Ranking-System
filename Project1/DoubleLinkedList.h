@@ -3,6 +3,8 @@
 #include "HelperNode.h"
 using namespace std;
 
+// T needs nextAdd, prevAdd, and display()
+
 template <class T>
 class DoubleLinkedList
 {
