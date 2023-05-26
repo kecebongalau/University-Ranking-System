@@ -54,6 +54,33 @@ public:
 		size++;
 	}
 
+	void deleteNode(T* node) {
+		if (head == NULL)
+		{
+			return;
+		}
+		else {
+			if (node->nextAdd == NULL && node->prevAdd == NULL) {
+				tail = NULL;
+				head = NULL;
+				delete node;
+			}
+			else if (node->nextAdd == NULL)
+			{
+				T* newTail = node->prevAdd;
+				newTail->nextAdd = NULL;
+				tail = newTail;
+				delete node;
+			}
+			else if (node->prevAdd == NULL) {
+				T* newHead = node->nextAdd;
+				newHead->prevAdd = NULL;
+				head = newHead;
+				delete node;
+			}
+		}
+	};
+
 	T* getValueAt(int index) { // O(n)
 		T* current = head;
 		for (int i = 0; i < index; i++)
