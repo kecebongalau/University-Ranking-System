@@ -510,11 +510,11 @@ void University::displayUniversityInfo() //Big O - O(n)
 }
 
 void University::Bin_Search(){
-	string rank;
+	string univ_rank;
 	cout << "Enter what to search: ";
-	getline(cin, rank);
+	getline(cin, univ_rank);
 	//univDLL.head = insertionSort(univDLL.head, rank);
-	University* found = binarySearch(univDLL.head, rank);
+	University* found = binarySearch(univDLL.head, univ_rank);
 	if (found != NULL) {
 		cout << "Rank: " << found->rank << endl;
 		cout << "Univ: " << found->institution << endl;
@@ -525,11 +525,12 @@ void University::Bin_Search(){
 }
 
 void University::Lin_Search() {
-	string rank;
+	string univ_rank;
 	cout << "Enter what to search: ";
-	getline(cin, rank);
+	cin >> univ_rank;
+	cin.clear();
 	//univDLL.head = insertionSort(univDLL.head, rank);
-	University* found = linearSearch(univDLL.head, rank);
+	University* found = linearSearch(univDLL.head, univ_rank);
 	if (found != NULL) {
 		cout << "Rank: " << found->rank << endl;
 		cout << "Univ: " << found->institution << endl;
