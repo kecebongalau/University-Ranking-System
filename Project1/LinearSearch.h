@@ -5,13 +5,36 @@
 using namespace std;
 
 template <class T>
-T* linearSearch(T* head, string data) {
+T* linearSearch(T* head, string data, int opt) {
 	T* node = head;
-	while (node != NULL) {
-			if (stoi(data) == node->rank || data == node->institution) {
+
+	if (opt == 1){
+		while (node != NULL) {
+			if (stoi(data) == node->rank) {
+
 				return node;
 			}
 			node = node->nextAdd;
 		}
-		return nullptr;
+
+	}
+	else if (opt == 2){
+		while (node != NULL) {
+			if (data == node->institution) {
+				return node;
+			}
+			node = node->nextAdd;
+		}
+	}
+	//else if (opt == "3"){
+	//	while (node != NULL) {
+	//		if (data == node->user) {
+	//			return node;
+	//		}
+	//		node = node->nextAdd;
+	//	}
+	//}
+
+	return nullptr;
 }
+

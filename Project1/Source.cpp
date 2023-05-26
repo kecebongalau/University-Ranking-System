@@ -530,45 +530,39 @@ void University::Bin_Search(){
 }
 
 void University::Lin_Search() {
-//	string rank;
-//	cout << "Enter what to search(lin): " << endl;
-//	getline(cin, rank);
-//
-//	cout << "satu";
-//	University* found = linearSearch(univDLL.head, rank);
-//	cout << "2";
-//}
 
-//	if (found != NULL) {
-//		cout << "3";
-//		cout << "Rank: " << found->rank << endl;
-//		cout << "Univ: " << found->institution << endl;
-//	}
-//	else {
-//		cout << "Error" << endl;
-//	}
-//}
+	string data;
+	int opt;
+	cout << "Enter what to search: " << endl;
+	cout << "1. Rank" << endl;
+	cout << "2. Institution" << endl;
+	cin >> opt;
+		cout << "Enter what to search: " << endl;
+		cin >> data;
+		auto start = high_resolution_clock::now();
+		univDLL.head = linearSearch(univDLL.head, data,opt);
+		cout << "disini" << endl;
+		University* found = linearSearch(univDLL.head, data,opt);
+		cout << found << endl;
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<microseconds> (stop - start);
+		cout << "Time taken by linear search algorithm: ";
+		cout << duration.count() << " microseconds. " << endl;
+		if (found != NULL) {
+			switch (opt)
+			{
+			case 1:
+				cout << "Rank: " << found->rank << endl;
+				break;
+			case 2:
+				cout << "Institution " << found->institution << endl;
+				break;
+			}
+		}
+		else {
+			cout << "Error" << endl;
+		}
 
-	string data,rank,institution;
-	cout << "Enter what to search: "<< endl;
-	cin >> data;
-	cout << data, "masuk";
-	auto start = high_resolution_clock::now();
-	univDLL.head = linearSearch(univDLL.head, data);
-	cout << "masuk2" << endl;
-	University* found = linearSearch(univDLL.head, data);
-	cout << found;
-	auto stop = high_resolution_clock::now();
-	auto duration = duration_cast<microseconds> (stop - start);
-	cout << "Time taken by linear search algorithm: ";
-	cout << duration.count() << " microseconds. " << endl;
-	if (found != NULL) {
-		cout << "Rank: " << found->rank << endl;
-		cout << "Univ: " << found->institution << endl;
-	}
-	else {
-		cout << "Error" << endl;
-	}
 }
 
 class Users {
