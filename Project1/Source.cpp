@@ -525,11 +525,43 @@ void University::Bin_Search(){
 }
 
 void University::Lin_Search() {
+	string data;
+	cout << "Enter what to search: "<< endl;
+	cin >> data;
+	cout << data;
+	cout << "masuk";
+	auto start = high_resolution_clock::now();
+	univDLL.head = linearSearch(univDLL.head, data);
+	cout << "fase2" << endl;
+	University* found = linearSearch(univDLL.head, data);
+	cout << found;
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds> (stop - start);
+	cout << "Time taken by linear search algorithm: ";
+	cout << duration.count() << " microseconds. " << endl;
 	string rank;
 	cout << "Enter what to search: ";
 	getline(cin, rank);
 	//univDLL.head = insertionSort(univDLL.head, rank);
 	University* found = linearSearch(univDLL.head, rank);
+//	else {
+//		cout << "Error" << endl;
+//	}
+//}
+
+	string data,rank,institution;
+	cout << "Enter what to search: "<< endl;
+	cin >> data;
+	cout << data, "masuk";
+	auto start = high_resolution_clock::now();
+	univDLL.head = linearSearch(univDLL.head, data);
+	cout << "masuk2" << endl;
+	University* found = linearSearch(univDLL.head, data);
+	cout << found;
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds> (stop - start);
+	cout << "Time taken by linear search algorithm: ";
+	cout << duration.count() << " microseconds. " << endl;
 	if (found != NULL) {
 		cout << "Rank: " << found->rank << endl;
 		cout << "Univ: " << found->institution << endl;
