@@ -543,7 +543,12 @@ void University::Bin_Search(){
 		getline(cin, input);
 		/*MergedSort<University> mergeSortClass;
 		mergeSortClass.mergeSort(&(univDLL.head), attribute);*/
+		auto start = high_resolution_clock::now();
 		University* found = binarySearch(univDLL.head, input);
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<microseconds> (stop - start);
+		cout << "Time taken by binary search algorithm: ";
+		cout << duration.count() << " microseconds. " << endl;
 		/*cout << left << setw(10) << "Rank"
 			<< setw(50) << "Institution"
 			<< setw(10) << "Location" << endl;*/
@@ -561,7 +566,13 @@ void University::Bin_Search(){
 		//getline(cin, input);
 		MergedSort<University> mergeSortClass;
 		mergeSortClass.mergeSort(&(univDLL.head), attribute);
+		auto start = high_resolution_clock::now();
 		University* found = binarySearch(univDLL.head, input);
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<microseconds> (stop - start);
+		cout << "Time taken by binary search algorithm: ";
+		cout << duration.count() << " microseconds. " << endl;
+
 		/*cout << left << setw(10) << "Rank"
 			<< setw(50) << "Institution"
 			<< setw(10) << "Location" << endl;*/
@@ -626,7 +637,12 @@ void University::Cust_Bin_Search() {
 		cout << "Enter what to search: ";
 		cin >> input;
 		getline(cin, input);
+		auto start = high_resolution_clock::now();
 		University* found = binarySearch(univDLL.head, input);
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<microseconds> (stop - start);
+		cout << "Time taken by binary search algorithm: ";
+		cout << duration.count() << " microseconds. " << endl;
 		if (found != NULL) {
 			cout << "Rank: " << found->rank << endl;
 			cout << "Univ: " << found->institution << endl;
@@ -640,7 +656,13 @@ void University::Cust_Bin_Search() {
 		cin >> input;
 		MergedSort<University> mergeSortClass;
 		mergeSortClass.mergeSort(&(univDLL.head), attribute);
+		auto start = high_resolution_clock::now();
 		University* found = binarySearch(univDLL.head, input);
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<microseconds> (stop - start);
+		cout << "Time taken by binary search algorithm: ";
+		cout << duration.count() << " microseconds. " << endl;
+
 		if (found != NULL) {
 			cout << "Rank: " << found->rank << endl;
 			cout << "Univ: " << found->institution << endl;
@@ -658,7 +680,7 @@ void University::Cust_Bin_Search() {
 		University* found = binarySearch(univDLL.head, input);
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
-		cout << "Time taken by linear search algorithm: ";
+		cout << "Time taken by binary search algorithm: ";
 		cout << duration.count() << " microseconds. " << endl;
 		cout << left << setw(10) << "Rank"
 			<< setw(50) << "Institution"
@@ -668,9 +690,9 @@ void University::Cust_Bin_Search() {
 				<< setw(50) << found->institution
 				<< setw(10) << found->Location << endl;
 
-			cout << "Rank: " << found->rank << endl;
+			/*cout << "Rank: " << found->rank << endl;
 			cout << "Univ: " << found->institution << endl;
-			cout << "Loct: " << found->Location << endl;
+			cout << "Loct: " << found->Location << endl;*/
 		}
 	}
 

@@ -32,11 +32,12 @@ T* binarySearch(T* head, string data) {
 	//finding middle node
 	while (start != end) {
 		T* midNode = middle(start, end);
-		if (stoi(data) == midNode->rank){
+		if (stoi(data) == midNode->rank || data == midNode->institution || data == midNode->Location){
 			return midNode;
 		}
 
-		else if (midNode->rank > stoi(data)) {
+
+		else if (midNode->rank > stoi(data) || midNode->institution > data || midNode->Location > data) {
 			end = midNode->prevAdd;
 		}
 
