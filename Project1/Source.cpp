@@ -515,21 +515,104 @@ void University::displayUniversityInfo() //Big O - O(n)
 }
 
 void University::Bin_Search(){
-	string rank;
-	cout << "Enter what to search: ";
-	getline(cin, rank);
-	//univDLL.head = insertionSort(univDLL.head, rank);
-	University* found = binarySearch(univDLL.head, rank);
-	if (found != NULL) {
-		cout << "Rank: " << found->rank << endl;
-		cout << "Univ: " << found->institution << endl;
+	//string rank;
+	//cout << "Enter what to search: ";
+	//getline(cin, rank);
+	////univDLL.head = insertionSort(univDLL.head, rank);
+	//University* found = binarySearch(univDLL.head, rank);
+	//if (found != NULL) {
+	//	cout << "Rank: " << found->rank << endl;
+	//	cout << "Univ: " << found->institution << endl;
+	//}
+	//else {
+	//	cout << "Error" << endl;
+	//}
+
+	string input;
+	int option;
+	cout << "Binary Search Option: " << endl;
+	cout << " 1. Rank " << endl;
+	cout << " 2. Institution " << endl;
+	cout << " 3. Location " << endl;
+	cout << "Option: ";
+	cin >> option;
+	if (option == 1) {
+		//attribute == rank;
+		cout << "Enter what to search: ";
+		cin >> input;
+		getline(cin, input);
+		/*MergedSort<University> mergeSortClass;
+		mergeSortClass.mergeSort(&(univDLL.head), attribute);*/
+		University* found = binarySearch(univDLL.head, input);
+		/*cout << left << setw(10) << "Rank"
+			<< setw(50) << "Institution"
+			<< setw(10) << "Location" << endl;*/
+		if (found != NULL) {
+			cout << "Rank: " << found->rank << endl;
+			cout << "Univ: " << found->institution << endl;
+			cout << "Loct: " << found->Location << endl;
+		}
 	}
+	else if (option == 2) {
+		string attribute;
+		attribute == "institution" ;
+		cout << "Enter what to search: ";
+		cin >> input;
+		//getline(cin, input);
+		MergedSort<University> mergeSortClass;
+		mergeSortClass.mergeSort(&(univDLL.head), attribute);
+		University* found = binarySearch(univDLL.head, input);
+		/*cout << left << setw(10) << "Rank"
+			<< setw(50) << "Institution"
+			<< setw(10) << "Location" << endl;*/
+		if (found != NULL) {
+			cout << "Rank: " << found->rank << endl;
+			cout << "Univ: " << found->institution << endl;
+			cout << "Loct: " << found->Location << endl;
+		}
+	}
+	else if (option == 3) {
+		string attribute;
+		attribute = "location" ;
+		cout << "Enter what to search: ";
+		//getline(cin, input);
+		cin >> input;
+		MergedSort<University> mergeSortClass;
+		mergeSortClass.mergeSort(&(univDLL.head), attribute);
+		auto start = high_resolution_clock::now();
+		University* found = binarySearch(univDLL.head, input);
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<microseconds> (stop - start);
+		cout << "Time taken by linear search algorithm: ";
+		cout << duration.count() << " microseconds. " << endl;
+		cout << left << setw(10) << "Rank"
+				<< setw(50) << "Institution"
+				<< setw(10) << "Location" << endl;
+		if (found != NULL) {
+			cout << left << setw(10) << found->rank
+				<< setw(50) << found->institution
+				<< setw(10) << found->Location << endl;
+
+			cout << "Rank: " << found->rank << endl;
+			cout << "Univ: " << found->institution << endl;
+			cout << "Loct: " << found->Location << endl;
+		}
+	}
+	
+	/*cout << "Enter what to search: ";
+	getline(cin, input);
+	MergedSort<University> mergeSortClass;
+	mergeSortClass.mergeSort(&(univDLL.head), input);*/
+
+
+	
 	else {
 		cout << "Error" << endl;
 	}
 }
 
 void University::Lin_Search() {
+
 
 	string data;
 	int opt;
