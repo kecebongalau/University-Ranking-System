@@ -614,7 +614,7 @@ void University::Bin_Search(){
 void University::Lin_Search() {
 
 
-	string data;
+	string data,input;
 	int opt;
 	cout << "Enter what to search: " << endl;
 	cout << "1. Rank" << endl;
@@ -623,9 +623,8 @@ void University::Lin_Search() {
 		cout << "Enter what to search: " << endl;
 		cin >> data;
 		auto start = high_resolution_clock::now();
-		univDLL.head = linearSearch(univDLL.head, data,opt);
 		cout << "disini" << endl;
-		University* found = linearSearch(univDLL.head, data,opt);
+		University* found = linearSearch(univDLL.head, data,input);
 		cout << found << endl;
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
@@ -636,9 +635,11 @@ void University::Lin_Search() {
 			{
 			case 1:
 				cout << "Rank: " << found->rank << endl;
+				input == "rank";
 				break;
 			case 2:
 				cout << "Institution " << found->institution << endl;
+				input == "instituion";
 				break;
 			}
 		}
