@@ -143,6 +143,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DoubleLinkedList.h" />
+    <ClInclude Include="HashMap.h" />
+    <ClInclude Include="HashMapNode.h" />
     <ClInclude Include="HelperNode.h" />
     <ClInclude Include="InsertionSort.h" />
     <ClInclude Include="LinkedList.h" />

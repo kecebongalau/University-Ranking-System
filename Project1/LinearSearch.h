@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+// TODO: Implement search for "key", Look at HashMap
+
 using namespace std;
 
 template <class T>
@@ -25,14 +27,17 @@ T* linearSearch(T* head, string data, string input) {
 			node = node->nextAdd;
 		}
 	}
+
 	else if (input == "location"){
 		while (node != NULL) {
 			if (data == node->Location) {
+
 				return node;
 			}
 			node = node->nextAdd;
 		}
 	}
+
 	else if (input == "loc_code") {
 		while (node != NULL) {
 			if (data == node->LocationCode) {
@@ -41,6 +46,7 @@ T* linearSearch(T* head, string data, string input) {
 			node = node->nextAdd;
 		}
 	}
+
 
 	return nullptr;
 }
