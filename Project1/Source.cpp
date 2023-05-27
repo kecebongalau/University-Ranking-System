@@ -10,6 +10,7 @@
 #include "BinarySearch.h"
 #include "LinearSearch.h"
 #include "NewMergeSort.h"
+#include "HashMap.h"
 
 #include <chrono>
 
@@ -880,6 +881,7 @@ public:
 	void search(string ID);
 	void Regis_InsertionSort(string attribute);
 	void Regis_MergeSort(string attribute);
+	bool compareAttributes(RegisteredUsers* otherRegisteredUser, string attribute);
 	void feedback(string ID, string name, University* univ, Feedback* feed);
 	void favorite(string ID, string name, University* univ, Favorite* fav);
 	void insertToFile();
@@ -1090,11 +1092,31 @@ string RegisteredUsers::generateID() {
 
 	}
 }
+
+bool RegisteredUsers::compareAttributes(RegisteredUsers* otherRegisteredUser, string attribute) {
+	if (attribute == "name")
+	{
+		return (name.compare(otherRegisteredUser->name) <= 0);
+	}
+	else if (attribute == "ID")
+	{
+		return (ID.compare(otherRegisteredUser->ID) <= 0);
+	}
+}
+
 void RegisteredUsers::Regis_InsertionSort(string attribute) {
 	// regisDLL.head = insertionSort(regisDLL.head, attribute);
 }
 void RegisteredUsers::Regis_MergeSort(string attribute) {
+	auto start = high_resolution_clock::now();
 
+	MergedSort<RegisteredUsers> mergeSortClass;
+	mergeSortClass.mergeSort(&(regisDLL.head), attribute);
+
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds> (stop - start);
+	cout << "Time taken by merge sort algorithm: ";
+	cout << duration.count() << " microseconds. " << endl;
 }
 
 void RegisteredUsers::user_register(RegisteredUsers* regis) {
@@ -1249,7 +1271,27 @@ public:
 		RegisteredUsers* users = linearSearch<RegisteredUsers>(regis->head, ID, "userId");
 		regis->regisDLL.deleteNode(users);
 	}
+	HashMap<int>* calculateTopUniversities(DoubleLinkedList<Favorite> favDLL) {
+		HashMap<int>* uniToCount = new HashMap<int>();
+		Favorite* current = favDLL.head;
+		while (current != NULL)
+		{
+			if (uniToCount->hasKey(current->institution))
+			{
+				uniToCount->setValue(current->institution, uniToCount->getValue(current->institution) + 1);
+			}
+			else
+			{
+				uniToCount->setValue(current->institution, 1);
+			}
+			current = current->nextAdd;
+		}
 
+		MergedSort<HashMapNode<int>> mergeSortClass;
+		mergeSortClass.mergeSort(&(uniToCount->HashMapdll.head), "value");
+
+		return uniToCount;
+	}
 };
 
 int menu(University* univ, RegisteredUsers* regis, Feedback* feed, Favorite* fav)
