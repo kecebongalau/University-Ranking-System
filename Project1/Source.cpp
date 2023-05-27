@@ -8,9 +8,9 @@
 #include "InsertionSort.h"
 #include "DoubleLinkedList.h"
 #include "BinarySearch.h"
-#include "LinearSearch.h"
 #include "NewMergeSort.h"
 #include "HashMap.h"
+#include "NewLinearSearch.h"
 
 #include <chrono>
 
@@ -234,8 +234,15 @@ public:
 	void Univ_InsertionSort(string data);
 	void Univ_MergedSort(string attribute);
 	void displayUniversityInfo();
+
+	// Needed for display
 	void display();
+
+	// Needed for sort
 	bool compareAttributes(University * otherUniversity, string attribute);
+
+	// Needed for search
+	string getValueOf(string input);
 };
 
 void University::Univ_InsertionSort(string data) {
@@ -485,6 +492,16 @@ bool University::compareAttributes(University* otheruniversity, string attribute
 	}
 }
 
+string University::getValueOf(string input) {
+	if (input == "rank") {
+		return to_string(this->rank);
+	}
+	else if (input == "institution")
+	{
+		return this->institution;
+	}
+}
+
 void University::display() {
 	cout << "Rank: " << rank << endl;
 	cout << "Institution: " << institution << endl;
@@ -623,10 +640,15 @@ void University::Lin_Search() {
 	cin >> opt;
 		cout << "Enter what to search: " << endl;
 		cin >> data;
-		auto start = high_resolution_clock::now();
 		cout << "disini" << endl;
-		University* found = linearSearch(univDLL.head, data,input);
-		cout << found << endl;
+		auto start = high_resolution_clock::now();
+
+		LinearSearch<University> linearSearchClass;
+		// TODO: tolong ganti terniary operatornya jadi input bukan pake opt lagi
+		University* found = linearSearchClass.linearSearch(univDLL.head, data, (opt == 1) ? "rank" : "institution");
+		// University* found = linearSearch<University>(univDLL.head, data,input);
+
+		found->display();
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
 		cout << "Time taken by linear search algorithm: ";
@@ -696,6 +718,7 @@ public:
 	void feedback(string ID, string name, University* univ);
 	void favorite(string ID, string name, University* univ);
 	void insertToFile();
+	string getValueOf(string input);
 };
 
 void RegisteredUsers::insertToFile() {
@@ -912,6 +935,12 @@ bool RegisteredUsers::compareAttributes(RegisteredUsers* otherRegisteredUser, st
 	}
 }
 
+string RegisteredUsers::getValueOf(string input) {
+	if (input == "userId") {
+		return this->ID;
+	}
+}
+
 void RegisteredUsers::Regis_InsertionSort(string attribute) {
 	// regisDLL.head = insertionSort(regisDLL.head, attribute);
 }
@@ -1048,7 +1077,7 @@ public:
 		cout << "User not found!" << endl;
 		return NULL;
 	}
-
+	// display registered users
 	void displayAllRegisteredUsers(RegisteredUsers* regis) {
 		int choice;
 		bool is_sort = false;
@@ -1075,11 +1104,16 @@ public:
 		}
 		regis;
 	}
-
+	// delete user
 	void deleteRegisUser(string ID, RegisteredUsers* regis) {
-		RegisteredUsers* users = linearSearch<RegisteredUsers>(regis->head, ID, "userId");
+
+		LinearSearch<RegisteredUsers> linearSearchClass;
+		RegisteredUsers* users = linearSearchClass.linearSearch(regis->head, ID, "userId");
+		// RegisteredUsers* users = linearSearch<RegisteredUsers>(regis->head, ID, "userId");
+
 		regis->regisDLL.deleteNode(users);
 	}
+	// Generate top 10 uni
 	HashMap<int>* calculateTopUniversities(DoubleLinkedList<Favorite> favDLL) {
 		HashMap<int>* uniToCount = new HashMap<int>();
 		Favorite* current = favDLL.head;
@@ -1100,6 +1134,9 @@ public:
 		mergeSortClass.mergeSort(&(uniToCount->HashMapdll.head), "value");
 
 		return uniToCount;
+	}
+	// Modify user
+	void modifyUsers() {
 	}
 };
 
