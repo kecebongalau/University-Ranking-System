@@ -3,7 +3,7 @@
 #include <string>
 using namespace std;
 
-template <class T >
+template <class T>
 class HashMapNode
 {
 public:
@@ -16,12 +16,14 @@ public:
 	HashMapNode(string key, T data) {
 		this->key = key;
 		this->value = data;
+		this->prevAdd = NULL;
+		this->nextAdd = NULL;
 	};
 	~HashMapNode() {
 	};
 
 	void display() {
-		cout << "Key: " << key << ", " << "Value: " << data << endl;
+		cout << "Key: " << key << ", " << "Value: " << value << endl;
 	}
 
 private:
