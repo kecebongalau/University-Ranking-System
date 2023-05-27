@@ -776,26 +776,23 @@ void University::Lin_Search() {
 		cout << "Enter what to search: " << endl;
 		cin >> data;
 		auto start = high_resolution_clock::now();
-		cout << "disini" << endl;
+		/*cout << "disini" << endl;*/
+		if (opt == 1) {
+			input = "rank";
+		}
+		if (opt == 2) {
+			input = "institution";
+		}
 		University* found = linearSearch(univDLL.head, data,input);
-		cout << found << endl;
+		//cout << found << endl;
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
 		cout << "Time taken by linear search algorithm: ";
 		cout << duration.count() << " microseconds. " << endl;
 		if (found != NULL) {
-			switch (opt)
-			{
-			case 1:
-				cout << "Rank: " << found->rank << endl;
-				input = "rank";
-				break;
-			case 2:
-				cout << "Institution " << found->institution << endl;
-				input = "instituion";
-				break;
-			}
 
+				cout << "Rank: " << found->rank << endl;
+				cout << "Institution " << found->institution << endl;
 		}
 	
 	else {
@@ -815,7 +812,7 @@ void University::Location_LinSearch() {
 	cin >> data;
 	auto start = high_resolution_clock::now();
 	cout << "disini" << endl;
-	University* found = linearSearch(univDLL.head, data, input);
+	University* found = linearSearch<University>(univDLL.head, data, input);
 	cout << found << endl;
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds> (stop - start);
@@ -870,6 +867,15 @@ public:
 		this->lastActiveDate = lastActiveDate;
 		this->nextAdd = NULL;
 		this->prevAdd = NULL;
+	}
+	string getID() {
+		return this->ID;
+	}
+	string getName() {
+		return this->name;
+	}
+	string getPassword() {
+		return this->password;
 	}
 	void menu(RegisteredUsers* users, University* univ, Feedback* feed, Favorite* fav);
 	void user_register(RegisteredUsers* regis);
@@ -1268,7 +1274,7 @@ public:
 	}
 
 	void deleteRegisUser(string ID, RegisteredUsers* regis) {
-		RegisteredUsers* users = linearSearch<RegisteredUsers>(regis->head, ID, "userId");
+		RegisteredUsers* users = linearSearch_User<RegisteredUsers>(regis->head, ID, "userId");
 		regis->regisDLL.deleteNode(users);
 	}
 	HashMap<int>* calculateTopUniversities(DoubleLinkedList<Favorite> favDLL) {
@@ -1372,16 +1378,14 @@ int menu(University* univ, RegisteredUsers* regis, Feedback* feed, Favorite* fav
 				//stat = true;
 				break;
 			case 2:
-				cout << "ini lin " << endl;
+				
 				univ->Lin_Search();
-				cout << "ini 2lin " << endl;
-				//stat = true;
 				break;
 			default:
 				cout << "Invalid Option" << endl;
 				break;
 			}
-
+		
 
 		case 5:
 			cout << "Thank you for using this program!" << endl;
@@ -1396,24 +1400,7 @@ int menu(University* univ, RegisteredUsers* regis, Feedback* feed, Favorite* fav
 	return 0;
 }
 
-// class Admin : public RegisteredUsers {
-// public:
-//	Admin(string ID, string name, string password) {
-//		this->ID = ID;
-//		this->name = name;
-//		this->password = password;
-//		this->nextAdd = NULL;
-//		this->prevAdd = NULL;
-//	}
-//
-//	bool login();
-//	void logout();
-//	void insertToEndList(string ID, string name, string password, string lastActiveDate);
-//	void deleteFromList(string ID, int position);
-//	void search(string ID);
-//	void replyFeedback();
-//	void summarize();
-// };
+
 
 void exit_file(RegisteredUsers* regis, Feedback* feed, Favorite* fav) {
 	regis->insertToFile();
