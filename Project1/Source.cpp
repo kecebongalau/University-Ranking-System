@@ -11,7 +11,7 @@
 #include "NewMergeSort.h"
 #include "HashMap.h"
 #include "NewLinearSearch.h"
-
+#include "LinearSearch.h"
 #include <chrono>
 
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
@@ -113,10 +113,10 @@ public:
 		this->replyDate = "N/A";
 
 	}
-	string generateID(){
+	string generateID() {
 		if (feedDLL.head == NULL) {
-		string newID = "FE0001";
-		return newID;
+			string newID = "FE0001";
+			return newID;
 		}
 		else if (feedDLL.head != NULL) {
 
@@ -146,21 +146,22 @@ public:
 		string feedbackID = generateID();
 		// current date/time based on current system
 		time_t now = time(NULL);
+		tm* ltm = localtime(&now);
 
-		// convert now to string form
-		char* dt = ctime(&now);
-		dt[strlen(dt) - 1] = '\0';
-		string feedbackDate = dt;
+		std::stringstream buffer;
+		buffer << 1900 + ltm->tm_year << '/' << ltm->tm_mon + 1 << '/' << ltm->tm_mday << ' ' << ltm->tm_hour + 5 << ':' <<
+			30 + ltm->tm_min << ':' << ltm->tm_sec;
+		string feedbackDate = buffer.str();
 		cout << "Try: " << feedbackDate;
 		InsertToList(feedbackID, userID, userName, institution, feedback, feedbackDate, this->reply, this->replyDate);
 
 	}
-	void InsertToList(string feedbackID, string userID, string userName, string institution, string feedback,string feedbackDate, string reply, string replyDate) {
-		
+	void InsertToList(string feedbackID, string userID, string userName, string institution, string feedback, string feedbackDate, string reply, string replyDate) {
+
 		Feedback* newnode = new Feedback(feedbackID, userID, userName, institution, feedback, feedbackDate, reply, replyDate);
 		feedDLL.insertEnd(newnode);
-		cout << feedDLL.head->feedbackID << endl;
-		cout << feedDLL.head->feedback << endl;
+		cout << "This id ID: " << feedDLL.head->feedbackID << endl;
+		cout << "Thid is feedback: " <<feedDLL.head->feedback << endl;
 
 	}
 	void InsertToFile() {
@@ -178,9 +179,9 @@ public:
 				cout << "Feedback: " << current->feedback << endl;
 				cout << "Feedback Date: " << current->feedbackDate << endl;
 				cout << "Reply: " << current->reply << endl;
-				cout << "Reply Date: " << current->replyDate << endl<< endl;
+				cout << "Reply Date: " << current->replyDate << endl << endl;
 
-				file << current->feedbackID << endl;
+				file << current->feedbackID << ',';
 				file << current->userID << ',';
 				file << current->userName << ',';
 				file << current->institution << ',';
@@ -296,7 +297,7 @@ public:
 	void display();
 
 	// Needed for sort
-	bool compareAttributes(University * otherUniversity, string attribute);
+	bool compareAttributes(University* otherUniversity, string attribute);
 
 	// Needed for search
 	string getValueOf(string input);
@@ -610,15 +611,16 @@ void University::Bin_Search() {
 	cout << " 2. Institution " << endl;
 	cout << "Option: ";
 	cin >> option;
+	cin.clear();
 	if (option == 1) {
 		//attribute == rank;
 		cout << "Enter what to search: ";
 		cin >> input;
-		getline(cin, input);
+		/*getline(cin, input);*/
 		/*MergedSort<University> mergeSortClass;
 		mergeSortClass.mergeSort(&(univDLL.head), attribute);*/
 		auto start = high_resolution_clock::now();
-		University* found = binarySearch(univDLL.head, input);
+		University* found = binarySearch(univDLL.head, input, "rank");
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
 		cout << "Time taken by binary search algorithm: ";
@@ -636,12 +638,14 @@ void University::Bin_Search() {
 		string attribute;
 		attribute = "institution";
 		cout << "Enter what to search: ";
+		/*getline(cin, input);*/
 		cin >> input;
-		//getline(cin, input);
+		cout << input;
+		
 		MergedSort<University> mergeSortClass;
 		mergeSortClass.mergeSort(&(univDLL.head), attribute);
 		auto start = high_resolution_clock::now();
-		University* found = binarySearch(univDLL.head, input);
+		University* found = binarySearch(univDLL.head, input, "institution");
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
 		cout << "Time taken by binary search algorithm: ";
@@ -654,6 +658,9 @@ void University::Bin_Search() {
 			cout << "Rank: " << found->rank << endl;
 			cout << "Univ: " << found->institution << endl;
 			cout << "Loct: " << found->Location << endl;
+		}
+		else {
+			cout << "ERROR" << endl;
 		}
 	}
 	//else if (option == 3) {
@@ -683,15 +690,15 @@ void University::Bin_Search() {
 	//		cout << "Loct: " << found->Location << endl;
 	//	}
 	//}
-	
+
 	/*cout << "Enter what to search: ";
 	getline(cin, input);
 	MergedSort<University> mergeSortClass;
 	mergeSortClass.mergeSort(&(univDLL.head), input);*/
 
 
-	
-	else{
+
+	else {
 		cout << "Error" << endl;
 	}
 }
@@ -712,7 +719,7 @@ void University::Cust_Bin_Search() {
 		cin >> input;
 		getline(cin, input);
 		auto start = high_resolution_clock::now();
-		University* found = binarySearch(univDLL.head, input);
+		University* found = binarySearch(univDLL.head, input, "rank");
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
 		cout << "Time taken by binary search algorithm: ";
@@ -731,7 +738,7 @@ void University::Cust_Bin_Search() {
 		MergedSort<University> mergeSortClass;
 		mergeSortClass.mergeSort(&(univDLL.head), attribute);
 		auto start = high_resolution_clock::now();
-		University* found = binarySearch(univDLL.head, input);
+		University* found = binarySearch(univDLL.head, input, "institution");
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
 		cout << "Time taken by binary search algorithm: ";
@@ -751,7 +758,7 @@ void University::Cust_Bin_Search() {
 		MergedSort<University> mergeSortClass;
 		mergeSortClass.mergeSort(&(univDLL.head), attribute);
 		auto start = high_resolution_clock::now();
-		University* found = binarySearch(univDLL.head, input);
+		University* found = binarySearch(univDLL.head, input, "rank");
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
 		cout << "Time taken by binary search algorithm: ";
@@ -783,43 +790,43 @@ void University::Cust_Bin_Search() {
 
 void University::Lin_Search() {
 
-	string data,input;
+	string data, input;
 	int opt;
 	cout << "Enter what to search: " << endl;
 	cout << "1. Rank" << endl;
 	cout << "2. Institution" << endl;
 	cin >> opt;
 
-		cout << "Enter what to search: " << endl;
-		cin >> data;
-		cout << "disini" << endl;
-		auto start = high_resolution_clock::now();
+	cout << "Enter what to search: " << endl;
+	cin >> data;
+	cout << "disini" << endl;
+	auto start = high_resolution_clock::now();
 
-		LinearSearch<University> linearSearchClass;
-		// TODO: tolong ganti terniary operatornya jadi input bukan pake opt lagi
-		University* found = linearSearchClass.linearSearch(univDLL.head, data, (opt == 1) ? "rank" : "institution");
-		// University* found = linearSearch<University>(univDLL.head, data,input);
+	LinearSearch<University> linearSearchClass;
+	// TODO: tolong ganti terniary operatornya jadi input bukan pake opt lagi
+	University* found = linearSearchClass.linearSearch(univDLL.head, data, (opt == 1) ? "rank" : "institution");
+	// University* found = linearSearch<University>(univDLL.head, data,input);
 
-		found->display();
-		auto stop = high_resolution_clock::now();
-		auto duration = duration_cast<microseconds> (stop - start);
-		cout << "Time taken by linear search algorithm: ";
-		cout << duration.count() << " microseconds. " << endl;
-		if (found != NULL) {
-			switch (opt)
-			{
-			case 1:
-				cout << "Rank: " << found->rank << endl;
-				input = "rank";
-				break;
-			case 2:
-				cout << "Institution " << found->institution << endl;
-				input = "instituion";
-				break;
-			}
-
+	found->display();
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds> (stop - start);
+	cout << "Time taken by linear search algorithm: ";
+	cout << duration.count() << " microseconds. " << endl;
+	if (found != NULL) {
+		switch (opt)
+		{
+		case 1:
+			cout << "Rank: " << found->rank << endl;
+			input = "rank";
+			break;
+		case 2:
+			cout << "Institution " << found->institution << endl;
+			input = "instituion";
+			break;
 		}
-	
+
+	}
+
 	else {
 		cout << "Error" << endl;
 	}
@@ -827,7 +834,7 @@ void University::Lin_Search() {
 }
 
 void University::Location_LinSearch() {
-	string data,input;
+	string data, input;
 	int opt;
 	cout << "Enter what to search: " << endl;
 	cout << "1. Location" << endl;
@@ -901,18 +908,24 @@ public:
 	void writeData(RegisteredUsers* users);
 	void deleteFromList(string ID, int position);
 	void search(string ID);
-	void Regis_InsertionSort(string attribute);
 	void Regis_MergeSort(string attribute);
 	bool compareAttributes(RegisteredUsers* otherRegisteredUser, string attribute);
 	void feedback(string ID, string name, University* univ, Feedback* feed);
 	void favorite(string ID, string name, University* univ, Favorite* fav);
 	void insertToFile();
 	string getValueOf(string input);
-	void setName(string name);
-	void setPassword(string password);
-	void setId(string userId);
-};
 
+	void regis_insertionSort();
+
+};
+void RegisteredUsers::regis_insertionSort() {
+	auto start = high_resolution_clock::now();
+	regisDLL.head = insertionSort_user(regisDLL.head, "date");
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds> (stop - start);
+	cout << "Time taken by insertion sort algorithm: ";
+	cout << duration.count() << " microseconds. " << endl;
+}
 void RegisteredUsers::insertToFile() {
 	ofstream file_new("RegisUsers.csv");
 
@@ -1150,9 +1163,6 @@ string RegisteredUsers::getValueOf(string input) {
 	}
 }
 
-void RegisteredUsers::Regis_InsertionSort(string attribute) {
-	// regisDLL.head = insertionSort(regisDLL.head, attribute);
-}
 void RegisteredUsers::Regis_MergeSort(string attribute) {
 	auto start = high_resolution_clock::now();
 
@@ -1171,11 +1181,12 @@ void RegisteredUsers::user_register(RegisteredUsers* regis) {
 	string name, password, lastActiveDate;
 	// current date/time based on current system
 	time_t now = time(NULL);
+	tm* ltm = localtime(&now);
 
-	// convert now to string form
-	char* dt = ctime(&now);
-	dt[strlen(dt) - 1] = '\0';
-	lastActiveDate = dt;
+	std::stringstream buffer;
+	buffer << 1900 + ltm->tm_year << '/' << ltm->tm_mon + 1 << '/' << ltm->tm_mday << ' ' << ltm->tm_hour + 5 << ':' <<
+		30 + ltm->tm_min << ':' << ltm->tm_sec;
+	lastActiveDate = buffer.str();
 	cout << "Enter your name: ";
 	getline(cin, name);
 
@@ -1193,12 +1204,12 @@ RegisteredUsers* RegisteredUsers::login(string ID, string password) {
 			cout << "Hello " << current->name << endl;
 			// current date/time based on current system
 			time_t now = time(NULL);
-
-			// convert now to string form
-			char* dt = ctime(&now);
-			dt[strlen(dt) - 1] = '\0';
-			lastActiveDate = dt;
-
+			tm* ltm = localtime(&now);
+			
+			std::stringstream buffer;
+			buffer << 1900 + ltm->tm_year << '/' << ltm->tm_mon + 1 << '/' << ltm->tm_mday << ' ' << ltm->tm_hour + 5 << ':' <<
+				30 + ltm->tm_min << ':' << ltm->tm_sec;
+			lastActiveDate = buffer.str();
 			return current;
 		}
 		current = current->nextAdd;
@@ -1299,7 +1310,7 @@ public:
 			switch (choice)
 			{
 			case 1:
-				regis;
+				regis->regis_insertionSort();
 				cout << "This is insertion sort" << endl;
 				is_sort = true;
 			case 2:
@@ -1562,14 +1573,14 @@ int main()
 	if (file_regis.is_open()) {
 		while (file_regis.peek() != EOF) {
 			getline(file_regis, ID, ',');
-			getline(file_regis, name, ',');	
+			getline(file_regis, name, ',');
 			getline(file_regis, password, ',');
 			getline(file_regis, lastactivedate, '\n');
 			cout << "tes ID: " << ID << endl;
 			cout << "name: " << name << endl;
 			cout << "Date: " << lastactivedate << endl;
 			regis->insertToList(ID, name, password, lastactivedate);
-			
+
 		}
 
 	}
@@ -1609,4 +1620,3 @@ int main()
 	menu(univ, regis, feed, fav);
 	exit_file(regis, feed, fav);
 }
-
