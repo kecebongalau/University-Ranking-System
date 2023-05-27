@@ -914,7 +914,9 @@ public:
 	void favorite(string ID, string name, University* univ, Favorite* fav);
 	void insertToFile();
 	string getValueOf(string input);
+
 	void regis_insertionSort();
+
 };
 void RegisteredUsers::regis_insertionSort() {
 	auto start = high_resolution_clock::now();
@@ -1130,6 +1132,19 @@ string RegisteredUsers::generateID() {
 	}
 }
 
+// TODO: check if these work
+void RegisteredUsers::setId(string userId) {
+	Users::ID = userId;
+}
+
+void RegisteredUsers::setPassword(string password) {
+	Users::password = password;
+}
+
+void RegisteredUsers::setName(string name) {
+	Users::name = name;
+}
+
 bool RegisteredUsers::compareAttributes(RegisteredUsers* otherRegisteredUser, string attribute) {
 	if (attribute == "name")
 	{
@@ -1143,7 +1158,8 @@ bool RegisteredUsers::compareAttributes(RegisteredUsers* otherRegisteredUser, st
 
 string RegisteredUsers::getValueOf(string input) {
 	if (input == "userId") {
-		return this->ID;
+		// TODO: check if this works
+		return Users::ID;
 	}
 }
 
@@ -1339,8 +1355,41 @@ public:
 		return uniToCount;
 	}
 	// Modify user
-	void modifyUsers() {
+	void modifyUsers(string ID, RegisteredUsers* regis) {
+		string input;
+		int choice = 0;
+		while (choice != 4)
+		{
+			cout << "Which attribute do you want to change?" << endl;
+			cout << "1. Name" << endl;
+			cout << "2. Password" << endl;
+			cin >> choice;
+
+			LinearSearch<RegisteredUsers> linearSearchClass;
+
+			switch (choice)
+			{
+			case 1:
+				cout << "What is the new name" << endl;
+				cin >> input;
+				RegisteredUsers* regisUser = linearSearchClass.linearSearch(regis->head, ID, "userId");
+
+				regisUser->setName(input);
+
+				break;
+			case 2:
+				cout << "What is the new password" << endl;
+				cin >> input;
+				RegisteredUsers* regisUser = linearSearchClass.linearSearch(regis->head, ID, "userId");
+
+				regisUser->setPassword(input);
+				break;
+			default:
+				break;
+			}
+		}
 	}
+	// Replay to feedback
 };
 
 int menu(University* univ, RegisteredUsers* regis, Feedback* feed, Favorite* fav)
