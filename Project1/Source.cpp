@@ -758,7 +758,7 @@ void University::Cust_Bin_Search() {
 	MergedSort<University> mergeSortClass;
 	mergeSortClass.mergeSort(&(univDLL.head), input);*/
 
-
+}
 
 
 
@@ -796,7 +796,7 @@ void University::Lin_Search() {
 			}
 
 		}
-	}
+	
 	else {
 		cout << "Error" << endl;
 	}
