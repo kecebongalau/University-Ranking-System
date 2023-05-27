@@ -29,6 +29,17 @@ public:
 		return nullptr;
 	}
 
+	T* linearSearchScore(T* head, int lowerRange, int upperRange, string input) {
+		T* current = head;
+		while (current != NULL) {
+			string objectData = current->getValueOf(input);
+			if (stod(objectData) >= lowerRange && objectData <= upperRange) {
+				return current;
+			}
+			current = current->nextAdd;
+		}
+		return nullptr;
+	}
 
 private:
 
