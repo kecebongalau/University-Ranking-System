@@ -691,6 +691,7 @@ public:
 	void feedback();
 	void Regis_InsertionSort(string attribute);
 	void Regis_MergeSort(string attribute);
+	bool compareAttributes(RegisteredUsers* otherRegisteredUser, string attribute);
 	void feedback(string ID, string name, University* univ);
 	void favorite(string ID, string name, University* univ);
 	void insertToFile();
@@ -898,11 +899,31 @@ string RegisteredUsers::generateID() {
 		
 	}
 }
+
+bool RegisteredUsers::compareAttributes(RegisteredUsers* otherRegisteredUser, string attribute) {
+	if (attribute == "name")
+	{
+		return (name.compare(otherRegisteredUser->name) <= 0);
+	}
+	else if (attribute == "ID")
+	{
+		return (ID.compare(otherRegisteredUser->ID) <= 0);
+	}
+}
+
 void RegisteredUsers::Regis_InsertionSort(string attribute) {
 	// regisDLL.head = insertionSort(regisDLL.head, attribute);
 }
 void RegisteredUsers::Regis_MergeSort(string attribute) {
+	auto start = high_resolution_clock::now();
 
+	MergedSort<RegisteredUsers> mergeSortClass;
+	mergeSortClass.mergeSort(&(regisDLL.head), attribute);
+
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds> (stop - start);
+	cout << "Time taken by merge sort algorithm: ";
+	cout << duration.count() << " microseconds. " << endl;
 }
 
 void RegisteredUsers::user_register() {
