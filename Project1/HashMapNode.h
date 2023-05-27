@@ -31,6 +31,11 @@ public:
 			return (value >= otherNode->value);
 		}
 	}
+	string getValueOf(string input) {
+		if (input == "key") {
+			return this->key;
+		}
+	}
 
 private:
 

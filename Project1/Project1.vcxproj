@@ -149,6 +149,7 @@
     <ClInclude Include="InsertionSort.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="MergeSort.h" />
+    <ClInclude Include="NewLinearSearch.h" />
     <ClInclude Include="NewMergeSort.h" />
     <ClInclude Include="SingleLinkedList.h" />
   </ItemGroup>
