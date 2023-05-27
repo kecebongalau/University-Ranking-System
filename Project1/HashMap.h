@@ -15,10 +15,10 @@ public:
 	~HashMap() {
 	};
 	void setValue(string key, T value) {
-		HashMapNode<T> * newNode = new HashMapNode<T>(key, value);
-		HashMapNode<T> * node =  linearSearch<HashMapNode<T>>(HashMapdll.head, key, "key");
+		HashMapNode<T>* node = linearSearch<HashMapNode<T>>(HashMapdll.head, key, "key");
 
 		if (node == NULL) {
+			HashMapNode<T>* newNode = new HashMapNode<T>(key, value);
 			this->HashMapdll.insertEnd(newNode);
 		}
 		else
@@ -40,6 +40,9 @@ public:
 		}
 
 		return NULL;
+	}
+	void display() {
+		this->HashMapdll.displayAll();
 	}
 
 private:
