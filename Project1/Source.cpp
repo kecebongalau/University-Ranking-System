@@ -1378,6 +1378,7 @@ public:
 			}
 		}
 	}
+	// Replay to feedback
 };
 
 int menu(University* univ, RegisteredUsers* regis, Feedback* feed, Favorite* fav)
