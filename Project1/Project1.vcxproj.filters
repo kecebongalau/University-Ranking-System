@@ -13,5 +13,7 @@
     <ClInclude Include="SingleLinkedList.h" />
     <ClInclude Include="HashMap.h" />
     <ClInclude Include="HashMapNode.h" />
+    <ClInclude Include="NewLinearSearch.h" />
+    <ClInclude Include="LinearSearch.h" />
   </ItemGroup>
 </Project>
