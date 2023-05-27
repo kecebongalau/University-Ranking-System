@@ -10,6 +10,7 @@ template <class T>
 class HashMap
 {
 public:
+	DoubleLinkedList<HashMapNode<T>> HashMapdll;
 	HashMap() {
 	}
 	~HashMap() {
@@ -44,7 +45,16 @@ public:
 	void display() {
 		this->HashMapdll.displayAll();
 	}
+	bool hasKey(string key) {
+		HashMapNode<T>* node = linearSearch<HashMapNode<T>>(HashMapdll.head, key, "key");
 
-private:
-	DoubleLinkedList<HashMapNode<T>> HashMapdll;
+		if (node == NULL)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 };

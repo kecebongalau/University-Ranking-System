@@ -10,6 +10,7 @@
 #include "BinarySearch.h"
 #include "LinearSearch.h"
 #include "NewMergeSort.h"
+#include "HashMap.h"
 
 #include <chrono>
 
@@ -1079,7 +1080,27 @@ public:
 		RegisteredUsers* users = linearSearch<RegisteredUsers>(regis->head, ID, "userId");
 		regis->regisDLL.deleteNode(users);
 	}
+	HashMap<int>* calculateTopUniversities(DoubleLinkedList<Favorite> favDLL) {
+		HashMap<int>* uniToCount = new HashMap<int>();
+		Favorite* current = favDLL.head;
+		while (current != NULL)
+		{
+			if (uniToCount->hasKey(current->institution))
+			{
+				uniToCount->setValue(current->institution, uniToCount->getValue(current->institution) + 1);
+			}
+			else
+			{
+				uniToCount->setValue(current->institution, 1);
+			}
+			current = current->nextAdd;
+		}
 
+		MergedSort<HashMapNode<int>> mergeSortClass;
+		mergeSortClass.mergeSort(&(uniToCount->HashMapdll.head), "value");
+
+		return uniToCount;
+	}
 };
 
 int menu(University* univ, RegisteredUsers* regis)

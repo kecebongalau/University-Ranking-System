@@ -25,6 +25,12 @@ public:
 	void display() {
 		cout << "Key: " << key << ", " << "Value: " << value << endl;
 	}
+	bool compareAttributes(HashMapNode<T>* otherNode, string attribute) {
+		if (attribute == "value")
+		{
+			return (value >= otherNode->value);
+		}
+	}
 
 private:
 
