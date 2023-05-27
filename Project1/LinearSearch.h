@@ -16,7 +16,6 @@ T* linearSearch(T* head, string data, string input) {
 			}
 			node = node->nextAdd;
 		}
-
 	}
 	else if (input == "institution") {
 		while (node != NULL) {
@@ -26,9 +25,20 @@ T* linearSearch(T* head, string data, string input) {
 			node = node->nextAdd;
 		}
 	}
-	else if (input == "userId") {
+
+	else if (input == "location"){
 		while (node != NULL) {
-			if (data == node->ID) {
+			if (data == node->Location) {
+
+				return node;
+			}
+			node = node->nextAdd;
+		}
+	}
+
+	else if (input == "loc_code") {
+		while (node != NULL) {
+			if (data == node->LocationCode) {
 				return node;
 			}
 			node = node->nextAdd;
@@ -50,6 +60,7 @@ T* linearSearch(T* head, string data, string input) {
 	//		node = node->nextAdd;
 	//	}
 	//}
+
 	return nullptr;
 }
 
