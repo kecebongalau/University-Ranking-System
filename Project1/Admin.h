@@ -49,47 +49,98 @@ public:
 		Admin* newnode = new Admin(ID, name, password);
 		adminDLL.insertEnd(newnode);
 	}
-	void menu(Admin* admin, RegisteredUsers* regis) {
-		int opt;
+	void menu(Admin* admin, RegisteredUsers* regis, Feedback* feed, Favorite* fav) {
+		int opt, choice;
+		string ID, feedbackID;
+		HashMap<int>* hashmap;
 		do
 		{
 			cout << "WELCOME TO UNIVERSITY RANK SYSTEM" << endl;
 			cout << "Select the option below: " << endl;
 			cout << " 1. Manage Users" << endl;
 			cout << " 2. Manage Feedback" << endl;
-			cout << " 3. Reply to Feedback" << endl;
-			cout << " 4. Generate Report" << endl;
-			cout << " 5. Logout" << endl;
-			cout << " 6. Exit" << endl;
+			cout << " 3. Generate Report" << endl;
+			cout << " 4. Logout" << endl;
+			cout << " 5. Exit" << endl;
 			cin >> opt;
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 			switch (opt)
 			{
 			case 1:
-				cout << "Manage User Menu" << endl;
+				
+				do {
+					cout << "==============Manage User Menu==============" << endl;
+					cout << "1. Display all users" << endl;
+					cout << "2. Delete User" << endl;
+					cout << "3. Modify User" << endl;
+					cout << "4. Exit" << endl;
+					cin >> choice;
+					switch (choice)
+					{
+					case 1:
+						displayAllRegisteredUsers(regis);
+						break;
+					case 2:
+						cout << "Enter the user ID: ";
+						cin >> ID;
+						cout << "ID: " << ID << endl;
+						deleteRegisUser(ID, regis);
+						break;
+					case 3:
+						cout << "Enter the user ID: ";
+						cin >> ID;
+						modifyUsers(ID, regis);
+						break;
+					case 4:
+						break;
+					default:
+						break;
+					}
+				} while (choice != 1 && choice !=2 && choice != 3);
+
 				break;
 			case 2:
-				cout << "Manage Feedback Menu" << endl;
+				do {
+					cout << "==============Manage Feedback Menu==============" << endl;
+					cout << "1. Display all Feedback" << endl;
+					cout << "2. Reply Feedback" << endl;
+					cin >> choice;
+					switch (choice)
+					{
+					case 1:
+						displayAllFeedback(feed);
+						break;
+					case 2:
+						cout << "Enter the feedback ID: ";
+						cin >> feedbackID;
+						cout << "ID: " << feedbackID << endl;
+						replyToFeedback(feedbackID, feed);
+						break;
+
+					default:
+						break;
+					}
+				} while (choice != 4);
 				break;
+
 			case 3:
-				cout << "Reply to Feedback Menu" << endl;
+				cout << "Generate Report" << endl;
+				hashmap = calculateTopUniversities(fav->favDLL);
+				hashmap->display();
 				break;
 			case 4:
-				cout << "Generate Report" << endl;
-				break;
-			case 5:
 				cout << "Logout" << endl;
-				break;
-			case 6:
-				exit(0);
+				return;
+			case 5:
+				return;
 			default:
 				cout << "Invalid input, please try again" << endl;
 				break;
 			}
 		}
 
-		while (opt != 4);
+		while (opt != 6);
 	};
 
 	Admin* login(string ID, string password) {
@@ -112,7 +163,7 @@ public:
 		int choice;
 		bool is_sort = false;
 
-		while (is_sort)
+		while (!is_sort)
 		{
 			cout << "Which sorting algorithm will you choose?" << endl;
 			cout << "1. Insertion Sort" << endl;
@@ -139,8 +190,7 @@ public:
 
 		LinearSearch<RegisteredUsers> linearSearchClass;
 
-		RegisteredUsers* users = linearSearchClass.linearSearch_Node(regis->head, ID, "userId");
-		// RegisteredUsers* users = linearSearch<RegisteredUsers>(regis->head, ID, "userId");
+		RegisteredUsers* users = linearSearchClass.linearSearch(regis->regisDLL.head, ID, "userId");
 
 
 		regis->regisDLL.deleteNode(users);
@@ -171,7 +221,8 @@ public:
 	void modifyUsers(string ID, RegisteredUsers* regis) {
 		string input;
 		int choice = 0;
-		while (choice != 4)
+
+		while (choice != 1 && choice != 2)
 		{
 			cout << "Which attribute do you want to change?" << endl;
 			cout << "1. Name" << endl;
@@ -208,7 +259,7 @@ public:
 	int choice;
 	bool is_sort = false;
 
-	while (is_sort)
+	while (!is_sort)
 	{
 		cout << "Which sorting algorithm will you choose?" << endl;
 		cout << "1. Insertion Sort" << endl;
@@ -238,7 +289,9 @@ public:
 		string replyDate;
 
 		cout << "Please insert the reply here: " << endl;
-		getline(cin, reply);
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cin >> reply;
 
 		feedback->setReply(reply);
 
