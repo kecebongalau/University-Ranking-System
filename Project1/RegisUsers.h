@@ -169,22 +169,9 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 		cin >> opt;
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-		switch (opt)
-		{
+		switch (opt){
 		case 1:
-			int ans;
-			cout << "Select Search Algorithm:" << endl;
-			cout << "1. Binary Search" << endl;
-			cout << "2. Linear Search" << endl;
-			cin >> ans;
-			switch (ans){
-			case 1:
-				univ->Cust_Bin_Search();
-			case 2:
-				univ->Cust_LinSearch();
-			default:
-				break;
-			}
+			univ->Cust_LinSearch();
 			break;
 		case 2:
 			int choice;
