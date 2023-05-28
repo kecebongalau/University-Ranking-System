@@ -120,21 +120,20 @@ public:
 				cout << "This is insertion sort" << endl;
 				is_sort = true;
 			case 2:
-				regis;
+				regis->regis_mergeSort("date");
 				cout << "This is merge sort" << endl;
 				is_sort = true;
 			default:
 				break;
 			}
 		}
-		regis;
+		regis->displayAll();
 	}
 	// delete user
 	void deleteRegisUser(string ID, RegisteredUsers* regis) {
 
 		LinearSearch<RegisteredUsers> linearSearchClass;
 		RegisteredUsers* users = linearSearchClass.linearSearch(regis->head, ID, "userId");
-		// RegisteredUsers* users = linearSearch<RegisteredUsers>(regis->head, ID, "userId");
 
 		regis->regisDLL.deleteNode(users);
 	}
@@ -197,5 +196,54 @@ public:
 		}
 	}
 	// Display feedback
+	void displayAllFeedback(Feedback* feedbacks) {
+	int choice;
+	bool is_sort = false;
+
+	while (is_sort)
+	{
+		cout << "Which sorting algorithm will you choose?" << endl;
+		cout << "1. Insertion Sort" << endl;
+		cout << "2. Merge Sort" << endl;
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			// regis->regis_insertionSort();
+			cout << "This is insertion sort" << endl;
+			is_sort = true;
+		case 2:
+			feedbacks->mergeSort("feedbackDate");
+			cout << "This is merge sort" << endl;
+			is_sort = true;
+		default:
+			break;
+		}
+	}
+	feedbacks->displayAll();
+	}
 	// Replay to feedback
+	void replyToFeedback(string feedbackId, Feedback * feedbacks) {
+		LinearSearch<Feedback> linearSearchClass;
+		Feedback * feedback = linearSearchClass.linearSearch(feedbacks->feedDLL.head, feedbackId, "feedbackId");
+		string reply;
+		string replyDate;
+
+		cout << "Please insert the reply here: " << endl;
+		getline(cin, reply);
+
+		feedback->setReply(reply);
+
+		// Get current time and convert format
+		time_t now = time(NULL);
+		tm* ltm = localtime(&now);
+
+		std::stringstream buffer;
+		buffer << 1900 + ltm->tm_year << '/' << ltm->tm_mon + 1 << '/' << ltm->tm_mday << ' ' << ltm->tm_hour + 5 << ':' <<
+			30 + ltm->tm_min << ':' << ltm->tm_sec;
+		replyDate = buffer.str();
+
+		feedback->setReplyDate(replyDate);
+	}
+
 };

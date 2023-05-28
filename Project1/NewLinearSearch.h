@@ -5,6 +5,7 @@
 using namespace std;
 
 // T is for University, RegisteredUser, or HashMapNode and U is for string or int
+// Needs string getValueOf(string)
 
 template <class T> class LinearSearch
 {
