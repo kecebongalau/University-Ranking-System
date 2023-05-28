@@ -140,7 +140,7 @@ public:
 		}
 		file.close();
 	}
-	bool compareAttribute(Feedback * otherFeedback, string attribute) {
+	bool compareAttributes(Feedback * otherFeedback, string attribute) {
 		if (attribute == "feedbackDate")
 		{
 			return (feedbackDate.compare(otherFeedback->feedbackDate) <= 0);
