@@ -93,10 +93,10 @@ public:
 		tm* ltm = localtime(&now);
 
 		std::stringstream buffer;
-		buffer << 1900 + ltm->tm_year << '/' << ltm->tm_mon + 1 << '/' << ltm->tm_mday << ' ' << ltm->tm_hour + 5 << ':' <<
-			30 + ltm->tm_min << ':' << ltm->tm_sec;
+		buffer << 1900 + ltm->tm_year << '/' << setw(2) << setfill('0') << ltm->tm_mon + 1 << '/' <<
+			setw(2) << setfill('0') << ltm->tm_mday << ' ' << setw(2) << setfill('0') << ltm->tm_hour << ':' <<
+			setw(2) << setfill('0') << ltm->tm_min << ':' << setw(2) << setfill('0') << ltm->tm_sec;
 		string feedbackDate = buffer.str();
-		cout << "Try: " << feedbackDate;
 		InsertToList(feedbackID, userID, userName, institution, feedback, feedbackDate, this->reply, this->replyDate);
 
 	}
