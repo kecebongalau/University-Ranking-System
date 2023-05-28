@@ -464,7 +464,8 @@ void University::Bin_Search() {
 	//	cout << "Error" << endl;
 	//}
 
-	string input;
+	string input, attribute;
+	//char nama[200];
 	int option;
 	cout << "Binary Search Option: " << endl;
 	cout << " 1. Rank " << endl;
@@ -473,12 +474,12 @@ void University::Bin_Search() {
 	cin >> option;
 	cin.clear();
 	if (option == 1) {
-		//attribute == rank;
+		attribute = 'rank';
 		cout << "Enter what to search: ";
 		cin >> input;
 		/*getline(cin, input);*/
-		/*MergedSort<University> mergeSortClass;
-		mergeSortClass.mergeSort(&(univDLL.head), attribute);*/
+		MergedSort<University> mergeSortClass;
+		mergeSortClass.mergeSort(&(univDLL.head), attribute);
 		auto start = high_resolution_clock::now();
 		University* found = binarySearch(univDLL.head, input, "rank");
 		auto stop = high_resolution_clock::now();
@@ -495,17 +496,26 @@ void University::Bin_Search() {
 		}
 	}
 	else if (option == 2) {
-		string attribute;
+		string attribute, name;
 		attribute = "institution";
 		cout << "Enter what to search: ";
-		/*getline(cin, input);*/
-		cin >> input;
-		cout << input;
+		
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		
+		getline(cin, name);
+		
+		//cin.ignore();
+		
+		//cin.getline(nama,50);
+
+		//cin >> input;
+		cout << name << endl;
 
 		MergedSort<University> mergeSortClass;
 		mergeSortClass.mergeSort(&(univDLL.head), attribute);
 		auto start = high_resolution_clock::now();
-		University* found = binarySearch(univDLL.head, input, "institution");
+		University* found = binarySearch(univDLL.head, name, "institution");
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
 		cout << "Time taken by binary search algorithm: ";
@@ -523,6 +533,11 @@ void University::Bin_Search() {
 			cout << "ERROR" << endl;
 		}
 	}
+
+	
+
+
+
 	//else if (option == 3) {
 	//	string attribute;
 	//	attribute = "location" ;
