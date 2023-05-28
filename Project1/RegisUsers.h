@@ -163,9 +163,8 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 		cout << "Select the option below: " << endl;
 		cout << " 1. Search University" << endl;
 		cout << " 2. Show University List" << endl;
-		cout << " 3. Feedback" << endl;
-		cout << " 4. Logout" << endl;
-		cout << " 5. Exit" << endl;
+		cout << " 3. Logout" << endl;
+		cout << " 4. Exit" << endl;
 		cin >> opt;
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
@@ -182,69 +181,102 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 			int category;
 			is_sort = false;
 			is_chosen = false;
-			while (!is_sort) {
-				cout << "Which sorting algorithm will you choose?" << endl;
-				cout << "1. Insertion Sort" << endl;
-				cout << "2. Merge Sort" << endl;
-				cin >> choice;
-				switch (choice) {
-				case 1:
-					while (!is_chosen) {
-						cout << "Which category will you sort on ?" << endl;
-						cout << "1. Institution" << endl;
-						cout << "2. Academic Reputation " << endl;
-						cout << "3. Faculty/Student Ratio " << endl;
-						cout << "4. Employer Reputation Score" << endl;
-						cin >> category;
-						switch (category)
-						{
-						case 1:
-							univ->Univ_InsertionSort("institution");
-
-							is_chosen = true;
-							break;
-						case 2:
-							univ->Univ_InsertionSort("ArScore");
-
-							is_chosen = true;
-							break;
-						case 3:
-							univ->Univ_InsertionSort("FsrScore");
-
-							is_chosen = true;
-							break;
-						case 4:
-							univ->Univ_InsertionSort("ErScore");
-
-							is_chosen = true;
-							break;
-						default:
-							break;
-						}
-					}
-
-					is_sort = true;
-					break;
-				case 2:
-					cout << "This is merge sort" << endl;
-					is_sort = true;
-					break;
-				default:
-					cout << "Invalid Option" << endl;
-					break;
-
-				}
-			}
-
-			univ->displayUniversityInfo();
+			
 			int op;
 			cout << "Please select one of the option" << endl;
-			cout << "1. Back to menu" << endl;
+			cout << "1. Display University" << endl;
 			cout << "2. Set Favorite University" << endl;
 			cout << "3. Give Feedback to University" << endl;
 			cin >> op;
 			switch (op) {
 			case 1:
+				while (!is_sort) {
+					cout << "Which sorting algorithm will you choose?" << endl;
+					cout << "1. Insertion Sort" << endl;
+					cout << "2. Merge Sort" << endl;
+					cin >> choice;
+					switch (choice) {
+					case 1:
+						while (!is_chosen) {
+							cout << "Which category will you sort on ?" << endl;
+							cout << "1. Institution" << endl;
+							cout << "2. Academic Reputation " << endl;
+							cout << "3. Faculty/Student Ratio " << endl;
+							cout << "4. Employer Reputation Score" << endl;
+							cin >> category;
+							switch (category)
+							{
+							case 1:
+								univ->Univ_InsertionSort("institution");
+
+								is_chosen = true;
+								break;
+							case 2:
+								univ->Univ_InsertionSort("ArScore");
+
+								is_chosen = true;
+								break;
+							case 3:
+								univ->Univ_InsertionSort("FsrScore");
+
+								is_chosen = true;
+								break;
+							case 4:
+								univ->Univ_InsertionSort("ErScore");
+
+								is_chosen = true;
+								break;
+							default:
+								break;
+							}
+						}
+
+						is_sort = true;
+						break;
+					case 2:
+						while (!is_chosen) {
+							cout << "Which category will you sort on ?" << endl;
+							cout << "1. Institution" << endl;
+							cout << "2. Academic Reputation " << endl;
+							cout << "3. Faculty/Student Ratio " << endl;
+							cout << "4. Employer Reputation Score" << endl;
+							cin >> category;
+							switch (category)
+							{
+							case 1:
+								univ->Univ_MergedSort("institution");
+
+								is_chosen = true;
+								break;
+							case 2:
+								univ->Univ_MergedSort("arscore");
+
+								is_chosen = true;
+								break;
+							case 3:
+								univ->Univ_MergedSort("fsrscore");
+
+								is_chosen = true;
+								break;
+							case 4:
+								univ->Univ_MergedSort("erscore");
+
+								is_chosen = true;
+								break;
+							default:
+								break;
+							}
+							is_sort = true;
+							break;
+						}
+					default:
+						cout << "Invalid Option" << endl;
+						break;
+
+					}
+				}
+
+				univ->displayUniversityInfo();
 				break;
 			case 2:
 				favorite(users->ID, users->name, univ, fav);
@@ -258,10 +290,7 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 
 			}
 			break;
-		case 3:
-			cout << "This will be feedback" << endl;
 
-			break;
 		case 4:
 			break;
 
@@ -347,8 +376,9 @@ void RegisteredUsers::user_register(RegisteredUsers* regis) {
 	tm* ltm = localtime(&now);
 
 	std::stringstream buffer;
-	buffer << 1900 + ltm->tm_year << '/' << ltm->tm_mon + 1 << '/' << ltm->tm_mday << ' ' << ltm->tm_hour + 5 << ':' <<
-		30 + ltm->tm_min << ':' << ltm->tm_sec;
+	buffer << 1900 + ltm->tm_year << '/' << setw(2) << setfill('0') << ltm->tm_mon + 1 << '/' <<
+		setw(2) << setfill('0') << ltm->tm_mday << ' ' << setw(2) << setfill('0') << ltm->tm_hour << ':' <<
+		setw(2) << setfill('0') << ltm->tm_min << ':' << setw(2) << setfill('0') << ltm->tm_sec;
 	lastActiveDate = buffer.str();
 	cout << "Enter your name: ";
 	getline(cin, name);
@@ -370,9 +400,10 @@ RegisteredUsers* RegisteredUsers::login(string ID, string password) {
 			tm* ltm = localtime(&now);
 
 			std::stringstream buffer;
-			buffer << 1900 + ltm->tm_year << '/' << ltm->tm_mon + 1 << '/' << ltm->tm_mday << ' ' << ltm->tm_hour + 5 << ':' <<
-				30 + ltm->tm_min << ':' << ltm->tm_sec;
-			lastActiveDate = buffer.str();
+			buffer << 1900 + ltm->tm_year << '/' << setw(2) << setfill('0') << ltm->tm_mon + 1 << '/' << 
+				setw(2) << setfill('0') << ltm->tm_mday << ' ' << setw(2) << setfill('0') << ltm->tm_hour << ':' <<
+				setw(2) << setfill('0') << ltm->tm_min << ':' << setw(2) << setfill('0') << ltm->tm_sec;
+			current->lastActiveDate = buffer.str();
 			return current;
 		}
 		current = current->nextAdd;
