@@ -140,4 +140,34 @@ public:
 		}
 		file.close();
 	}
+	bool compareAttributes(Feedback * otherFeedback, string attribute) {
+		if (attribute == "feedbackDate")
+		{
+			return (feedbackDate.compare(otherFeedback->feedbackDate) <= 0);
+		}
+		return false;
+	}
+	void mergeSort(string attribute) {
+		auto start = high_resolution_clock::now();
+
+		MergedSort<Feedback> mergeSortClass;
+		mergeSortClass.mergeSort(&(feedDLL.head), attribute);
+
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<microseconds> (stop - start);
+		cout << "Time taken by merge sort algorithm: ";
+		cout << duration.count() << " microseconds. " << endl;
+	}
+	void display() {
+		cout << this->feedbackID << " " <<  this->feedbackDate << endl;
+	}
+	void displayAll() {
+		feedDLL.displayAll();
+	}
+	string getValueOf(string input) {
+		if (input == "feedbackId")
+		{
+			return this->feedbackID;
+		}
+	}
 };

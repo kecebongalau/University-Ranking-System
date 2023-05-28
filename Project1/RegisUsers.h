@@ -54,18 +54,29 @@ public:
 	void writeData(RegisteredUsers* users);
 	void deleteFromList(string ID, int position);
 	void search(string ID);
-	void Regis_MergeSort(string attribute);
 	bool compareAttributes(RegisteredUsers* otherRegisteredUser, string attribute);
 	void feedback(string ID, string name, University* univ, Feedback* feed);
 	void favorite(string ID, string name, University* univ, Favorite* fav);
 	void insertToFile();
 	string getValueOf(string input);
 	void regis_insertionSort();
+	void regis_mergeSort(string attribute);
 	void setId(string userId);
 	void setPassword(string password);
 	void setName(string name);
+	void displayAll();
+	void display();
 
 };
+
+
+void RegisteredUsers::display() {
+	cout << this->ID << " " << this->name << endl;
+}
+
+void RegisteredUsers::displayAll() {
+	this->regisDLL.displayAll();
+}
 
 void RegisteredUsers::regis_insertionSort() {
 	auto start = high_resolution_clock::now();
@@ -312,16 +323,19 @@ bool RegisteredUsers::compareAttributes(RegisteredUsers* otherRegisteredUser, st
 	{
 		return (ID.compare(otherRegisteredUser->ID) <= 0);
 	}
+	else if (attribute == "date") {
+		return (lastActiveDate.compare(otherRegisteredUser->lastActiveDate) <= 0);
+	}
 }
 
 string RegisteredUsers::getValueOf(string input) {
 	if (input == "userId") {
 		// TODO: check if this works
-		return Users::ID;
+		return this->ID;
 	}
 }
 
-void RegisteredUsers::Regis_MergeSort(string attribute) {
+void RegisteredUsers::regis_mergeSort(string attribute) {
 	auto start = high_resolution_clock::now();
 
 	MergedSort<RegisteredUsers> mergeSortClass;
