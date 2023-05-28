@@ -189,7 +189,9 @@ public:
 	void deleteRegisUser(string ID, RegisteredUsers* regis) {
 
 		LinearSearch<RegisteredUsers> linearSearchClass;
+
 		RegisteredUsers* users = linearSearchClass.linearSearch(regis->regisDLL.head, ID, "userId");
+
 
 		regis->regisDLL.deleteNode(users);
 	}
@@ -235,7 +237,7 @@ public:
 			case 1:
 				cout << "What is the new name" << endl;
 				cin >> input;
-				regisUser = linearSearchClass.linearSearch(regis->regisDLL.head, ID, "userId");
+				regisUser = linearSearchClass.linearSearch_Node(regis->regisDLL.head, ID, "userId");
 
 				regisUser->setName(input);
 
@@ -243,7 +245,7 @@ public:
 			case 2:
 				cout << "What is the new password" << endl;
 				cin >> input;
-				regisUser = linearSearchClass.linearSearch(regis->regisDLL.head, ID, "userId");
+				regisUser = linearSearchClass.linearSearch_Node(regis->regisDLL.head, ID, "userId");
 
 				regisUser->setPassword(input);
 				break;
@@ -282,7 +284,7 @@ public:
 	// Replay to feedback
 	void replyToFeedback(string feedbackId, Feedback * feedbacks) {
 		LinearSearch<Feedback> linearSearchClass;
-		Feedback * feedback = linearSearchClass.linearSearch(feedbacks->feedDLL.head, feedbackId, "feedbackId");
+		Feedback * feedback = linearSearchClass.linearSearch_Node(feedbacks->feedDLL.head, feedbackId, "feedbackId");
 		string reply;
 		string replyDate;
 

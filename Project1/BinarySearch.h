@@ -13,7 +13,7 @@ T* middle(T* start, T* end) {
 	T* slow = start;
 	T* fast = start->nextAdd;
 	
-	while (fast != end && fast != NULL)
+	while (fast != end /*&& fast != NULL*/)
 	{
 		fast = fast->nextAdd;
 		if (fast != end && fast != NULL) {
@@ -39,7 +39,7 @@ T* binarySearch(T* head, string data, string input) {
 
 
 			else if (midNode->rank > stoi(data)/* || midNode->institution > data || midNode->Location > data*/) {
-				end = midNode->prevAdd;
+				end = midNode/*->prevAdd*/;
 			}
 
 			else {
@@ -56,7 +56,7 @@ T* binarySearch(T* head, string data, string input) {
 
 
 			else if (midNode->institution.compare(data) > 0/* || midNode->institution > data || midNode->Location > data*/) {
-				end = midNode->prevAdd;
+				end = midNode/*->prevAdd*/;
 			}
 
 			else {
@@ -64,6 +64,7 @@ T* binarySearch(T* head, string data, string input) {
 			}
 		}
 	}
+	
 	//while (start != end)
 	//{
 	//	T* midNode = middle(start, end);
