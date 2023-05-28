@@ -233,7 +233,7 @@ public:
 	// Replay to feedback
 	void replyToFeedback(string feedbackId, Feedback * feedbacks) {
 		LinearSearch<Feedback> linearSearchClass;
-		Feedback * feedback = linearSearchClass.linearSearch(feedbacks->feedDLL.head, feedbackId, "feedbackId");
+		Feedback * feedback = linearSearchClass.linearSearch_Node(feedbacks->feedDLL.head, feedbackId, "feedbackId");
 		string reply;
 		string replyDate;
 

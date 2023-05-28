@@ -661,23 +661,19 @@ void University::Lin_Search() {
 	case 2:
 		input = "institution";
 		break;
+	default:
+		break;
 	}
 	LinearSearch<University> linearSearchClass;
 	cout << "Enter what to search: " << endl;
 	cin.ignore();
 	getline(cin, data);
 	auto start = high_resolution_clock::now();
-	University* found = linearSearchClass.linearSearch_Node(univDLL.head, data, input);
+	linearSearchClass.linearSearch(univDLL.head, data, input);
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds> (stop - start);
 	cout << "Time taken by linear search algorithm: ";
 	cout << duration.count() << " microseconds. " << endl;
-	if (found != NULL) {
-		found->display();
-	}
-	else {
-		cout << "Error" << endl;
-	}
 }
 
 void University::Cust_LinSearch() {
@@ -720,7 +716,6 @@ void University::Cust_LinSearch() {
 		cout << "Enter what to search: " << endl;
 		cin.ignore();
 		getline(cin, data);
-		cout << data;
 		auto start = high_resolution_clock::now();
 		linearSearchClass.linearSearch(univDLL.head, data, input);
 		auto stop = high_resolution_clock::now();
@@ -728,6 +723,7 @@ void University::Cust_LinSearch() {
 		cout << "Time taken by linear search algorithm: ";
 		cout << duration.count() << " microseconds. " << endl;
 	}
+
 	else if (5 <= opt  && opt<= 13) {
 		switch (opt)
 		{

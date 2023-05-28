@@ -124,14 +124,12 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 				break;
 			case 2:
 				univ->Lin_Search();
-				//stat = true;
 				break;
 			default:
 				cout << "Invalid Option" << endl;
 				break;
 			}
-
-
+			break;
 		case 5:
 			cout << "Thank you for using this program!" << endl;
 			return 0;
