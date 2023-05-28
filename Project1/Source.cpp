@@ -44,7 +44,7 @@ void login(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* fee
 		cout << "TES" << endl;
 		Log_Admin = admin->login(ID, password);
 		if (Log_Admin != NULL) {
-			admin->menu(Log_Admin, regis);
+			admin->menu(Log_Admin, regis,feed, fav);
 		}
 	}
 	
