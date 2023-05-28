@@ -322,7 +322,7 @@ bool RegisteredUsers::compareAttributes(RegisteredUsers* otherRegisteredUser, st
 string RegisteredUsers::getValueOf(string input) {
 	if (input == "userId") {
 		// TODO: check if this works
-		return Users::ID;
+		return this->ID;
 	}
 }
 

@@ -164,4 +164,10 @@ public:
 	void displayAll() {
 		feedDLL.displayAll();
 	}
+	string getValueOf(string input) {
+		if (input == "feedbackId")
+		{
+			return this->feedbackID;
+		}
+	}
 };

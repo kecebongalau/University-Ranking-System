@@ -223,5 +223,27 @@ public:
 	feedbacks->displayAll();
 	}
 	// Replay to feedback
+	void replyToFeedback(string feedbackId, Feedback * feedbacks) {
+		LinearSearch<Feedback> linearSearchClass;
+		Feedback * feedback = linearSearchClass.linearSearch(feedbacks->feedDLL.head, feedbackId, "feedbackId");
+		string reply;
+		string replyDate;
+
+		cout << "Please insert the reply here: " << endl;
+		getline(cin, reply);
+
+		feedback->setReply(reply);
+
+		// Get current time and convert format
+		time_t now = time(NULL);
+		tm* ltm = localtime(&now);
+
+		std::stringstream buffer;
+		buffer << 1900 + ltm->tm_year << '/' << ltm->tm_mon + 1 << '/' << ltm->tm_mday << ' ' << ltm->tm_hour + 5 << ':' <<
+			30 + ltm->tm_min << ':' << ltm->tm_sec;
+		replyDate = buffer.str();
+
+		feedback->setReplyDate(replyDate);
+	}
 
 };
