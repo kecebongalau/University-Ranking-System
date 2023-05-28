@@ -17,7 +17,7 @@ public:
 	};
 	void setValue(string key, T value) {
 		LinearSearch<HashMapNode<T>> linearSearchClass;
-		HashMapNode<T>* node = linearSearchClass.linearSearch(HashMapdll.head, key, "key");
+		HashMapNode<T>* node = linearSearchClass.linearSearch_Node(HashMapdll.head, key, "key");
 
 		//HashMapNode<T>* node = linearSearch<HashMapNode<T>>(HashMapdll.head, key, "key");
 
@@ -33,7 +33,7 @@ public:
 	}
 	T getValue(string key) {
 		LinearSearch<HashMapNode<T>> linearSearchClass;
-		HashMapNode<T>* node = linearSearchClass.linearSearch(HashMapdll.head, key, "key");
+		HashMapNode<T>* node = linearSearchClass.linearSearch_Node(HashMapdll.head, key, "key");
 
 		//HashMapNode<T>* node = linearSearch<HashMapNode<T>>(HashMapdll.head, key, "key");
 
@@ -53,7 +53,7 @@ public:
 	}
 	bool hasKey(string key) {
 		LinearSearch<HashMapNode<T>> linearSearchClass;
-		HashMapNode<T>* node = linearSearchClass.linearSearch(HashMapdll.head, key, "key");
+		HashMapNode<T>* node = linearSearchClass.linearSearch_Node(HashMapdll.head, key, "key");
 
 		// HashMapNode<T>* node = linearSearch<HashMapNode<T>>(HashMapdll.head, key, "key");
 

@@ -14,12 +14,11 @@ public:
 	~LinearSearch() {
 	};
 
-	T* linearSearch(T* head, string data, string input) {
+	T* linearSearch_Node(T* head, string data, string input) {
 		T* current = head;
 		while (current != NULL)
 		{
 			string objectData = current->getValueOf(input);
-			cout << objectData << endl;
 			if (data == objectData)
 			{
 				return current;
@@ -27,19 +26,32 @@ public:
 			current = current->nextAdd;
 		}
 		return nullptr;
-	}
+	};
 
-	T* linearSearchScore(T* head, double lowerRange, double upperRange, string input) {
+	void linearSearch(T* head, string data, string input) {
 		T* current = head;
-		while (current != NULL) {
+		while (current != NULL)
+		{
 			string objectData = current->getValueOf(input);
-			if (stod(objectData) >= lowerRange && stod(objectData) <= upperRange) {
-				return current;
+			if (data == objectData)
+			{
+				current->display();
 			}
 			current = current->nextAdd;
 		}
-		return nullptr;
-	}
+
+	};
+
+	void linearSearchScore(T* head, double lowerRange, double upperRange, string input) {
+		T* current = head;
+		while (current != NULL) {
+			double objectData = current->getDoubleValueOf(input);
+			if (objectData >= lowerRange && objectData <= upperRange) {
+				current->display();
+			}
+			current = current->nextAdd;
+		}
+	};
 
 private:
 

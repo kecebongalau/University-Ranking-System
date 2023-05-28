@@ -384,7 +384,7 @@ string University::getValueOf(string input) {
 	{
 		return this->Location;
 	}
-	else if (input == "Location Code")
+	else if (input == "Location_Code")
 	{
 		return this->LocationCode;
 	}
@@ -392,7 +392,32 @@ string University::getValueOf(string input) {
 
 double University::getDoubleValueOf(string input) {
 	if (input == "ArScore") {
-		return ArScore;
+		cout << this->ArScore << endl;
+		return this->ArScore;
+	}
+	else if (input == "ErScore") {
+		return this->ErScore;
+	}
+	else if (input == "FsrScore") {
+		return this->FsrScore;
+	}
+	else if (input == "CpfScore") {
+		return this->CpfScore;
+	}
+	else if (input == "IfrScore") {
+		return this->IfrScore;
+	}
+	else if (input == "IsrScore") {
+		return this->IsrScore;
+	}
+	else if (input == "IrnScore") {
+		return this->IrnScore;
+	}
+	else if (input == "GerScore") {
+		return this->GerScore;
+	}
+	else if (input == "ScoreScaled") {
+		return this->ScoreScaled;
 	}
 }
 
@@ -405,7 +430,6 @@ void University::display() {
 	cout << "Academic Reputation Rank: " << ArRank << endl;
 	cout << "Employer Reputation Score: " << ErScore << endl;
 	cout << "Employer Reputation Rank: " << ErRank << endl;
-	cout << "Academic Reputation Rank: " << ErRank << endl;
 	cout << "Faculty/student ratio Score: " << FsrScore << endl;
 	cout << "Faculty/student ratio Rank: " << FsrRank << endl;
 	cout << "Citations per faculty Score: " << CpfScore << endl;
@@ -631,19 +655,16 @@ void University::Lin_Search() {
 	cout << "2. Institution" << endl;
 	cin >> opt;
 	LinearSearch<University> linearSearchClass;
-
-	cout << "Enter rank to search: " << endl;
+	cout << "Enter what to search: " << endl;
 	cin >> data;
 	auto start = high_resolution_clock::now();
-	University* found = linearSearchClass.linearSearch(univDLL.head, data, (opt == 1) ? "rank" : "institution");
-	found->display();
+	University* found = linearSearchClass.linearSearch_Node(univDLL.head, data, (opt == 1) ? "rank" : "institution");
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds> (stop - start);
 	cout << "Time taken by linear search algorithm: ";
 	cout << duration.count() << " microseconds. " << endl;
 	if (found != NULL) {
-		cout << "Rank: " << found->rank << endl;
-		cout << "Institution" << found->institution << endl;
+		found->display();
 	}
 	else {
 		cout << "Error" << endl;
@@ -654,7 +675,6 @@ void University::Cust_LinSearch() {
 	string data, input;
 	int opt;
 	double lowerRange, upperRange;
-
 	cout << "Enter what to search: " << endl;
 	cout << "1. Rank" << endl;
 	cout << "2. Institution" << endl;
@@ -668,44 +688,79 @@ void University::Cust_LinSearch() {
 	cout << "10. International Student Ratio Score" << endl;
 	cout << "11. International Research Network Score" << endl;
 	cout << "12. Employment Outcome Score" << endl;
+	cout << "13. Score Scaled" << endl;
 	cin >> opt;
 	LinearSearch<University> linearSearchClass;
 	if (opt <= 4) {
-		cout << "Enter rank to search: " << endl;
+		switch (opt)
+		{
+		case 1:
+			input = "rank";
+			break;
+		case 2:
+			input = "institution";
+			break;
+		case 3:
+			input = "Location";
+			break;
+		case 4:
+			input = "Location_Code";
+		default:
+			break;
+		}
+		cout << "Enter what to search: " << endl;
 		cin >> data;
 		auto start = high_resolution_clock::now();
-		University* found = linearSearchClass.linearSearch(univDLL.head, data, (opt == 1) ? "rank" : "institution" ? "location" : "location_code");
-		found->display();
+		linearSearchClass.linearSearch(univDLL.head, data, input);
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
 		cout << "Time taken by linear search algorithm: ";
 		cout << duration.count() << " microseconds. " << endl;
-		if (found != NULL) {
-			cout << "Rank: " << found->rank << endl;
-			cout << "Institution" << found->institution << endl;
-		}
-		else {
-			cout << "Error" << endl;
-		}
+	
 	}
-	else if (5 <= opt  && opt<= 12) {
-		cout << "Enter Minimal value of Academic Reputation: " << endl;
+	else if (5 <= opt  && opt<= 13) {
+		switch (opt)
+		{
+		case 5:
+			input = "ArScore";
+			break;
+		case 6:
+			input = "ErScore";
+			break;
+		case 7:
+			input = "FsrScore";
+			break;
+		case 8:
+			input = "CpfScore";
+			break;
+		case 9:
+			input = "IfrScore";
+			break;
+		case 10:
+			input = "IsrScore";
+			break;
+		case 11:
+			input = "IrnScore";
+			break;
+		case 12:
+			input = "GerScore";
+			break;
+		case 13:
+			input = "ScoreScaled";
+			break;
+		default:
+			break;
+		}
+		cout << "Enter Minimal value: " << endl;
 		cin >> lowerRange;
-		cout << "Enter Maximal value of Academic Reputation: " << endl;
+		cout << "Enter Maximal value: " << endl;
 		cin >> upperRange;
+		cout << "Input: " << input << endl;
 		auto startScore = high_resolution_clock::now();
-		University* foundScore = linearSearchClass.linearSearchScore(univDLL.head, lowerRange, upperRange, (opt == 5) ? "ArScore" : "ErScore");
-		foundScore->display();
+		linearSearchClass.linearSearchScore(univDLL.head, lowerRange, upperRange, input);
 		auto stopScore = high_resolution_clock::now();
 		auto durationScore = duration_cast<microseconds> (stopScore - startScore);
 		cout << "Time taken by linear search algorithm: ";
 		cout << durationScore.count() << " microseconds. " << endl;
-		if (foundScore != NULL) {
-			cout << "Academic Reputation: " << foundScore->ArScore << endl;
-		}
-		else {
-			cout << "Error" << endl;
-		}
-
 	}
 }

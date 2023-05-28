@@ -133,7 +133,7 @@ public:
 	void deleteRegisUser(string ID, RegisteredUsers* regis) {
 
 		LinearSearch<RegisteredUsers> linearSearchClass;
-		RegisteredUsers* users = linearSearchClass.linearSearch(regis->head, ID, "userId");
+		RegisteredUsers* users = linearSearchClass.linearSearch_Node(regis->head, ID, "userId");
 		// RegisteredUsers* users = linearSearch<RegisteredUsers>(regis->head, ID, "userId");
 
 		regis->regisDLL.deleteNode(users);
@@ -179,7 +179,7 @@ public:
 			case 1:
 				cout << "What is the new name" << endl;
 				cin >> input;
-				regisUser = linearSearchClass.linearSearch(regis->regisDLL.head, ID, "userId");
+				regisUser = linearSearchClass.linearSearch_Node(regis->regisDLL.head, ID, "userId");
 
 				regisUser->setName(input);
 
@@ -187,7 +187,7 @@ public:
 			case 2:
 				cout << "What is the new password" << endl;
 				cin >> input;
-				regisUser = linearSearchClass.linearSearch(regis->regisDLL.head, ID, "userId");
+				regisUser = linearSearchClass.linearSearch_Node(regis->regisDLL.head, ID, "userId");
 
 				regisUser->setPassword(input);
 				break;
