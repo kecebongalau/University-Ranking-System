@@ -15,5 +15,11 @@
     <ClInclude Include="HashMapNode.h" />
     <ClInclude Include="NewLinearSearch.h" />
     <ClInclude Include="LinearSearch.h" />
+    <ClInclude Include="Favorite.h" />
+    <ClInclude Include="Feedback.h" />
+    <ClInclude Include="University.h" />
+    <ClInclude Include="Users.h" />
+    <ClInclude Include="RegisUsers.h" />
+    <ClInclude Include="Admin.h" />
   </ItemGroup>
 </Project>

@@ -142,7 +142,10 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Admin.h" />
     <ClInclude Include="DoubleLinkedList.h" />
+    <ClInclude Include="Favorite.h" />
+    <ClInclude Include="Feedback.h" />
     <ClInclude Include="HashMap.h" />
     <ClInclude Include="HashMapNode.h" />
     <ClInclude Include="HelperNode.h" />
@@ -152,7 +155,10 @@
     <ClInclude Include="MergeSort.h" />
     <ClInclude Include="NewLinearSearch.h" />
     <ClInclude Include="NewMergeSort.h" />
+    <ClInclude Include="RegisUsers.h" />
     <ClInclude Include="SingleLinkedList.h" />
+    <ClInclude Include="University.h" />
+    <ClInclude Include="Users.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
