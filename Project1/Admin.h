@@ -220,7 +220,8 @@ public:
 			break;
 		}
 	}
-	feedbacks
+	feedbacks->displayAll();
 	}
 	// Replay to feedback
+
 };
