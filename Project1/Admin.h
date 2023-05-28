@@ -44,6 +44,11 @@ public:
 		this->prevAdd = NULL;
 	};
 	~Admin() {};
+
+	void insertToList(string ID, string name, string password) {
+		Admin* newnode = new Admin(ID, name, password);
+		adminDLL.insertEnd(newnode);
+	}
 	void menu(Admin* admin, RegisteredUsers* regis) {
 		int opt;
 		do
