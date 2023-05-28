@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Admin.h" />
+    <ClInclude Include="BinarySearch.h" />
     <ClInclude Include="DoubleLinkedList.h" />
     <ClInclude Include="Favorite.h" />
     <ClInclude Include="Feedback.h" />
