@@ -172,10 +172,19 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 		switch (opt)
 		{
 		case 1:
-
-			//cout << "This is search" <<endl;
-			univ->Cust_Bin_Search();
-
+			int ans;
+			cout << "Select Search Algorithm:" << endl;
+			cout << "1. Binary Search" << endl;
+			cout << "2. Linear Search" << endl;
+			cin >> ans;
+			switch (ans){
+			case 1:
+				univ->Cust_Bin_Search();
+			case 2:
+				univ->Cust_LinSearch();
+			default:
+				break;
+			}
 			break;
 		case 2:
 			int choice;
