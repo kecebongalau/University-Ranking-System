@@ -25,11 +25,34 @@ using namespace std;
 using namespace std::chrono;
 
 
+void login(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed, Favorite* fav) {
+	string ID, password;
+	RegisteredUsers* Log_User;
+	Admin* Log_Admin;
+	cout << "Enter your ID: ";
+	getline(cin, ID);
+	cout << "Enter your password: ";
+	string type = ID.substr(0, 2);
+	getline(cin, password);
+	if (type == "US") {
+		Log_User = regis->login(ID, password);
+		if (Log_User != NULL) {
+			regis->menu(Log_User, univ, feed, fav);
+		}
+	}
+	else if (type == "AD") {
+		cout << "TES" << endl;
+		Log_Admin = admin->login(ID, password);
+		if (Log_Admin != NULL) {
+			admin->menu(Log_Admin, regis);
+		}
+	}
+	
+}
 
 
 
-
-int menu(University* univ, RegisteredUsers* regis, Feedback* feed, Favorite* fav)
+int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed, Favorite* fav)
 {
 	int opt;
 	bool is_sort = false;
@@ -54,14 +77,7 @@ int menu(University* univ, RegisteredUsers* regis, Feedback* feed, Favorite* fav
 			regis->menu(regis->regisDLL.tail, univ, feed, fav);
 			break;
 		case 2:
-			cout << "Enter your ID: ";
-			getline(cin, ID);
-			cout << "Enter your password: ";
-			getline(cin, password);
-			Log_User = regis->login(ID, password);
-			if (Log_User != NULL) {
-				regis->menu(Log_User, univ, feed, fav);
-			}
+			login(univ, regis, admin, feed, fav);
 			break;
 		case 3:
 			int choice;
@@ -129,24 +145,6 @@ int menu(University* univ, RegisteredUsers* regis, Feedback* feed, Favorite* fav
 	return 0;
 }
 
-// class Admin : public RegisteredUsers {
-// public:
-//	Admin(string ID, string name, string password) {
-//		this->ID = ID;
-//		this->name = name;
-//		this->password = password;
-//		this->nextAdd = NULL;
-//		this->prevAdd = NULL;
-//	}
-//
-//	bool login();
-//	void logout();
-//	void insertToEndList(string ID, string name, string password, string lastActiveDate);
-//	void deleteFromList(string ID, int position);
-//	void search(string ID);
-//	void replyFeedback();
-//	void summarize();
-// };
 
 void exit_file(RegisteredUsers* regis, Feedback* feed, Favorite* fav) {
 	regis->insertToFile();
@@ -165,6 +163,7 @@ int main()
 	RegisteredUsers* regis = new RegisteredUsers();
 	Favorite* fav = new Favorite();
 	Feedback* feed = new Feedback();
+	Admin* admin = new Admin();
 	fstream file("2023 QS World University Rankings.csv", ios::in);
 	if (file.is_open()) {
 		while (file.good())
@@ -252,6 +251,16 @@ int main()
 	}
 	file_fav.close();
 
-	menu(univ, regis, feed, fav);
+	ifstream file_admin("Admin.csv", ios::in);
+	if (file_admin.is_open()) {
+		while (file_admin.peek() != EOF) {
+			getline(file_admin, ID, ',');
+			getline(file_admin, name, ',');
+			getline(file_admin, password, '\n');
+			admin->insertToList(ID, name, password);
+		}
+	}
+	file_admin.close();
+	menu(univ, regis, admin, feed, fav);
 	exit_file(regis, feed, fav);
 }
