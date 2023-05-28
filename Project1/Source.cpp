@@ -1154,15 +1154,15 @@ string RegisteredUsers::generateID() {
 
 // TODO: check if these work
 void RegisteredUsers::setId(string userId) {
-	Users::ID = userId;
+	this->ID = userId;
 }
 
 void RegisteredUsers::setPassword(string password) {
-	Users::password = password;
+	this->password = password;
 }
 
 void RegisteredUsers::setName(string name) {
-	Users::name = name;
+	this->name = name;
 }
 
 bool RegisteredUsers::compareAttributes(RegisteredUsers* otherRegisteredUser, string attribute) {
@@ -1409,6 +1409,7 @@ public:
 			}
 		}
 	}
+	// Display feedback
 	// Replay to feedback
 };
 
