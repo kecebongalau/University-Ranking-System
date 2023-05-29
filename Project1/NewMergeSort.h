@@ -10,7 +10,7 @@ class MergedSort
 public:
 	MergedSort() {};
 	~MergedSort() {};
-	void mergeSort(U** headRef, string attribute) {
+	void mergeSort(U** headRef, string attribute, bool asc = true) {
 
 		U* head = *headRef;
 		U* a;
@@ -23,10 +23,17 @@ public:
 
 		frontBackSplit(head, &a, &b);
 
-		mergeSort(&a, attribute);
-		mergeSort(&b, attribute);
+		mergeSort(&a, attribute, asc);
+		mergeSort(&b, attribute, asc);
 
-		*headRef = sortedMerge(a, b, attribute);
+		if (asc)
+		{
+			*headRef = sortedMerge(a, b, attribute);
+		}
+		else
+		{
+			*headRef = sortedMergeDesc(a, b, attribute);
+		}
 	}
 
 private:
@@ -50,6 +57,30 @@ private:
 		{
 			result = b;
 			result->nextAdd = sortedMerge(a, b->nextAdd, attribute);
+		}
+
+		return result;
+	}
+	U* sortedMergeDesc(U* a, U* b, string attribute) {
+		U* result = NULL;
+
+		if (a == NULL)
+		{
+			return b;
+		}
+		else if (b == NULL) {
+			return a;
+		}
+
+		if (!a->compareAttributes(b, attribute))
+		{
+			result = a;
+			result->nextAdd = sortedMergeDesc(a->nextAdd, b, attribute);
+		}
+		else
+		{
+			result = b;
+			result->nextAdd = sortedMergeDesc(a, b->nextAdd, attribute);
 		}
 
 		return result;

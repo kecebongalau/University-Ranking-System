@@ -190,7 +190,7 @@ public:
 
 		LinearSearch<RegisteredUsers> linearSearchClass;
 
-		RegisteredUsers* users = linearSearchClass.linearSearch(regis->regisDLL.head, ID, "userId");
+		RegisteredUsers* users = linearSearchClass.linearSearch_Node(regis->regisDLL.head, ID, "userId");
 
 
 		regis->regisDLL.deleteNode(users);
