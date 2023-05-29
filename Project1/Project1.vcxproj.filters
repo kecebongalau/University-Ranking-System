@@ -21,5 +21,6 @@
     <ClInclude Include="Users.h" />
     <ClInclude Include="RegisUsers.h" />
     <ClInclude Include="Admin.h" />
+    <ClInclude Include="BinarySearch.h" />
   </ItemGroup>
 </Project>
