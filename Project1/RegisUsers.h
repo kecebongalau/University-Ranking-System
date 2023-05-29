@@ -94,8 +94,6 @@ void RegisteredUsers::insertToFile() {
 
 	if (file_new.is_open()) {
 		RegisteredUsers* current = regisDLL.head;
-		cout << "TESID: " << current->ID << endl;
-		cout << "ENDID: " << regisDLL.tail->ID << endl;
 		while (current != NULL) //means still not the end of the list
 		{
 
@@ -159,8 +157,8 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 	LinearSearch<Feedback> linearSearchFeed;
 	do
 	{
-		cout << "HELLO: " << users->ID << "||" << users->name << endl;
-		cout << "WELCOME TO UNIVERSITY RANK SYSTEM" << endl;
+		cout << endl << "HELLO: " << users->ID << "||" << users->name << endl;
+		cout << "================WELCOME TO UNIVERSITY RANK SYSTEM=================" << endl;
 		cout << "Select the option below: " << endl;
 		cout << " 1. Search University" << endl;
 		cout << " 2. Show University List" << endl;
@@ -542,7 +540,6 @@ RegisteredUsers* RegisteredUsers::login(string ID, string password) {
 	RegisteredUsers* current = regisDLL.head;
 	while (current != NULL) {
 		if (ID == current->ID && password == current->password) {
-			cout << "Hello " << current->name << endl;
 			// current date/time based on current system
 			time_t now = time(NULL);
 			tm* ltm = localtime(&now);

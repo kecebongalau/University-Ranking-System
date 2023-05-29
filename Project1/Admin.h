@@ -55,7 +55,7 @@ public:
 		HashMap<int>* hashmap;
 		do
 		{
-			cout << "WELCOME TO UNIVERSITY RANK SYSTEM" << endl;
+			cout << "===============WELCOME TO UNIVERSITY RANK SYSTEM===============" << endl;
 			cout << "Select the option below: " << endl;
 			cout << " 1. Manage Users" << endl;
 			cout << " 2. Manage Feedback" << endl;
@@ -125,7 +125,7 @@ public:
 				break;
 
 			case 3:
-				cout << "Generate Report" << endl;
+				cout << "=====================Generate Report=====================" << endl;
 				hashmap = calculateTopUniversities(fav->favDLL);
 				hashmap->display();
 				break;

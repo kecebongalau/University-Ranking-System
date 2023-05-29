@@ -62,7 +62,7 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 	do
 	{
 		is_sort = false;
-		cout << "WELCOME TO UNIVERSITY RANK SYSTEM" << endl;
+		cout << endl << "===============WELCOME TO UNIVERSITY RANK SYSTEM======================" << endl;
 		cout << "Select the option below: " << endl;
 		cout << " 1. Register" << endl;
 		cout << " 2. Login" << endl;
@@ -82,6 +82,7 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 			login(univ, regis, admin, feed, fav);
 			break;
 		case 3:
+			cout << "===================Display Menu====================" << endl;
 			int choice;
 			while (!is_sort) {
 				cout << "Which sorting algorithm will you choose?" << endl;
