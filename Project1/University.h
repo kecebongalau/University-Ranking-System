@@ -108,7 +108,7 @@ public:
 	void Bin_Search();
 	void Lin_Search();
 	void Cust_LinSearch();
-	void Univ_InsertionSort(string data);
+	void Univ_InsertionSort(string data, bool asc);
 	void Univ_MergedSort(string attribute);
 	void displayUniversityInfo();
 	// Needed for display
@@ -124,9 +124,9 @@ public:
 	double getDoubleValueOf(string input);
 };
 
-void University::Univ_InsertionSort(string data) {
+void University::Univ_InsertionSort(string data, bool asc) {
 	auto start = high_resolution_clock::now();
-	univDLL.head = insertionSort(univDLL.head, data);
+	univDLL.head = insertionSort(univDLL.head, data, asc);
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds> (stop - start);
 	cout << "Time taken by insertion sort algorithm: ";
@@ -441,7 +441,7 @@ void University::display() {
 	cout << "International research network Rank: " << IrnRank << endl;
 	cout << "Employment Outcome Score: " << GerScore << endl;
 	cout << "Employment Outcome Rank: " << GerRank << endl;
-	cout << "Score Scaled: " << ScoreScaled << endl;
+	cout << "Score Scaled: " << ScoreScaled << endl << endl;
 }
 
 void University::displayUniversityInfo() //Big O - O(n)
@@ -450,18 +450,7 @@ void University::displayUniversityInfo() //Big O - O(n)
 }
 
 void University::Bin_Search() {
-	//string rank;
-	//cout << "Enter what to search: ";
-	//getline(cin, rank);
-	////univDLL.head = insertionSort(univDLL.head, rank);
-	//University* found = binarySearch(univDLL.head, rank);
-	//if (found != NULL) {
-	//	cout << "Rank: " << found->rank << endl;
-	//	cout << "Univ: " << found->institution << endl;
-	//}
-	//else {
-	//	cout << "Error" << endl;
-	//}
+
 
 	string input, attribute;
 	int option;
@@ -477,19 +466,21 @@ void University::Bin_Search() {
 		cin >> input;
 		/*getline(cin, input);*/
 		MergedSort<University> mergeSortClass;
-		mergeSortClass.mergeSort(&(univDLL.head), attribute);
 		auto start = high_resolution_clock::now();
+		mergeSortClass.mergeSort(&(univDLL.head), attribute);
 		University* found = binarySearch(univDLL.head, input, "rank");
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
-		cout << "Time taken by binary search algorithm: ";
-		cout << duration.count() << " microseconds. " << endl;
+		
 		
 		if (found != NULL) {
-			cout << "Rank: " << found->rank << endl;
-			cout << "Univ: " << found->institution << endl;
-			cout << "Loct: " << found->Location << endl;
+			found->display();
 		}
+		else {
+			cout << "UNIVERSITY NOT FOUND!!!" << endl << endl;
+		}
+		cout << "Time taken by binary search algorithm: ";
+		cout << duration.count() << " microseconds. " << endl;
 	}
 	else if (option == 2) {
 		string attribute, name;
@@ -509,42 +500,31 @@ void University::Bin_Search() {
 		cout << name << endl;
 
 		MergedSort<University> mergeSortClass;
-		mergeSortClass.mergeSort(&(univDLL.head), attribute);
 		auto start = high_resolution_clock::now();
+		mergeSortClass.mergeSort(&(univDLL.head), attribute);
+		
 		University* found = binarySearch(univDLL.head, name, "institution");
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
+		
+
+
+		if (found != NULL) {
+			found->display();
+		}
+
+		else {
+			cout << "UNIVERSITY NOT FOUND!!!" << endl << endl;
+		}
 		cout << "Time taken by binary search algorithm: ";
 		cout << duration.count() << " microseconds. " << endl;
-
-		/*cout << left << setw(10) << "Rank"
-			<< setw(50) << "Institution"
-			<< setw(10) << "Location" << endl;*/
-		if (found != NULL) {
-			cout << "Rank: " << found->rank << endl;
-			cout << "Univ: " << found->institution << endl;
-			cout << "Loct: " << found->Location << endl;
-		}
-		else {
-			cout << "ERROR" << endl;
-		}
 	}
 
-	
-
-
-
-	
-
-	/*cout << "Enter what to search: ";
-	getline(cin, input);
-	MergedSort<University> mergeSortClass;
-	mergeSortClass.mergeSort(&(univDLL.head), input);*/
 
 
 
 	else {
-		cout << "Error" << endl;
+		cout << "UNIVERSITY NOT FOUND!!!" << endl << endl;
 	}
 }
 

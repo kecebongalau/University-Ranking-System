@@ -23,7 +23,8 @@ public:
 	};
 
 	void display() {
-		cout << "Key: " << key << ", " << "Value: " << value << endl;
+		cout << left << setw(10) << this->key << '|';
+		cout << setw(10) << this->value << '|' << endl;
 	}
 	bool compareAttributes(HashMapNode<T>* otherNode, string attribute) {
 		if (attribute == "value")
