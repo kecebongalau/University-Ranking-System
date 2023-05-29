@@ -41,7 +41,6 @@ void login(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* fee
 		}
 	}
 	else if (type == "AD") {
-		cout << "TES" << endl;
 		Log_Admin = admin->login(ID, password);
 		if (Log_Admin != NULL) {
 			admin->menu(Log_Admin, regis,feed, fav);
@@ -55,11 +54,14 @@ void login(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* fee
 int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed, Favorite* fav)
 {
 	int opt;
+	int sort;
+	bool asc;
 	bool is_sort = false;
 	string ID, password;
 	RegisteredUsers* Log_User;
 	do
 	{
+		is_sort = false;
 		cout << "WELCOME TO UNIVERSITY RANK SYSTEM" << endl;
 		cout << "Select the option below: " << endl;
 		cout << " 1. Register" << endl;
@@ -89,15 +91,68 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 				cin >> choice;
 				switch (choice) {
 				case 1:
-					univ->Univ_InsertionSort("institution");
+					do
+					{
+						cout << "Which order will you sort on? " << endl;
+						cout << "1. Ascending" << endl; 
+						cout << "2. Descending" << endl;
+						cin >> sort;
+						switch (sort)
+						{
+						case 1:
+							asc = true;
+							break;
+						case 2:
+							asc = false;
+							break;
+						default:
+							break;
+						}
+					} while (sort != 1 && sort != 2);
+					univ->Univ_InsertionSort("institution", asc);
 					is_sort = true;
 					break;
 				case 2:
+					do
+					{
+						cout << "Which order will you sort on? " << endl;
+						cout << "1. Ascending" << endl;
+						cout << "2. Descending" << endl;
+						cin >> sort;
+						switch (sort)
+						{
+						case 1:
+							asc = true;
+							break;
+						case 2:
+							asc = false;
+							break;
+						default:
+							break;
+						}
+					} while (sort != 1 && sort != 2);
 					univ->Univ_MergedSort("institution");
-					cout << "This is merge sort" << endl;
 					is_sort = true;
 					break;
 				case 3:
+					do
+					{
+						cout << "Which order will you sort on? " << endl;
+						cout << "1. Ascending" << endl;
+						cout << "2. Descending" << endl;
+						cin >> sort;
+						switch (sort)
+						{
+						case 1:
+							asc = true;
+							break;
+						case 2:
+							asc = false;
+							break;
+						default:
+							break;
+						}
+					} while (sort != 1 && sort != 2);
 					is_sort = true;
 					break;
 				default:
@@ -106,12 +161,13 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 
 				}
 			}
+
+			system("pause");
 			univ->displayUniversityInfo();
 			break;
 		case 4:
-			//univ->Univ_Search();
 			int opt;
-			//bool stat = false;
+
 			cout << "Which searching algorithm will you choose?" << endl;
 			cout << "1. Binary Search" << endl;
 			cout << "2. Linear Search" << endl;
@@ -120,7 +176,7 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 			case 1:
 				cout << "ini bin sea" << endl;
 				univ->Bin_Search();
-				//stat = true;
+
 				break;
 			case 2:
 				univ->Lin_Search();
@@ -208,9 +264,6 @@ int main()
 			getline(file_regis, name, ',');
 			getline(file_regis, password, ',');
 			getline(file_regis, lastactivedate, '\n');
-			cout << "tes ID: " << ID << endl;
-			cout << "name: " << name << endl;
-			cout << "Date: " << lastactivedate << endl;
 			regis->insertToList(ID, name, password, lastactivedate);
 
 		}
@@ -224,14 +277,12 @@ int main()
 		while (file_feed.peek() != EOF) {
 			getline(file_feed, feedbackID, ',');
 			getline(file_feed, ID, ',');
-			getline(file_feed, name, ',');
 			getline(file_feed, institution, ',');
 			getline(file_feed, feedback, ',');
 			getline(file_feed, feedbackDate, ',');
 			getline(file_feed, reply, ',');
 			getline(file_feed, replydate, '\n');
-			//cout << "FeedbackID: " << feedbackID << "BABI" << endl;
-			feed->InsertToList(feedbackID, ID, name, institution, feedback, feedbackDate, reply, replydate);
+			feed->InsertToList(feedbackID, ID, institution, feedback, feedbackDate, reply, replydate);
 		}
 
 	}
@@ -241,9 +292,8 @@ int main()
 	if (file_fav.is_open()) {
 		while (file_fav.peek() != EOF) {
 			getline(file_fav, ID, ',');
-			getline(file_fav, name, ',');
 			getline(file_fav, institution, '\n');
-			fav->insertToFavorite(ID, name, institution);
+			fav->insertToFavorite(ID, institution);
 		}
 
 	}

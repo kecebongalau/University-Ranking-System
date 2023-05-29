@@ -110,12 +110,28 @@ public:
 
 	void displayAll() { // O(n)
 		T* current = head;
-
+		int counter = 0;
+		int opt;
 		while (current != NULL)
 		{
 			current->display();
 			cout << endl;
 			current = current->nextAdd;
+			counter++;
+			if (counter %10 == 0) {
+				cout << "Do you want to check on more?" << endl;
+				cout << "1. Yes" << endl;
+				cout << "2. No Stop Here" << endl;
+				cin >> opt;
+				switch (opt)
+				{
+				case 1:
+					break;
+				default:
+					return;
+					break;
+				}
+			}
 		}
 
 		cout << "List is ended here!" << endl;

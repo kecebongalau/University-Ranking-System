@@ -5,44 +5,31 @@ using namespace std;
 //Template for insertion sort
 
 template <class T>
-T* insertionSort(T* head, string data) {
+T* insertionSort(T* head, string data, bool asc) {
 	T* current = head;
 	T* sortedHead = NULL;
 
 	//traversing the linked list
 	while (current != NULL) {
 		T* next = current->nextAdd;
-		sortedHead = sortedInsert(sortedHead, current, data);
+		sortedHead = sortedInsert(sortedHead, current, data, asc);
 		current = next; //update the current node
 
 	}
 	return sortedHead;
 }
+
 template <class T>
-T* insertionSort_user(T* head, string data) {
-	T* current = head;
-	T* sortedHead = NULL;
-
-	//traversing the linked list
-	while (current != NULL) {
-		T* next = current->nextAdd;
-		sortedHead = sortedInsert_user(sortedHead, current, data);
-		current = next; //update the current node
-
-	}
-	return sortedHead;
-}
-template <class T>
-T* sortedInsert(T* sortedHead, T* current, string data) {
-	if (data == "institution") {
-		if (sortedHead == NULL || sortedHead->institution.compare(current->institution) >= 0) {
+T* sortedInsert(T* sortedHead, T* current, string data, bool asc) {
+	if (asc) { //ascending sort
+		if (sortedHead == NULL || !sortedHead->compareAttributes(current, data)) {
 			current->nextAdd = sortedHead;
 			return current;
 		}
 
 		else {
 			T* temp = sortedHead;
-			while (temp->nextAdd != NULL && temp->nextAdd->institution.compare(current->institution) < 0) {
+			while (temp->nextAdd != NULL && temp->nextAdd->compareAttributes(current, data)) {
 				temp = temp->nextAdd;
 			}
 			current->nextAdd = temp->nextAdd;
@@ -50,47 +37,15 @@ T* sortedInsert(T* sortedHead, T* current, string data) {
 		}
 		return sortedHead;
 	}
-	else if (data == "rank") {
-		if (sortedHead == NULL || sortedHead->rank <= current->rank) {
+	else if (!asc) { //descending sort
+		if (sortedHead == NULL || sortedHead->compareAttributes(current, data)) {
 			current->nextAdd = sortedHead;
 			return current;
 		}
 
 		else {
 			T* temp = sortedHead;
-			while (temp->nextAdd != NULL && temp->nextAdd->rank > current->rank) {
-				temp = temp->nextAdd;
-			}
-			current->nextAdd = temp->nextAdd;
-			temp->nextAdd = current;
-		}
-		return sortedHead;
-	}
-	else if (data == "ArScore") {
-		if (sortedHead == NULL || sortedHead->ArScore <= current->ArScore) {
-			current->nextAdd = sortedHead;
-			return current;
-		}
-
-		else  {
-			T* temp = sortedHead;
-			while (temp->nextAdd != NULL && temp->nextAdd->ArScore > current->ArScore) {
-				temp = temp->nextAdd;
-			}
-			current->nextAdd = temp->nextAdd;
-			temp->nextAdd = current;
-		}
-		return sortedHead;
-	}
-	else if (data == "FsrScore") {
-		if (sortedHead == NULL || sortedHead->FsrScore <=  current->FsrScore) {
-			current->nextAdd = sortedHead;
-			return current;
-		}
-
-		else {
-			T* temp = sortedHead;
-			while (temp->nextAdd != NULL && temp->nextAdd->FsrScore > current->FsrScore) {
+			while (temp->nextAdd != NULL && !temp->nextAdd->compareAttributes(current, data)) {
 				temp = temp->nextAdd;
 			}
 			current->nextAdd = temp->nextAdd;
@@ -99,80 +54,6 @@ T* sortedInsert(T* sortedHead, T* current, string data) {
 		return sortedHead;
 	}
 
-	else if (data == "ErScore") {
-		if (sortedHead == NULL || sortedHead->ErScore <= current->ErScore) {
-			current->nextAdd = sortedHead;
-			return current;
-		}
-
-		else {
-			T* temp = sortedHead;
-			while (temp->nextAdd != NULL && temp->nextAdd->ErScore > current->ErScore) {
-				temp = temp->nextAdd;
-			}
-			current->nextAdd = temp->nextAdd;
-			temp->nextAdd = current;
-		}
-		return sortedHead;
-	}
-	return NULL;
 	
-}
-
-
-template <class T>
-T* sortedInsert_user(T* sortedHead, T* current, string data) {
-	if (data == "date") {
-		if (sortedHead == NULL || sortedHead->lastActiveDate.compare(current->lastActiveDate) <= 0) {
-			current->nextAdd = sortedHead;
-			return current;
-		}
-
-		else {
-			T* temp = sortedHead;
-			while (temp->nextAdd != NULL && temp->nextAdd->lastActiveDate.compare(current->lastActiveDate) > 0) {
-				temp = temp->nextAdd;
-			}
-			current->nextAdd = temp->nextAdd;
-			temp->nextAdd = current;
-		}
-		return sortedHead;
-	}
-	
-
-}
-template <class T>
-T* insertionSort_feed(T* head, string data) {
-	T* current = head;
-	T* sortedHead = NULL;
-
-	//traversing the linked list
-	while (current != NULL) {
-		T* next = current->nextAdd;
-		sortedHead = sortedInsert_feed(sortedHead, current, data);
-		current = next; //update the current node
-
-	}
-	return sortedHead;
-}
-template <class T>
-T* sortedInsert_feed(T* sortedHead, T* current, string data) {
-	if (data == "feed") {
-		if (sortedHead == NULL || sortedHead->feedbackDate.compare(current->feedbackDate) <= 0) {
-			current->nextAdd = sortedHead;
-			return current;
-		}
-
-		else {
-			T* temp = sortedHead;
-			while (temp->nextAdd != NULL && temp->nextAdd->feedbackDate.compare(current->feedbackDate) > 0) {
-				temp = temp->nextAdd;
-			}
-			current->nextAdd = temp->nextAdd;
-			temp->nextAdd = current;
-		}
-		return sortedHead;
-	}
-
 
 }

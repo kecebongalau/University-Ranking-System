@@ -21,7 +21,6 @@ class Feedback {
 public:
 	string feedbackID;
 	string userID;
-	string userName;
 	string institution;
 	string feedback;
 	string feedbackDate;
@@ -34,7 +33,6 @@ public:
 	Feedback() {
 		this->feedbackID = "";
 		this->userID = "";
-		this->userName = "";
 		this->institution = "";
 		this->feedback = "";
 		this->feedbackDate = "";
@@ -44,10 +42,9 @@ public:
 		this->replyDate = "";
 
 	}
-	Feedback(string feedbackID, string userID, string userName, string institution, string feedback, string feedbackDate, string reply, string replyDate) {
+	Feedback(string feedbackID, string userID, string institution, string feedback, string feedbackDate, string reply, string replyDate) {
 		this->feedbackID = feedbackID;
 		this->userID = userID;
-		this->userName = userName;
 		this->institution = institution;
 		this->feedback = feedback;
 		this->feedbackDate = feedbackDate;
@@ -63,7 +60,7 @@ public:
 			return newID;
 		}
 		else if (feedDLL.head != NULL) {
-
+			feedDLL.head = insertionSort(feedDLL.head, "ID", true);
 			string lastID = feedDLL.tail->feedbackID.substr(2, 4);
 			int lastDigit = stoi(lastID);
 			std::stringstream buffer;
@@ -86,7 +83,7 @@ public:
 	string getReply() {
 		return this->reply;
 	}
-	void InsertFeedback(string userID, string userName, string institution, string feedback) {
+	void InsertFeedback(string userID, string institution, string feedback) {
 		string feedbackID = generateID();
 		// current date/time based on current system
 		time_t now = time(NULL);
@@ -97,37 +94,25 @@ public:
 			setw(2) << setfill('0') << ltm->tm_mday << ' ' << setw(2) << setfill('0') << ltm->tm_hour << ':' <<
 			setw(2) << setfill('0') << ltm->tm_min << ':' << setw(2) << setfill('0') << ltm->tm_sec;
 		string feedbackDate = buffer.str();
-		InsertToList(feedbackID, userID, userName, institution, feedback, feedbackDate, this->reply, this->replyDate);
+		InsertToList(feedbackID, userID,institution, feedback, feedbackDate, this->reply, this->replyDate);
 
 	}
-	void InsertToList(string feedbackID, string userID, string userName, string institution, string feedback, string feedbackDate, string reply, string replyDate) {
+	void InsertToList(string feedbackID, string userID, string institution, string feedback, string feedbackDate, string reply, string replyDate) {
 
-		Feedback* newnode = new Feedback(feedbackID, userID, userName, institution, feedback, feedbackDate, reply, replyDate);
+		Feedback* newnode = new Feedback(feedbackID, userID, institution, feedback, feedbackDate, reply, replyDate);
 		feedDLL.insertEnd(newnode);
-		cout << "This id ID: " << feedDLL.head->feedbackID << endl;
-		cout << "Thid is feedback: " << feedDLL.head->feedback << endl;
+
 
 	}
 	void InsertToFile() {
 		ofstream file("Feedback.csv");
-		cout << "Feedback: " << feedDLL.head->feedback << endl;
 		if (file.is_open()) {
 			Feedback* current = feedDLL.head;
-			cout << current->feedback << endl;
 			while (current != NULL) //means still not the end of the list
 			{
-				cout << "Feedback ID: " << current->feedbackID << endl;
-				cout << "User ID: " << current->userID << endl;
-				cout << "User Name: " << current->userName << endl;
-				cout << "Institution: " << current->institution << endl;
-				cout << "Feedback: " << current->feedback << endl;
-				cout << "Feedback Date: " << current->feedbackDate << endl;
-				cout << "Reply: " << current->reply << endl;
-				cout << "Reply Date: " << current->replyDate << endl << endl;
 
 				file << current->feedbackID << ',';
 				file << current->userID << ',';
-				file << current->userName << ',';
 				file << current->institution << ',';
 				file << current->feedback << ',';
 				file << current->feedbackDate << ',';
@@ -136,7 +121,7 @@ public:
 
 				current = current->nextAdd; //if you forgot this, will become a infinity loop
 			}
-			cout << "List is ended here! " << endl;
+			cout << "Updating Feedback.csv! " << endl;
 		}
 		file.close();
 	}
@@ -144,6 +129,9 @@ public:
 		if (attribute == "feedbackDate")
 		{
 			return (feedbackDate.compare(otherFeedback->feedbackDate) <= 0);
+		}
+		else if (attribute == "ID") {
+			return (feedbackID.compare(otherFeedback->feedbackID) <= 0);
 		}
 		return false;
 	}
@@ -158,8 +146,22 @@ public:
 		cout << "Time taken by merge sort algorithm: ";
 		cout << duration.count() << " microseconds. " << endl;
 	}
+
+	void feed_insertionSort(string attribute, bool asc) {
+		auto start = high_resolution_clock::now();
+		feedDLL.head = insertionSort(feedDLL.head, attribute, asc);
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<microseconds> (stop - start);
+		cout << "Time taken by insertion sort algorithm: ";
+		cout << duration.count() << " microseconds. " << endl;
+	}
 	void display() {
-		cout << this->feedbackID << " " <<  this->feedbackDate << endl;
+		cout << left << setw(10) << this->feedbackID << '|';
+		cout << setw(10) << this->userID<<'|';
+		cout << setw(30) << this->feedback<<'|';
+		cout << setw(20) <<this->feedbackDate<< '|';
+		cout << setw(30) <<this->reply<<'|';
+		cout << setw(20) <<this->replyDate<< '|' << endl;
 	}
 	void displayAll() {
 		feedDLL.displayAll();
@@ -168,6 +170,9 @@ public:
 		if (input == "feedbackId")
 		{
 			return this->feedbackID;
+		}
+		else if (input == "userID") {
+			return this->userID;
 		}
 	}
 };

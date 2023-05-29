@@ -21,15 +21,13 @@ using namespace std::chrono;
 class Favorite {
 public:
 	string regisID;
-	string regisName;
 	string institution;
 	Favorite* nextAdd;
 	Favorite* prevAdd;
 	DoubleLinkedList<Favorite> favDLL;
 
-	Favorite(string regisID, string regisName, string institution) {
+	Favorite(string regisID, string institution) {
 		this->regisID = regisID;
-		this->regisName = regisName;
 		this->institution = institution;
 		this->nextAdd = NULL;
 		this->prevAdd = NULL;
@@ -37,14 +35,13 @@ public:
 
 	Favorite() {
 		this->regisID = "";
-		this->regisName = "";
 		this->institution = "";
 		this->nextAdd = NULL;
 		this->prevAdd = NULL;
 	}
 
-	void insertToFavorite(string regisID, string regisName, string institution) {
-		Favorite* newnode = new Favorite(regisID, regisName, institution);
+	void insertToFavorite(string regisID,  string institution) {
+		Favorite* newnode = new Favorite(regisID, institution);
 		favDLL.insertEnd(newnode);
 
 	}
@@ -55,17 +52,27 @@ public:
 			Favorite* current = favDLL.head;
 			while (current != NULL) //means still not the end of the list
 			{
-				cout << "User ID: " << current->regisID << endl;
-				cout << "User Name: " << current->regisName << endl;
-				cout << "Favorite Institution: " << current->institution << endl;
+
 
 				file << current->regisID << ',';
-				file << current->regisName << ',';
 				file << current->institution << endl;
 
 				current = current->nextAdd; //if you forgot this, will become a infinity loop
 			}
-			cout << "List is ended here! " << endl;
+			cout << "Updating Favorite.csv" << endl;
 		}
+	}
+	string getValueOf(string input) {
+		if (input == "userId") {
+			// TODO: check if this works
+			return this->regisID;
+		}
+	}
+	void display() {
+		cout << left<< setw(10) << this->regisID << '|';
+		cout << setw(10) << this->institution << '|' << endl;
+	}
+	void displayAll() {
+		favDLL.displayAll();
 	}
 };

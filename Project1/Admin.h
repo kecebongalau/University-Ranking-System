@@ -61,7 +61,6 @@ public:
 			cout << " 2. Manage Feedback" << endl;
 			cout << " 3. Generate Report" << endl;
 			cout << " 4. Logout" << endl;
-			cout << " 5. Exit" << endl;
 			cin >> opt;
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
@@ -97,7 +96,7 @@ public:
 					default:
 						break;
 					}
-				} while (choice != 1 && choice !=2 && choice != 3);
+				} while (choice != 4);
 
 				break;
 			case 2:
@@ -105,6 +104,7 @@ public:
 					cout << "==============Manage Feedback Menu==============" << endl;
 					cout << "1. Display all Feedback" << endl;
 					cout << "2. Reply Feedback" << endl;
+					cout << "3. Exit" << endl;
 					cin >> choice;
 					switch (choice)
 					{
@@ -121,7 +121,7 @@ public:
 					default:
 						break;
 					}
-				} while (choice != 4);
+				} while (choice!=3);
 				break;
 
 			case 3:
@@ -130,9 +130,6 @@ public:
 				hashmap->display();
 				break;
 			case 4:
-				cout << "Logout" << endl;
-				return;
-			case 5:
 				return;
 			default:
 				cout << "Invalid input, please try again" << endl;
@@ -160,9 +157,9 @@ public:
 	}
 	// display registered users
 	void displayAllRegisteredUsers(RegisteredUsers* regis) {
-		int choice;
+		int choice, sort;
 		bool is_sort = false;
-
+		bool asc;
 		while (!is_sort)
 		{
 			cout << "Which sorting algorithm will you choose?" << endl;
@@ -172,13 +169,51 @@ public:
 			switch (choice)
 			{
 			case 1:
-				regis->regis_insertionSort();
-				cout << "This is insertion sort" << endl;
+				do
+				{
+					cout << "Which order will you sort on? " << endl;
+					cout << "1. Ascending" << endl;
+					cout << "2. Descending" << endl;
+					cin >> sort;
+					switch (sort)
+					{
+					case 1:
+						asc = true;
+						break;
+					case 2:
+						asc = false;
+						break;
+					default:
+						break;
+					}
+				} while (sort != 1 && sort != 2);
+				regis->regis_insertionSort("date", asc);
+
 				is_sort = true;
+				break;
 			case 2:
+				do
+				{
+					cout << "Which order will you sort on? " << endl;
+					cout << "1. Ascending" << endl;
+					cout << "2. Descending" << endl;
+					cin >> sort;
+					switch (sort)
+					{
+					case 1:
+						asc = true;
+						break;
+					case 2:
+						asc = false;
+						break;
+					default:
+						break;
+					}
+				} while (sort != 1 && sort != 2);
 				regis->regis_mergeSort("date");
-				cout << "This is merge sort" << endl;
+
 				is_sort = true;
+				break;
 			default:
 				break;
 			}
@@ -190,7 +225,7 @@ public:
 
 		LinearSearch<RegisteredUsers> linearSearchClass;
 
-		RegisteredUsers* users = linearSearchClass.linearSearch(regis->regisDLL.head, ID, "userId");
+		RegisteredUsers* users = linearSearchClass.linearSearch_Node(regis->regisDLL.head, ID, "userId");
 
 
 		regis->regisDLL.deleteNode(users);
@@ -236,28 +271,42 @@ public:
 			{
 			case 1:
 				cout << "What is the new name" << endl;
-				cin >> input;
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				getline(cin, input);
 				regisUser = linearSearchClass.linearSearch_Node(regis->regisDLL.head, ID, "userId");
-
-				regisUser->setName(input);
+				if (regisUser != NULL) {
+					regisUser->setName(input);
+				}
+				else {
+					cout << "User not found" << endl;
+				}
+				
 
 				break;
 			case 2:
 				cout << "What is the new password" << endl;
-				cin >> input;
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				getline(cin,input);
 				regisUser = linearSearchClass.linearSearch_Node(regis->regisDLL.head, ID, "userId");
-
-				regisUser->setPassword(input);
+				if (regisUser != NULL) {
+					regisUser->setPassword(input);
+				}
+				else {
+					cout << "User not found" << endl;
+				}
+				
 				break;
 			default:
+				cout << "Invalid Choice" << endl;
 				break;
 			}
 		}
 	}
 	// Display feedback
 	void displayAllFeedback(Feedback* feedbacks) {
-	int choice;
+	int choice, sort;
 	bool is_sort = false;
+	bool asc;
 
 	while (!is_sort)
 	{
@@ -268,13 +317,51 @@ public:
 		switch (choice)
 		{
 		case 1:
-			// regis->regis_insertionSort();
+			do
+			{
+				cout << "Which order will you sort on? " << endl;
+				cout << "1. Ascending" << endl;
+				cout << "2. Descending" << endl;
+				cin >> sort;
+				switch (sort)
+				{
+				case 1:
+					asc = true;
+					break;
+				case 2:
+					asc = false;
+					break;
+				default:
+					break;
+				}
+			} while (sort != 1 && sort != 2);
+			feedbacks->feed_insertionSort("feedbackDate", asc);
 			cout << "This is insertion sort" << endl;
 			is_sort = true;
+			break;
 		case 2:
+			do
+			{
+				cout << "Which order will you sort on? " << endl;
+				cout << "1. Ascending" << endl;
+				cout << "2. Descending" << endl;
+				cin >> sort;
+				switch (sort)
+				{
+				case 1:
+					asc = true;
+					break;
+				case 2:
+					asc = false;
+					break;
+				default:
+					break;
+				}
+			} while (sort != 1 && sort != 2);
 			feedbacks->mergeSort("feedbackDate");
 			cout << "This is merge sort" << endl;
 			is_sort = true;
+			break;
 		default:
 			break;
 		}
@@ -287,24 +374,31 @@ public:
 		Feedback * feedback = linearSearchClass.linearSearch_Node(feedbacks->feedDLL.head, feedbackId, "feedbackId");
 		string reply;
 		string replyDate;
+		if (feedback != NULL) {
+			cout << "Please insert the reply here: " << endl;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			getline(cin, reply);
+			
+			cout << reply << endl;
+			feedback->setReply(reply);
 
-		cout << "Please insert the reply here: " << endl;
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cin >> reply;
+			// Get current time and convert format
+			time_t now = time(NULL);
+			tm* ltm = localtime(&now);
 
-		feedback->setReply(reply);
+			std::stringstream buffer;
+			buffer << 1900 + ltm->tm_year << '/' << setw(2) << setfill('0') << ltm->tm_mon + 1 << '/' <<
+				setw(2) << setfill('0') << ltm->tm_mday << ' ' << setw(2) << setfill('0') << ltm->tm_hour << ':' <<
+				setw(2) << setfill('0') << ltm->tm_min << ':' << setw(2) << setfill('0') << ltm->tm_sec;
+			replyDate = buffer.str();
 
-		// Get current time and convert format
-		time_t now = time(NULL);
-		tm* ltm = localtime(&now);
-
-		std::stringstream buffer;
-		buffer << 1900 + ltm->tm_year << '/' << ltm->tm_mon + 1 << '/' << ltm->tm_mday << ' ' << ltm->tm_hour + 5 << ':' <<
-			30 + ltm->tm_min << ':' << ltm->tm_sec;
-		replyDate = buffer.str();
-
-		feedback->setReplyDate(replyDate);
+			feedback->setReplyDate(replyDate);
+		}
+		else {
+			cout << "INVALID FEEDBACK ID!" << endl;
+		}
+		
 	}
 
 };

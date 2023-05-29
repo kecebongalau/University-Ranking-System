@@ -55,11 +55,11 @@ public:
 	void deleteFromList(string ID, int position);
 	void search(string ID);
 	bool compareAttributes(RegisteredUsers* otherRegisteredUser, string attribute);
-	void feedback(string ID, string name, University* univ, Feedback* feed);
-	void favorite(string ID, string name, University* univ, Favorite* fav);
+	void feedback(string ID, University* univ, Feedback* feed);
+	void favorite(string ID,  University* univ, Favorite* fav);
 	void insertToFile();
 	string getValueOf(string input);
-	void regis_insertionSort();
+	void regis_insertionSort(string data, bool asc);
 	void regis_mergeSort(string attribute);
 	void setId(string userId);
 	void setPassword(string password);
@@ -71,16 +71,19 @@ public:
 
 
 void RegisteredUsers::display() {
-	cout << this->ID << " " << this->name << endl;
+	cout << left << setw(10) << this->ID << '|';
+	cout << setw(20) << this->password << '|';
+	cout << setw(30) << this->name << '|';
+	cout << setw(30) << this->lastActiveDate << '|' <<endl;
 }
 
 void RegisteredUsers::displayAll() {
 	this->regisDLL.displayAll();
 }
 
-void RegisteredUsers::regis_insertionSort() {
+void RegisteredUsers::regis_insertionSort(string data, bool asc) {
 	auto start = high_resolution_clock::now();
-	regisDLL.head = insertionSort_user(regisDLL.head, "date");
+	regisDLL.head = insertionSort(regisDLL.head, data, asc);
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds> (stop - start);
 	cout << "Time taken by insertion sort algorithm: ";
@@ -95,10 +98,6 @@ void RegisteredUsers::insertToFile() {
 		cout << "ENDID: " << regisDLL.tail->ID << endl;
 		while (current != NULL) //means still not the end of the list
 		{
-			cout << "id: " << current->ID << endl;
-			cout << "name: " << current->name << endl;
-			cout << "password: " << current->password << endl;
-			cout << "last activity date: " << current->lastActiveDate << endl << endl;
 
 			file_new << current->ID << ',';
 			file_new << current->name << ',';
@@ -107,11 +106,11 @@ void RegisteredUsers::insertToFile() {
 
 			current = current->nextAdd; //if you forgot this, will become a infinity loop
 		}
-		cout << "List is ended here! " << endl;
+		cout << "Updating RegisUsers.csv " << endl;
 	}
 	file_new.close();
 }
-void RegisteredUsers::feedback(string ID, string name, University* univ, Feedback* feed) {
+void RegisteredUsers::feedback(string ID, University* univ, Feedback* feed) {
 	int univ_chosen;
 	string feedback;
 
@@ -124,14 +123,13 @@ void RegisteredUsers::feedback(string ID, string name, University* univ, Feedbac
 
 	while (current != NULL) {
 		if (univ_chosen == current->rank) {
-			cout << "TES" << endl;
-			cout << current->institution << endl;
-			feed->InsertFeedback(ID, name, current->institution, feedback);
+			feed->InsertFeedback(ID, current->institution, feedback);
+			return;
 		}
 		current = current->nextAdd;
 	}
 }
-void RegisteredUsers::favorite(string ID, string name, University* univ, Favorite* fav) {
+void RegisteredUsers::favorite(string ID, University* univ, Favorite* fav) {
 
 	int univ_chosen;
 
@@ -141,7 +139,8 @@ void RegisteredUsers::favorite(string ID, string name, University* univ, Favorit
 	University* current = univ->univDLL.head;
 	while (current != NULL) {
 		if (univ_chosen == current->rank) {
-			fav->insertToFavorite(ID, name, current->institution);
+			fav->insertToFavorite(ID, current->institution);
+			return;
 		}
 		current = current->nextAdd;
 	}
@@ -156,6 +155,8 @@ void RegisteredUsers::insertToList(string ID, string name, string password, stri
 void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* feed, Favorite* fav) {
 	int opt;
 	bool is_sort, is_chosen;
+	LinearSearch<Favorite> linearSearchFav;
+	LinearSearch<Feedback> linearSearchFeed;
 	do
 	{
 		cout << "HELLO: " << users->ID << "||" << users->name << endl;
@@ -163,8 +164,9 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 		cout << "Select the option below: " << endl;
 		cout << " 1. Search University" << endl;
 		cout << " 2. Show University List" << endl;
-		cout << " 3. Logout" << endl;
-		cout << " 4. Exit" << endl;
+		cout << " 3. Show Favorite University" << endl;
+		cout << " 4. Show All Feedback" << endl;
+		cout << " 5. Logout" << endl;
 		cin >> opt;
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
@@ -177,8 +179,9 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 			int category;
 			is_sort = false;
 			is_chosen = false;
-			
+			int sort;
 			int op;
+			bool asc;
 			cout << "Please select one of the option" << endl;
 			cout << "1. Display University" << endl;
 			cout << "2. Set Favorite University" << endl;
@@ -203,22 +206,95 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 							switch (category)
 							{
 							case 1:
-								univ->Univ_InsertionSort("institution");
+								do
+								{
+									cout << "Which order will you sort on? " << endl;
+									cout << "1. Ascending" << endl;
+									cout << "2. Descending" << endl;
+									cin >> sort;
+									switch (sort)
+									{
+									case 1:
+										asc = true;
+										break;
+									case 2:
+										asc = false;
+										break;
+									default:
+										break;
+									}
+								} while (sort!=1 && sort!=2);
+								
+								univ->Univ_InsertionSort("institution", asc);
 
 								is_chosen = true;
 								break;
 							case 2:
-								univ->Univ_InsertionSort("ArScore");
+								do
+								{
+									cout << "Which order will you sort on? " << endl;
+									cout << "1. Ascending" << endl;
+									cout << "2. Descending" << endl;
+									cin >> sort;
+									switch (sort)
+									{
+									case 1:
+										asc = true;
+										break;
+									case 2:
+										asc = false;
+										break;
+									default:
+										break;
+									}
+								} while (sort != 1 && sort != 2);
+								univ->Univ_InsertionSort("arscore", asc);
 
 								is_chosen = true;
 								break;
 							case 3:
-								univ->Univ_InsertionSort("FsrScore");
+								do
+								{
+									cout << "Which order will you sort on? " << endl;
+									cout << "1. Ascending" << endl;
+									cout << "2. Descending" << endl;
+									cin >> sort;
+									switch (sort)
+									{
+									case 1:
+										asc = true;
+										break;
+									case 2:
+										asc = false;
+										break;
+									default:
+										break;
+									}
+								} while (sort != 1 && sort != 2);
+								univ->Univ_InsertionSort("fsrscore", asc);
 
 								is_chosen = true;
 								break;
 							case 4:
-								univ->Univ_InsertionSort("ErScore");
+								do
+								{
+									cout << "Which order will you sort on? " << endl;
+									cout << "1. Ascending" << endl;
+									cout << "2. Descending" << endl;
+									cin >> sort;
+									switch (sort)
+									{
+									case 1:
+										asc = true;
+										break;
+									case 2:
+										asc = false;
+										break;
+									default:
+										break;
+									}
+								} while (sort != 1 && sort != 2);
+								univ->Univ_InsertionSort("erscore", asc);
 
 								is_chosen = true;
 								break;
@@ -240,21 +316,93 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 							switch (category)
 							{
 							case 1:
+								do
+								{
+									cout << "Which order will you sort on? " << endl;
+									cout << "1. Ascending" << endl;
+									cout << "2. Descending" << endl;
+									cin >> sort;
+									switch (sort)
+									{
+									case 1:
+										asc = true;
+										break;
+									case 2:
+										asc = false;
+										break;
+									default:
+										break;
+									}
+								} while (sort != 1 && sort != 2);
 								univ->Univ_MergedSort("institution");
 
 								is_chosen = true;
 								break;
 							case 2:
+								do
+								{
+									cout << "Which order will you sort on? " << endl;
+									cout << "1. Ascending" << endl;
+									cout << "2. Descending" << endl;
+									cin >> sort;
+									switch (sort)
+									{
+									case 1:
+										asc = true;
+										break;
+									case 2:
+										asc = false;
+										break;
+									default:
+										break;
+									}
+								} while (sort != 1 && sort != 2);
 								univ->Univ_MergedSort("arscore");
 
 								is_chosen = true;
 								break;
 							case 3:
+								do
+								{
+									cout << "Which order will you sort on? " << endl;
+									cout << "1. Ascending" << endl;
+									cout << "2. Descending" << endl;
+									cin >> sort;
+									switch (sort)
+									{
+									case 1:
+										asc = true;
+										break;
+									case 2:
+										asc = false;
+										break;
+									default:
+										break;
+									}
+								} while (sort != 1 && sort != 2);
 								univ->Univ_MergedSort("fsrscore");
 
 								is_chosen = true;
 								break;
 							case 4:
+								do
+								{
+									cout << "Which order will you sort on? " << endl;
+									cout << "1. Ascending" << endl;
+									cout << "2. Descending" << endl;
+									cin >> sort;
+									switch (sort)
+									{
+									case 1:
+										asc = true;
+										break;
+									case 2:
+										asc = false;
+										break;
+									default:
+										break;
+									}
+								} while (sort != 1 && sort != 2);
 								univ->Univ_MergedSort("erscore");
 
 								is_chosen = true;
@@ -271,14 +419,14 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 
 					}
 				}
-
+				system("pause");
 				univ->displayUniversityInfo();
 				break;
 			case 2:
-				favorite(users->ID, users->name, univ, fav);
+				favorite(users->ID, univ, fav);
 				break;
 			case 3:
-				feedback(users->ID, users->name, univ, feed);
+				feedback(users->ID, univ, feed);
 				break;
 			default:
 				cout << "Invalid input, please try again" << endl;
@@ -286,19 +434,23 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 
 			}
 			break;
+		case 3:
 
+				
+			linearSearchFav.linearSearch(fav->favDLL.head,users->ID, "userId");
+			break;
 		case 4:
+			linearSearchFeed.linearSearch(feed->feedDLL.head, users->ID, "userID");
+		case 5:
 			break;
 
-		case 5:
-			return;
 		default:
 			cout << "Invalid input, please try again" << endl;
 			break;
 		}
 	}
 
-	while (opt != 4);
+	while (opt != 5);
 }
 string RegisteredUsers::generateID() {
 	if (regisDLL.head == NULL) {
@@ -306,7 +458,7 @@ string RegisteredUsers::generateID() {
 		return newID;
 	}
 	else if (regisDLL.head != NULL) {
-
+		regisDLL.head = insertionSort(regisDLL.head, "ID", true);
 		string lastID = regisDLL.tail->ID.substr(2, 4);
 		int lastDigit = stoi(lastID);
 		std::stringstream buffer;
