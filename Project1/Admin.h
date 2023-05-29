@@ -358,7 +358,7 @@ public:
 					break;
 				}
 			} while (sort != 1 && sort != 2);
-			feedbacks->mergeSort("feedbackDate");
+			feedbacks->mergeSort("feedbackDate", asc);
 			cout << "This is merge sort" << endl;
 			is_sort = true;
 			break;

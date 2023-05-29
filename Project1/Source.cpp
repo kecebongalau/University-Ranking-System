@@ -131,7 +131,7 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 							break;
 						}
 					} while (sort != 1 && sort != 2);
-					univ->Univ_MergedSort("institution");
+					univ->Univ_MergedSort("institution", asc);
 					is_sort = true;
 					break;
 				case 3:

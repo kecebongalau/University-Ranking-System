@@ -109,7 +109,7 @@ public:
 	void Lin_Search();
 	void Cust_LinSearch();
 	void Univ_InsertionSort(string data, bool asc);
-	void Univ_MergedSort(string attribute);
+	void Univ_MergedSort(string attribute, bool asc);
 	void displayUniversityInfo();
 	// Needed for display
 	void display();
@@ -133,10 +133,10 @@ void University::Univ_InsertionSort(string data, bool asc) {
 	cout << duration.count() << " microseconds. " << endl;
 }
 
-void University::Univ_MergedSort(string attribute) {
+void University::Univ_MergedSort(string attribute, bool asc) {
 	auto start = high_resolution_clock::now();
 	MergedSort<University> mergeSortClass;
-	mergeSortClass.mergeSort(&(univDLL.head), attribute, false);
+	mergeSortClass.mergeSort(&(univDLL.head), attribute, asc);
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds> (stop - start);
 	cout << "Time taken by merge sort algorithm: ";

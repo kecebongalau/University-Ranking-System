@@ -334,7 +334,7 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 										break;
 									}
 								} while (sort != 1 && sort != 2);
-								univ->Univ_MergedSort("institution");
+								univ->Univ_MergedSort("institution", asc);
 
 								is_chosen = true;
 								break;
@@ -357,7 +357,7 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 										break;
 									}
 								} while (sort != 1 && sort != 2);
-								univ->Univ_MergedSort("arscore");
+								univ->Univ_MergedSort("arscore", asc);
 
 								is_chosen = true;
 								break;
@@ -380,7 +380,7 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 										break;
 									}
 								} while (sort != 1 && sort != 2);
-								univ->Univ_MergedSort("fsrscore");
+								univ->Univ_MergedSort("fsrscore", asc);
 
 								is_chosen = true;
 								break;
@@ -403,7 +403,7 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 										break;
 									}
 								} while (sort != 1 && sort != 2);
-								univ->Univ_MergedSort("erscore");
+								univ->Univ_MergedSort("erscore", asc);
 
 								is_chosen = true;
 								break;

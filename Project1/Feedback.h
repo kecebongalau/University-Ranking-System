@@ -135,11 +135,11 @@ public:
 		}
 		return false;
 	}
-	void mergeSort(string attribute) {
+	void mergeSort(string attribute, bool asc) {
 		auto start = high_resolution_clock::now();
 
 		MergedSort<Feedback> mergeSortClass;
-		mergeSortClass.mergeSort(&(feedDLL.head), attribute);
+		mergeSortClass.mergeSort(&(feedDLL.head), attribute, asc);
 
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
