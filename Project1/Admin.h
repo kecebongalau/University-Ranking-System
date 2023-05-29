@@ -336,7 +336,7 @@ public:
 				}
 			} while (sort != 1 && sort != 2);
 			feedbacks->feed_insertionSort("feedbackDate", asc);
-			cout << "This is insertion sort" << endl;
+
 			is_sort = true;
 			break;
 		case 2:
@@ -359,7 +359,7 @@ public:
 				}
 			} while (sort != 1 && sort != 2);
 			feedbacks->mergeSort("feedbackDate", asc);
-			cout << "This is merge sort" << endl;
+
 			is_sort = true;
 			break;
 		default:
@@ -380,7 +380,6 @@ public:
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			getline(cin, reply);
 			
-			cout << reply << endl;
 			feedback->setReply(reply);
 
 			// Get current time and convert format
