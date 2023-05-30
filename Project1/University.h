@@ -453,35 +453,41 @@ void University::displayUniversityInfo() //Big O - O(n)
 }
 
 void University::Bin_Search() {
-
-
 	string input, attribute;
 	int option;
+
+	// Prompt the user to select a binary search option
 	cout << "Binary Search Option: " << endl;
 	cout << " 1. Rank " << endl;
 	cout << " 2. Institution " << endl;
 	cout << "Option: ";
 	cin >> option;
 	cin.clear();
+
 	if (option == 1) {
 		attribute = 'rank';
 		cout << "Enter what to search: ";
 		cin >> input;
-		/*getline(cin, input);*/
+
+		// Create an instance of the MergedSort class and perform merge sort on the linked list
 		MergedSort<University> mergeSortClass;
 		auto start = high_resolution_clock::now();
 		mergeSortClass.mergeSort(&(univDLL.head), attribute);
+		
+		// Perform binary search based on the rank
 		University* found = binarySearch(univDLL.head, input, "rank");
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
 		
-		
+		// Display the result of the binary search
 		if (found != NULL) {
 			found->display();
 		}
 		else {
 			cout << "UNIVERSITY NOT FOUND!!!" << endl << endl;
 		}
+
+		// Display the time taken by the binary search algorithm
 		cout << "Time taken by binary search algorithm: ";
 		cout << duration.count() << " microseconds. " << endl;
 	}
@@ -495,37 +501,28 @@ void University::Bin_Search() {
 		
 		getline(cin, name);
 		
-		//cin.ignore();
-		
-		//cin.getline(nama,50);
-
-		//cin >> input;
-		cout << name << endl;
-
+		// Create an instance of the MergedSort class and perform merge sort on the linked list
 		MergedSort<University> mergeSortClass;
 		auto start = high_resolution_clock::now();
 		mergeSortClass.mergeSort(&(univDLL.head), attribute);
 		
+		// Perform binary search based on the institution name
 		University* found = binarySearch(univDLL.head, name, "institution");
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
 		
-
-
+		// Display the result of the binary search
 		if (found != NULL) {
 			found->display();
 		}
-
 		else {
 			cout << "UNIVERSITY NOT FOUND!!!" << endl << endl;
 		}
+
+		// Display the time taken by the binary search algorithm
 		cout << "Time taken by binary search algorithm: ";
 		cout << duration.count() << " microseconds. " << endl;
 	}
-
-
-
-
 	else {
 		cout << "UNIVERSITY NOT FOUND!!!" << endl << endl;
 	}
