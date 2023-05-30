@@ -152,6 +152,7 @@ void University::insertToEndList(string rank, string institution, string Locatio
 {
 	int new_rank, new_ArRank, new_ErRank, new_FsrRank, new_CpfRank, new_IfrRank, new_IsrRank, new_IrnRank, new_GerRank;
 	double new_ArScore, new_ErScore, new_FsrScore, new_CpfScore, new_IfrScore, new_IsrScore, new_IrnScore, new_GerScore, new_Score;
+	// try and catching the converting to integer and double statement in case a faulty data is encountered
 	try {
 		new_rank = stoi(rank);
 	}
@@ -295,6 +296,7 @@ void University::insertToEndList(string rank, string institution, string Locatio
 
 }
 
+// comparing each of the attributes
 bool University::compareAttributes(University* otheruniversity, string attribute) {
 	if (attribute == "institution")
 	{

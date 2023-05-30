@@ -51,7 +51,6 @@ public:
 	RegisteredUsers* login(string ID, string password);
 	string generateID();
 	void insertToList(string ID, string name, string password, string lastactivedate);
-	void writeData(RegisteredUsers* users);
 	void deleteFromList(string ID, int position);
 	void search(string ID);
 	bool compareAttributes(RegisteredUsers* otherRegisteredUser, string attribute);
