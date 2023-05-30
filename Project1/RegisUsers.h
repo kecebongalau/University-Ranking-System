@@ -474,6 +474,7 @@ string RegisteredUsers::generateID() {
 	}
 	else if (regisDLL.head != NULL) {
 		regisDLL.head = insertionSort(regisDLL.head, "ID", true);
+		regisDLL.setTail();
 		string lastID = regisDLL.tail->ID.substr(2, 4); // substring the string to only get the numerical part
 		int lastDigit = stoi(lastID);
 		std::stringstream buffer;

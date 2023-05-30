@@ -56,6 +56,7 @@ public:
 		}
 		else if (feedDLL.head != NULL) {
 			feedDLL.head = insertionSort(feedDLL.head, "ID", true);
+			feedDLL.setTail();
 			string lastID = feedDLL.tail->feedbackID.substr(2, 4);
 			int lastDigit = stoi(lastID);
 			std::stringstream buffer;
