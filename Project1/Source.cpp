@@ -23,7 +23,7 @@
 using namespace std;
 using namespace std::chrono;
 
-
+// function to check the login
 void login(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed, Favorite* fav) {
 	string ID, password;
 	RegisteredUsers* Log_User;
@@ -34,13 +34,13 @@ void login(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* fee
 	string type = ID.substr(0, 2);
 	getline(cin, password);
 	if (type == "US") {
-		Log_User = regis->login(ID, password);
+		Log_User = regis->login(ID, password); // go to regis user login
 		if (Log_User != NULL) {
 			regis->menu(Log_User, univ, feed, fav);
 		}
 	}
 	else if (type == "AD") {
-		Log_Admin = admin->login(ID, password);
+		Log_Admin = admin->login(ID, password);// go to admin login
 		if (Log_Admin != NULL) {
 			admin->menu(Log_Admin, regis,feed, fav);
 		}
@@ -165,8 +165,8 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 				}
 			}
 
-			system("pause");
-			univ->displayAll();
+			system("pause"); // pausing the system to show the sorting time first
+			univ->displayAll(); // display the university details
 			break;
 		case 4:
 			int opt;
@@ -200,7 +200,7 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 	return 0;
 }
 
-
+// calling all the insert to file function while exiting the file. 
 void exit_file(RegisteredUsers* regis, Feedback* feed, Favorite* fav) {
 	regis->insertToFile();
 	feed->InsertToFile();
@@ -219,7 +219,7 @@ int main()
 	Favorite* fav = new Favorite();
 	Feedback* feed = new Feedback();
 	Admin* admin = new Admin();
-	fstream file("2023 QS World University Rankings.csv", ios::in);
+	fstream file("2023 QS World University Rankings.csv", ios::in); // reading from file to univ linked list
 	if (file.is_open()) {
 		while (file.good())
 		{
@@ -258,7 +258,7 @@ int main()
 
 	file.close();
 
-	ifstream file_regis("RegisUsers.csv", ios::in);
+	ifstream file_regis("RegisUsers.csv", ios::in); // reading from file to registered users linked list
 	if (file_regis.is_open()) {
 		while (file_regis.peek() != EOF) {
 			getline(file_regis, ID, ',');
@@ -273,7 +273,7 @@ int main()
 	file_regis.close();
 
 	string feedbackID, feedback, feedbackDate, reply, replydate;
-	ifstream file_feed("Feedback.csv", ios::in);
+	ifstream file_feed("Feedback.csv", ios::in);  // reading from file to feedback linked list
 	if (file_feed.is_open()) {
 		while (file_feed.peek() != EOF) {
 			getline(file_feed, feedbackID, ',');
@@ -289,7 +289,7 @@ int main()
 	}
 	file_feed.close();
 
-	ifstream file_fav("Favorite.csv", ios::in);
+	ifstream file_fav("Favorite.csv", ios::in); // reading form file to favorite linked list
 	if (file_fav.is_open()) {
 		while (file_fav.peek() != EOF) {
 			getline(file_fav, ID, ',');
@@ -300,7 +300,7 @@ int main()
 	}
 	file_fav.close();
 
-	ifstream file_admin("Admin.csv", ios::in);
+	ifstream file_admin("Admin.csv", ios::in); // reading from file to admin linked list
 	if (file_admin.is_open()) {
 		while (file_admin.peek() != EOF) {
 			getline(file_admin, ID, ',');
@@ -311,5 +311,5 @@ int main()
 	}
 	file_admin.close();
 	menu(univ, regis, admin, feed, fav);
-	exit_file(regis, feed, fav);
+	exit_file(regis, feed, fav); //exiting the program and writing to file
 }

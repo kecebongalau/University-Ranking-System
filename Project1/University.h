@@ -372,7 +372,7 @@ bool University::compareAttributes(University* otheruniversity, string attribute
 		return (ScoreScaled <= otheruniversity->ScoreScaled);
 	}
 }
-
+// returning the value of the input in string
 string University::getValueOf(string input) {
 	if (input == "rank") {
 		return to_string(this->rank);
@@ -391,6 +391,7 @@ string University::getValueOf(string input) {
 	}
 }
 
+// returning the value of the input in double
 double University::getDoubleValueOf(string input) {
 	if (input == "ArScore") {
 		cout << this->ArScore << endl;
@@ -422,6 +423,7 @@ double University::getDoubleValueOf(string input) {
 	}
 }
 
+// displaying university details
 void University::display() {
 	cout << "Rank: " << rank << endl;
 	cout << "Institution: " << institution << endl;
@@ -446,11 +448,13 @@ void University::display() {
 	cout << "Score Scaled: " << ScoreScaled << endl << endl;
 }
 
+//calling the function to display from linked list
 void University::displayAll() //Big O - O(n)
 {
 	univDLL.displayAll();
 }
 
+//performing binary search
 void University::Bin_Search() {
 	string input, attribute;
 	int option;
@@ -470,12 +474,12 @@ void University::Bin_Search() {
 
 		// Create an instance of the MergedSort class and perform merge sort on the linked list
 		MergedSort<University> mergeSortClass;
-		auto start = high_resolution_clock::now();
-		mergeSortClass.mergeSort(&(univDLL.head), attribute);
+		auto start = high_resolution_clock::now(); // starting the timer
+		mergeSortClass.mergeSort(&(univDLL.head), attribute); // soritng the list first based on the input
 		
 		// Perform binary search based on the rank
 		University* found = binarySearch(univDLL.head, input, "rank");
-		auto stop = high_resolution_clock::now();
+		auto stop = high_resolution_clock::now(); // stopping the timer after searching
 		auto duration = duration_cast<microseconds> (stop - start);
 		
 		// Display the result of the binary search
@@ -528,7 +532,7 @@ void University::Bin_Search() {
 }
 
 
-
+// performing linear search
 void University::Lin_Search() {
 
 	string data, input;
@@ -560,6 +564,7 @@ void University::Lin_Search() {
 	cout << duration.count() << " microseconds. " << endl;
 }
 
+//performing linear search and more attributes to search for registered users or customers
 void University::Cust_LinSearch() {
 	string data, input;
 	int opt;
@@ -647,7 +652,7 @@ void University::Cust_LinSearch() {
 		cin >> upperRange;
 		cout << "Input: " << input << endl;
 		auto startScore = high_resolution_clock::now();
-		linearSearchClass.linearSearchScore(univDLL.head, lowerRange, upperRange, input);
+		linearSearchClass.linearSearchScore(univDLL.head, lowerRange, upperRange, input); // filtering based on score
 		auto stopScore = high_resolution_clock::now();
 		auto durationScore = duration_cast<microseconds> (stopScore - startScore);
 		cout << "Time taken by linear search algorithm: ";

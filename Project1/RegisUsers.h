@@ -66,12 +66,15 @@ public:
 	void header();
 };
 
+// header of the registered users attribute
 void RegisteredUsers::header() {
 	cout << left << setw(10) << "User ID" << '|';
 	cout << setw(20) << "Password" << '|';
 	cout << setw(30) << "Name" << '|';
 	cout << setw(30) << "Last Activity Date" << '|' << endl;
 }
+
+//displaying the registered users data in a tabular format
 void RegisteredUsers::display() {
 	cout << left << setw(10) << this->ID << '|';
 	cout << setw(20) << this->password << '|';
@@ -79,10 +82,12 @@ void RegisteredUsers::display() {
 	cout << setw(30) << this->lastActiveDate << '|' <<endl;
 }
 
+// calling the display function in the double linked list template
 void RegisteredUsers::displayAll() {
 	this->regisDLL.displayAll();
 }
 
+//insertion sort for registered users
 void RegisteredUsers::regis_insertionSort(string data, bool asc) {
 	auto start = high_resolution_clock::now();
 	regisDLL.head = insertionSort(regisDLL.head, data, asc);
@@ -91,6 +96,8 @@ void RegisteredUsers::regis_insertionSort(string data, bool asc) {
 	cout << "Time taken by insertion sort algorithm: ";
 	cout << duration.count() << " microseconds. " << endl;
 }
+
+//inserting to file
 void RegisteredUsers::insertToFile() {
 	ofstream file_new("RegisUsers.csv");
 
@@ -110,6 +117,8 @@ void RegisteredUsers::insertToFile() {
 	}
 	file_new.close();
 }
+
+// function to manage the feedback
 void RegisteredUsers::feedback(string ID, University* univ, Feedback* feed) {
 	int univ_chosen;
 	string feedback;
@@ -117,17 +126,19 @@ void RegisteredUsers::feedback(string ID, University* univ, Feedback* feed) {
 	cout << "Choose the university based on the rank number: ";
 	cin >> univ_chosen;
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	cout << "What's your feedback?";
+	cout << "What's your feedback?"; // writing the feedback
 	getline(cin, feedback);
 	University* current = univ->univDLL.head;
 	while (current != NULL) {
-		if (univ_chosen == current->rank) {
-			feed->InsertFeedback(ID, current->institution, feedback);
+		if (univ_chosen == current->rank) { // searching for the university with the stated rank
+			feed->InsertFeedback(ID, current->institution, feedback); // insert the feedback based on the university name
 			return;
 		}
 		current = current->nextAdd;
 	}
 }
+
+// function to mark a university as favorite
 void RegisteredUsers::favorite(string ID, University* univ, Favorite* fav) {
 
 	int univ_chosen;
@@ -137,7 +148,7 @@ void RegisteredUsers::favorite(string ID, University* univ, Favorite* fav) {
 	cin >> univ_chosen;
 	University* current = univ->univDLL.head;
 	while (current != NULL) {
-		if (univ_chosen == current->rank) {
+		if (univ_chosen == current->rank) { // searching for the university with the stated rank
 			fav->insertToFavorite(ID, current->institution);
 			return;
 		}
@@ -146,11 +157,14 @@ void RegisteredUsers::favorite(string ID, University* univ, Favorite* fav) {
 
 
 }
+
+// insert the new node into the linked list
 void RegisteredUsers::insertToList(string ID, string name, string password, string lastactivedate) {
 	RegisteredUsers* newnode = new RegisteredUsers(ID, name, password, lastactivedate);
 	regisDLL.insertEnd(newnode);
 }
 
+//registere users menu
 void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* feed, Favorite* fav) {
 	int opt;
 	bool is_sort, is_chosen;
@@ -418,14 +432,14 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 
 					}
 				}
-				system("pause");
-				univ->displayAll();
+				system("pause"); // pausing the system for a while to show the time of the sorting
+				univ->displayAll(); // display the university 
 				break;
 			case 2:
-				favorite(users->ID, univ, fav);
+				favorite(users->ID, univ, fav); // go to favorite panel
 				break;
 			case 3:
-				feedback(users->ID, univ, feed);
+				feedback(users->ID, univ, feed); // go to feedback panel
 				break;
 			default:
 				cout << "Invalid input, please try again" << endl;
@@ -436,11 +450,11 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 		case 3:
 			
 			fav->header();
-			linearSearchFav.linearSearch(fav->favDLL.head,users->ID, "userId");
+			linearSearchFav.linearSearch(fav->favDLL.head,users->ID, "userId"); // displaying all favorite by the user
 			break;
 		case 4:
 			feed->header();
-			linearSearchFeed.linearSearch(feed->feedDLL.head, users->ID, "userID");
+			linearSearchFeed.linearSearch(feed->feedDLL.head, users->ID, "userID"); // displaying all feedback by the user
 		case 5:
 			break;
 
@@ -452,6 +466,7 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 
 	while (opt != 5);
 }
+// function to generate the ID
 string RegisteredUsers::generateID() {
 	if (regisDLL.head == NULL) {
 		string newID = "US0001";
@@ -459,29 +474,30 @@ string RegisteredUsers::generateID() {
 	}
 	else if (regisDLL.head != NULL) {
 		regisDLL.head = insertionSort(regisDLL.head, "ID", true);
-		string lastID = regisDLL.tail->ID.substr(2, 4);
+		string lastID = regisDLL.tail->ID.substr(2, 4); // substring the string to only get the numerical part
 		int lastDigit = stoi(lastID);
 		std::stringstream buffer;
-		buffer << "US" << setw(4) << setfill('0') << lastDigit + 1;
+		buffer << "US" << setw(4) << setfill('0') << lastDigit + 1; // reformating the ID
 		string newID = buffer.str();
 		return newID;
 
 	}
 }
 
-// TODO: check if these work
+// setting the user ID
 void RegisteredUsers::setId(string userId) {
 	this->ID = userId;
 }
-
+//setting the password
 void RegisteredUsers::setPassword(string password) {
 	this->password = password;
 }
-
+//setting the username
 void RegisteredUsers::setName(string name) {
 	this->name = name;
 }
 
+//compare the attrinbutes
 bool RegisteredUsers::compareAttributes(RegisteredUsers* otherRegisteredUser, string attribute) {
 	if (attribute == "name")
 	{
@@ -498,11 +514,11 @@ bool RegisteredUsers::compareAttributes(RegisteredUsers* otherRegisteredUser, st
 
 string RegisteredUsers::getValueOf(string input) {
 	if (input == "userId") {
-		// TODO: check if this works
-		return this->ID;
+		return this->ID; // returning the ID
 	}
 }
 
+// merge sort for registered users
 void RegisteredUsers::regis_mergeSort(string attribute) {
 	auto start = high_resolution_clock::now();
 
@@ -515,6 +531,7 @@ void RegisteredUsers::regis_mergeSort(string attribute) {
 	cout << duration.count() << " microseconds. " << endl;
 }
 
+//function to register the user 
 void RegisteredUsers::user_register(RegisteredUsers* regis) {
 	//cout << regisDLL.tail->ID << endl;
 	string ID = generateID();
@@ -527,7 +544,7 @@ void RegisteredUsers::user_register(RegisteredUsers* regis) {
 	buffer << 1900 + ltm->tm_year << '/' << setw(2) << setfill('0') << ltm->tm_mon + 1 << '/' <<
 		setw(2) << setfill('0') << ltm->tm_mday << ' ' << setw(2) << setfill('0') << ltm->tm_hour << ':' <<
 		setw(2) << setfill('0') << ltm->tm_min << ':' << setw(2) << setfill('0') << ltm->tm_sec;
-	lastActiveDate = buffer.str();
+	lastActiveDate = buffer.str(); // setting the current date
 	cout << "Enter your name: ";
 	getline(cin, name);
 
@@ -537,7 +554,7 @@ void RegisteredUsers::user_register(RegisteredUsers* regis) {
 	insertToList(ID, name, password, lastActiveDate);
 }
 
-
+// login function
 RegisteredUsers* RegisteredUsers::login(string ID, string password) {
 	RegisteredUsers* current = regisDLL.head;
 	while (current != NULL) {
@@ -550,7 +567,7 @@ RegisteredUsers* RegisteredUsers::login(string ID, string password) {
 			buffer << 1900 + ltm->tm_year << '/' << setw(2) << setfill('0') << ltm->tm_mon + 1 << '/' << 
 				setw(2) << setfill('0') << ltm->tm_mday << ' ' << setw(2) << setfill('0') << ltm->tm_hour << ':' <<
 				setw(2) << setfill('0') << ltm->tm_min << ':' << setw(2) << setfill('0') << ltm->tm_sec;
-			current->lastActiveDate = buffer.str();
+			current->lastActiveDate = buffer.str(); // setting the current time as the last activity date or login date
 			return current;
 		}
 		current = current->nextAdd;

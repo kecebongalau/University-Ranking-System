@@ -23,7 +23,7 @@ public:
 	~DoubleLinkedList() {
 	};
 
-	void insertFront(T* newNode) { // O(1)
+	void insertFront(T* newNode) { // O(1)  inserting to front of the list
 		if (head == NULL)
 		{
 			head = tail = newNode;
@@ -38,7 +38,7 @@ public:
 		size++;
 	}
 
-	void insertEnd(T* newNode) { // O(1)
+	void insertEnd(T* newNode) { // O(1)  inserting to end of the list
 		if (head == NULL)
 		{
 			head = tail = newNode;
@@ -53,7 +53,7 @@ public:
 		size++;
 	}
 
-	void deleteNode(T* node) {
+	void deleteNode(T* node) { // deleting the selected node
 		if (head == NULL)
 		{
 			return;
@@ -80,14 +80,14 @@ public:
 		}
 	};
 
-	void displayAll() { // O(n)
+	void displayAll() { // O(n) displaying all details of the linked list
 		T* current = head;
 		int counter = 0;
 		int opt;
-		current->header();
+		current->header(); // calling the header of the template class attributes
 		while (current != NULL)
 		{
-			current->display();
+			current->display(); // calling the details of the template class attributes
 			cout << endl;
 			current = current->nextAdd;
 			counter++;

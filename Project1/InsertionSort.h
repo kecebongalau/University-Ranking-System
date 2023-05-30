@@ -19,15 +19,16 @@ T* insertionSort(T* head, string data, bool asc) {
 	return sortedHead;
 }
 
+// inserting the element into the sorted head
 template <class T>
 T* sortedInsert(T* sortedHead, T* current, string data, bool asc) {
 	if (asc) { //ascending sort
-		if (sortedHead == NULL || !sortedHead->compareAttributes(current, data)) {
+		if (sortedHead == NULL || !sortedHead->compareAttributes(current, data)) { //the current data becomes the new head
 			current->nextAdd = sortedHead;
 			return current;
 		}
 
-		else {
+		else { // the current data is inserted in between the sorted head based on the order
 			T* temp = sortedHead;
 			while (temp->nextAdd != NULL && temp->nextAdd->compareAttributes(current, data)) {
 				temp = temp->nextAdd;

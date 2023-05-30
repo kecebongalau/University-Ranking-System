@@ -32,13 +32,14 @@ public:
 		this->nextAdd = NULL;
 		this->prevAdd = NULL;
 	}
-
+	
+	// insert newnode to linked list
 	void insertToFavorite(string regisID,  string institution) {
 		Favorite* newnode = new Favorite(regisID, institution);
 		favDLL.insertEnd(newnode);
 
 	}
-
+	// insert the favorite linked list to file
 	void insertToFile() {
 		ofstream file("Favorite.csv");
 		if (file.is_open()) {
@@ -55,19 +56,26 @@ public:
 			cout << "Updating Favorite.csv" << endl;
 		}
 	}
+
+	//return the value of the input
 	string getValueOf(string input) {
 		if (input == "userId") {
 			// TODO: check if this works
 			return this->regisID;
 		}
 	}
+
+	//display the favorite details
 	void display() {
 		cout << left<< setw(10) << this->regisID << '|';
 		cout << setw(10) << this->institution << '|' << endl;
 	}
+	// callling the display function from the double linked list
 	void displayAll() {
 		favDLL.displayAll();
 	}
+
+	// displaying the header of favorite 
 	void header() {
 		cout << left << setw(10) << "User ID" << '|';
 		cout << setw(10) << "Institution" << '|' << endl;
