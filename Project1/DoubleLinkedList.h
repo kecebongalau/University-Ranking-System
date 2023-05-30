@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include "HelperNode.h"
 using namespace std;
 
 // T needs nextAdd, prevAdd, and display()

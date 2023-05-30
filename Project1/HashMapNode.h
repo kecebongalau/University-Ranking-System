@@ -7,12 +7,15 @@ template <class T>
 class HashMapNode
 {
 public:
+	// Key value pair
 	string key;
 	T value;
 
+	// needed for double linked list
 	HashMapNode* prevAdd;
 	HashMapNode* nextAdd;
 
+	// Init function
 	HashMapNode(string key, T data) {
 		this->key = key;
 		this->value = data;
@@ -22,14 +25,17 @@ public:
 	~HashMapNode() {
 	};
 
+	// Display content of this node
 	void display() {
 		cout << left << setw(80) << this->key << '|';
 		cout << setw(20) << this->value << '|' << endl;
 	}
+	// Table display
 	void header() {
 		cout << left << setw(80) << "Institution" << '|';
 		cout << setw(20) << "Total Favorite" << '|' << endl;
 	}
+	// Needed for sort algorithm, compare attributes
 	bool compareAttributes(HashMapNode<T>* otherNode, string attribute) {
 		if (attribute == "value")
 		{
@@ -41,7 +47,4 @@ public:
 			return this->key;
 		}
 	}
-
-private:
-
 };

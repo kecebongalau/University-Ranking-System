@@ -5,14 +5,7 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
-#include "SingleLinkedList.h"
-#include "InsertionSort.h"
 #include "DoubleLinkedList.h"
-#include "BinarySearch.h"
-#include "NewMergeSort.h"
-#include "HashMap.h"
-#include "NewLinearSearch.h"
-#include "LinearSearch.h"
 #include <chrono>
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
 using namespace std;

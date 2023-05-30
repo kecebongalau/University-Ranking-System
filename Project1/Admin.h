@@ -5,18 +5,14 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
-#include "SingleLinkedList.h"
 #include "InsertionSort.h"
 #include "DoubleLinkedList.h"
-#include "BinarySearch.h"
 #include "NewMergeSort.h"
 #include "HashMap.h"
 #include "NewLinearSearch.h"
-#include "LinearSearch.h"
 #include <chrono>
 #include "Favorite.h"
 #include "Feedback.h"
-#include "University.h"
 #include "Users.h"
 #include "RegisUsers.h"
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
@@ -26,6 +22,7 @@ using namespace std::chrono;
 
 class Admin : Users {
 public:
+	// admin acts as a node that has prev and next add
 	DoubleLinkedList<Admin> adminDLL;
 	Admin* nextAdd;
 	Admin* prevAdd;
@@ -45,10 +42,12 @@ public:
 	};
 	~Admin() {};
 
+	// create new admin and insert to linked list
 	void insertToList(string ID, string name, string password) {
 		Admin* newnode = new Admin(ID, name, password);
 		adminDLL.insertEnd(newnode);
 	}
+	// menu fucntion of admin
 	void menu(Admin* admin, RegisteredUsers* regis, Feedback* feed, Favorite* fav) {
 		int opt, choice;
 		string ID, feedbackID;
@@ -139,7 +138,7 @@ public:
 
 		while (opt != 6);
 	};
-
+	// login for admin
 	Admin* login(string ID, string password) {
 		Admin* current = adminDLL.head;
 		while (current != NULL) {
