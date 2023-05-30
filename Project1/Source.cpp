@@ -175,9 +175,7 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 			cin >> opt;
 			switch (opt) {
 			case 1:
-				cout << "ini bin sea" << endl;
 				univ->Bin_Search();
-
 				break;
 			case 2:
 				univ->Lin_Search();
