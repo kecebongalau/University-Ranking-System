@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "HelperNode.h"
 using namespace std;
 
 // Template U can be linked list. Any class with compareAttributes and nextAdd
