@@ -10,16 +10,16 @@ template <class T>
 class HashMap
 {
 public:
+	// hash map based on a linked list
 	DoubleLinkedList<HashMapNode<T>> HashMapdll;
 	HashMap() {
 	}
 	~HashMap() {
 	};
+	// Set the value of a hash map node based on the key to value
 	void setValue(string key, T value) {
 		LinearSearch<HashMapNode<T>> linearSearchClass;
 		HashMapNode<T>* node = linearSearchClass.linearSearch_Node(HashMapdll.head, key, "key");
-
-		//HashMapNode<T>* node = linearSearch<HashMapNode<T>>(HashMapdll.head, key, "key");
 
 		if (node == NULL) {
 			HashMapNode<T>* newNode = new HashMapNode<T>(key, value);
@@ -31,11 +31,10 @@ public:
 		}
 		return;
 	}
+	// Get the value of a hash map node based on the key
 	T getValue(string key) {
 		LinearSearch<HashMapNode<T>> linearSearchClass;
 		HashMapNode<T>* node = linearSearchClass.linearSearch_Node(HashMapdll.head, key, "key");
-
-		//HashMapNode<T>* node = linearSearch<HashMapNode<T>>(HashMapdll.head, key, "key");
 
 		if (node == NULL)
 		{
@@ -48,14 +47,14 @@ public:
 
 		return NULL;
 	}
+	// Display the content of the linked list
 	void display() {
 		this->HashMapdll.displayAll();
 	}
+	// Check if the hash map has the key
 	bool hasKey(string key) {
 		LinearSearch<HashMapNode<T>> linearSearchClass;
 		HashMapNode<T>* node = linearSearchClass.linearSearch_Node(HashMapdll.head, key, "key");
-
-		// HashMapNode<T>* node = linearSearch<HashMapNode<T>>(HashMapdll.head, key, "key");
 
 		if (node == NULL)
 		{
