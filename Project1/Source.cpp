@@ -178,7 +178,6 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 			switch (opt) {
 			case 1:
 				univ->Bin_Search();
-
 				break;
 			case 2:
 				univ->Lin_Search();
