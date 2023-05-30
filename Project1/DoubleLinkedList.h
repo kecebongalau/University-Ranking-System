@@ -79,7 +79,13 @@ public:
 			}
 		}
 	};
-
+	void setTail() {
+		T* current = head;
+		while (current->nextAdd != NULL) {
+			tail = current->nextAdd;
+			current = current->nextAdd;
+		}
+	}
 	void displayAll() { // O(n) displaying all details of the linked list
 		T* current = head;
 		int counter = 0;
@@ -91,7 +97,7 @@ public:
 			cout << endl;
 			current = current->nextAdd;
 			counter++;
-			if (counter %10 == 0) {
+			if (counter % 10 == 0) {
 				cout << "Do you want to check on more?" << endl;
 				cout << "1. Yes" << endl;
 				cout << "2. No Stop Here" << endl;
