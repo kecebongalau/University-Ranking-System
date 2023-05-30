@@ -26,6 +26,10 @@ public:
 		cout << left << setw(10) << this->key << '|';
 		cout << setw(10) << this->value << '|' << endl;
 	}
+	void header() {
+		cout << left << setw(10) << "Institution" << '|';
+		cout << setw(10) << "Total Favorite" << '|' << endl;
+	}
 	bool compareAttributes(HashMapNode<T>* otherNode, string attribute) {
 		if (attribute == "value")
 		{

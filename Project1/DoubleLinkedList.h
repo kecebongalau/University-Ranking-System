@@ -112,6 +112,7 @@ public:
 		T* current = head;
 		int counter = 0;
 		int opt;
+		current->header();
 		while (current != NULL)
 		{
 			current->display();

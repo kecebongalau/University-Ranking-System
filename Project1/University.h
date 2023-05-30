@@ -122,8 +122,11 @@ public:
 
 	// Need for search (double)
 	double getDoubleValueOf(string input);
+	void header();
 };
-
+void University::header() {
+	return;
+}
 void University::Univ_InsertionSort(string data, bool asc) {
 	auto start = high_resolution_clock::now();
 	univDLL.head = insertionSort(univDLL.head, data, asc);

@@ -163,6 +163,14 @@ public:
 		cout << setw(30) <<this->reply<<'|';
 		cout << setw(20) <<this->replyDate<< '|' << endl;
 	}
+	void header() {
+		cout << left << setw(10) << "Feedback ID" << '|';
+		cout << setw(10) << "User ID" << '|';
+		cout << setw(30) << "Feedback" << '|';
+		cout << setw(20) << "Feedback Date" << '|';
+		cout << setw(30) << "Reply" << '|';
+		cout << setw(20) << "Reply Date" << '|' << endl;
+	}
 	void displayAll() {
 		feedDLL.displayAll();
 	}

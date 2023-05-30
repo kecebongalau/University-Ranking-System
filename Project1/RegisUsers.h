@@ -66,10 +66,15 @@ public:
 	void setName(string name);
 	void displayAll();
 	void display();
-
+	void header();
 };
 
-
+void RegisteredUsers::header() {
+	cout << left << setw(10) << "User ID" << '|';
+	cout << setw(20) << "Password" << '|';
+	cout << setw(30) << "Name" << '|';
+	cout << setw(30) << "Last Activity Date" << '|' << endl;
+}
 void RegisteredUsers::display() {
 	cout << left << setw(10) << this->ID << '|';
 	cout << setw(20) << this->password << '|';
@@ -118,7 +123,6 @@ void RegisteredUsers::feedback(string ID, University* univ, Feedback* feed) {
 	cout << "What's your feedback?";
 	getline(cin, feedback);
 	University* current = univ->univDLL.head;
-
 	while (current != NULL) {
 		if (univ_chosen == current->rank) {
 			feed->InsertFeedback(ID, current->institution, feedback);
@@ -433,11 +437,12 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 			}
 			break;
 		case 3:
-
-				
+			
+			fav->header();
 			linearSearchFav.linearSearch(fav->favDLL.head,users->ID, "userId");
 			break;
 		case 4:
+			feed->header();
 			linearSearchFeed.linearSearch(feed->feedDLL.head, users->ID, "userID");
 		case 5:
 			break;

@@ -75,4 +75,8 @@ public:
 	void displayAll() {
 		favDLL.displayAll();
 	}
+	void header() {
+		cout << left << setw(10) << "User ID" << '|';
+		cout << setw(10) << "Institution" << '|' << endl;
+	}
 };
