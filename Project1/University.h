@@ -110,7 +110,7 @@ public:
 	void Cust_LinSearch();
 	void Univ_InsertionSort(string data, bool asc);
 	void Univ_MergedSort(string attribute, bool asc);
-	void displayUniversityInfo();
+	void displayAll();
 	// Needed for display
 	void display();
 
@@ -447,7 +447,7 @@ void University::display() {
 	cout << "Score Scaled: " << ScoreScaled << endl << endl;
 }
 
-void University::displayUniversityInfo() //Big O - O(n)
+void University::displayAll() //Big O - O(n)
 {
 	univDLL.displayAll();
 }

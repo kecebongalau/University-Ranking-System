@@ -167,7 +167,7 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 			}
 
 			system("pause");
-			univ->displayUniversityInfo();
+			univ->displayAll();
 			break;
 		case 4:
 			int opt;
@@ -178,7 +178,6 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 			cin >> opt;
 			switch (opt) {
 			case 1:
-				cout << "ini bin sea" << endl;
 				univ->Bin_Search();
 
 				break;

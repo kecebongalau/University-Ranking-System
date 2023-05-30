@@ -422,7 +422,7 @@ void RegisteredUsers::menu(RegisteredUsers* users, University* univ, Feedback* f
 					}
 				}
 				system("pause");
-				univ->displayUniversityInfo();
+				univ->displayAll();
 				break;
 			case 2:
 				favorite(users->ID, univ, fav);

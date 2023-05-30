@@ -23,12 +23,12 @@ public:
 	};
 
 	void display() {
-		cout << left << setw(10) << this->key << '|';
-		cout << setw(10) << this->value << '|' << endl;
+		cout << left << setw(80) << this->key << '|';
+		cout << setw(20) << this->value << '|' << endl;
 	}
 	void header() {
-		cout << left << setw(10) << "Institution" << '|';
-		cout << setw(10) << "Total Favorite" << '|' << endl;
+		cout << left << setw(80) << "Institution" << '|';
+		cout << setw(20) << "Total Favorite" << '|' << endl;
 	}
 	bool compareAttributes(HashMapNode<T>* otherNode, string attribute) {
 		if (attribute == "value")
