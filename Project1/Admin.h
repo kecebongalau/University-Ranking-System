@@ -26,6 +26,7 @@ using namespace std::chrono;
 
 class Admin : Users {
 public:
+	// admin acts as a node that has prev and next add
 	DoubleLinkedList<Admin> adminDLL;
 	Admin* nextAdd;
 	Admin* prevAdd;
@@ -45,10 +46,12 @@ public:
 	};
 	~Admin() {};
 
+	// create new admin and insert to linked list
 	void insertToList(string ID, string name, string password) {
 		Admin* newnode = new Admin(ID, name, password);
 		adminDLL.insertEnd(newnode);
 	}
+	// menu fucntion of admin
 	void menu(Admin* admin, RegisteredUsers* regis, Feedback* feed, Favorite* fav) {
 		int opt, choice;
 		string ID, feedbackID;
@@ -139,7 +142,7 @@ public:
 
 		while (opt != 6);
 	};
-
+	// login for admin
 	Admin* login(string ID, string password) {
 		Admin* current = adminDLL.head;
 		while (current != NULL) {

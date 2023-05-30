@@ -4,12 +4,15 @@
 #include "HelperNode.h"
 using namespace std;
 
+// Template U can be linked list. Any class with compareAttributes and nextAdd
+
 template <class U>
 class MergedSort
 {
 public:
 	MergedSort() {};
 	~MergedSort() {};
+	// accessable funcgtion to init merge sort
 	void mergeSort(U** headRef, string attribute, bool asc = true) {
 
 		U* head = *headRef;
@@ -37,6 +40,7 @@ public:
 	}
 
 private:
+	// function to merge and compare the linked list
 	U* sortedMerge(U* a, U* b, string attribute) {
 		U* result = NULL;
 
@@ -61,6 +65,7 @@ private:
 
 		return result;
 	}
+	// function to merge and compare the linked list but descending
 	U* sortedMergeDesc(U* a, U* b, string attribute) {
 		U* result = NULL;
 
@@ -85,6 +90,7 @@ private:
 
 		return result;
 	}
+	// function to split the linked list
 	void frontBackSplit(U* source, U** frontRef, U** backRef) {
 		U* fast;
 		U* slow;
