@@ -46,6 +46,9 @@ void login(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* fee
 			admin->menu(Log_Admin, regis,feed, fav);
 		}
 	}
+	else {
+		cout << "User Not Found" << endl;
+	}
 	
 }
 

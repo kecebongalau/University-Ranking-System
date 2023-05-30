@@ -81,33 +81,6 @@ public:
 		}
 	};
 
-	T* getValueAt(int index) { // O(n)
-		T* current = head;
-		for (int i = 0; i < index; i++)
-		{
-			current = current->nextAdd;
-		}
-
-		return current;
-	}
-
-	void setValueAt(T* newNode, int index) { // O(n)
-		T* current = head;
-		T* nextNode;
-		for (int i = 0; i < index - 1; i++)
-		{
-			current = current->nextAdd;
-		}
-
-		nextNode = current->nextAdd;
-
-		delete current->nextAdd;
-
-		current->nextAdd = newNode;
-
-		newNode->nextAdd = nextNode->nextAdd;
-	}
-
 	void displayAll() { // O(n)
 		T* current = head;
 		int counter = 0;
