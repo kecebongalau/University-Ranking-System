@@ -478,7 +478,7 @@ void University::Bin_Search() {
 		MergedSort<University> mergeSortClass;
 		auto start = high_resolution_clock::now(); // starting the timer
 		mergeSortClass.mergeSort(&(univDLL.head), attribute); // soritng the list first based on the input
-		
+		univDLL.setTail();
 		// Perform binary search based on the rank
 		University* found = binarySearch(univDLL.head, input, "rank");
 		auto stop = high_resolution_clock::now(); // stopping the timer after searching
@@ -510,7 +510,7 @@ void University::Bin_Search() {
 		MergedSort<University> mergeSortClass;
 		auto start = high_resolution_clock::now();
 		mergeSortClass.mergeSort(&(univDLL.head), attribute);
-		
+		univDLL.setTail();
 		// Perform binary search based on the institution name
 		University* found = binarySearch(univDLL.head, name, "institution");
 		auto stop = high_resolution_clock::now();

@@ -90,7 +90,7 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 				cout << "Which sorting algorithm will you choose?" << endl;
 				cout << "1. Insertion Sort" << endl;
 				cout << "2. Merge Sort" << endl;
-				cout << "3. Rank" << endl;
+				cout << "3. No Sort" << endl;
 				cin >> choice;
 				switch (choice) {
 				case 1:
@@ -138,30 +138,9 @@ int menu(University* univ, RegisteredUsers* regis, Admin* admin, Feedback* feed,
 					is_sort = true;
 					break;
 				case 3:
-					do
-					{
-						cout << "Which order will you sort on? " << endl;
-						cout << "1. Ascending" << endl;
-						cout << "2. Descending" << endl;
-						cin >> sort;
-						switch (sort)
-						{
-						case 1:
-							asc = true;
-							break;
-						case 2:
-							asc = false;
-							break;
-						default:
-							break;
-						}
-					} while (sort != 1 && sort != 2);
 					is_sort = true;
 					break;
-				default:
-					cout << "Invalid Option" << endl;
-					break;
-
+					
 				}
 			}
 
