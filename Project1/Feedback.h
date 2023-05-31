@@ -136,7 +136,7 @@ public:
 
 		MergedSort<Feedback> mergeSortClass;
 		mergeSortClass.mergeSort(&(feedDLL.head), attribute, asc);
-
+		feedDLL.setTail();
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
 		cout << "Time taken by merge sort algorithm: ";
@@ -146,6 +146,7 @@ public:
 	void feed_insertionSort(string attribute, bool asc) {
 		auto start = high_resolution_clock::now();
 		feedDLL.head = insertionSort(feedDLL.head, attribute, asc);
+		feedDLL.setTail();
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<microseconds> (stop - start);
 		cout << "Time taken by insertion sort algorithm: ";

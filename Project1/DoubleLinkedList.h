@@ -79,17 +79,20 @@ public:
 			}
 		}
 	};
-	void setTail() {
+	void setTail() { // setting the new tail and prev address after the linked list is sorted
 		T* current = head;
+		T* temp = NULL;
 		while (current->nextAdd != NULL) {
 			tail = current->nextAdd;
+			current->prevAdd = temp;
+			temp = current;
 			current = current->nextAdd;
 		}
 	}
 	void displayAll() { // O(n) displaying all details of the linked list
 		T* current = head;
 		int counter = 0;
-		int opt;
+		int opt,x, temp;
 		current->header(); // calling the header of the template class attributes
 		while (current != NULL)
 		{
@@ -100,11 +103,36 @@ public:
 			if (counter % 10 == 0) {
 				cout << "Do you want to check on more?" << endl;
 				cout << "1. Yes" << endl;
-				cout << "2. No Stop Here" << endl;
+				cout << "2. Go to previous page" << endl;
+				cout << "3. No Stop Here" << endl;
 				cin >> opt;
 				switch (opt)
 				{
 				case 1:
+					break;
+				case 2:
+					cout << counter << endl;
+					if (counter < 10) { // automatically break if there's no previous page
+						break;
+					}
+					else if (counter % 10 == 0) {
+						x = 20;
+						temp = 0;
+					}
+					else {
+						x = counter % 10 + 10;
+						temp = 0;
+					}
+					while (x > temp) { // counter to go to the previous page
+						if (current->prevAdd != NULL) {
+							current = current->prevAdd;
+							x--;
+							counter--;
+						}
+						else {
+							return;
+						}
+					}
 					break;
 				default:
 					return;

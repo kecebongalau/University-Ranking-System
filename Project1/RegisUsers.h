@@ -91,6 +91,7 @@ void RegisteredUsers::displayAll() {
 void RegisteredUsers::regis_insertionSort(string data, bool asc) {
 	auto start = high_resolution_clock::now();
 	regisDLL.head = insertionSort(regisDLL.head, data, asc);
+	regisDLL.setTail();
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds> (stop - start);
 	cout << "Time taken by insertion sort algorithm: ";
@@ -525,7 +526,7 @@ void RegisteredUsers::regis_mergeSort(string attribute) {
 
 	MergedSort<RegisteredUsers> mergeSortClass;
 	mergeSortClass.mergeSort(&(regisDLL.head), attribute);
-
+	regisDLL.setTail();
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds> (stop - start);
 	cout << "Time taken by merge sort algorithm: ";
