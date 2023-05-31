@@ -127,6 +127,7 @@ void University::header() {
 void University::Univ_InsertionSort(string data, bool asc) {
 	auto start = high_resolution_clock::now();
 	univDLL.head = insertionSort(univDLL.head, data, asc);
+	univDLL.setTail();
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds> (stop - start);
 	cout << "Time taken by insertion sort algorithm: ";
@@ -137,6 +138,7 @@ void University::Univ_MergedSort(string attribute, bool asc) {
 	auto start = high_resolution_clock::now();
 	MergedSort<University> mergeSortClass;
 	mergeSortClass.mergeSort(&(univDLL.head), attribute, asc);
+	univDLL.setTail();
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds> (stop - start);
 	cout << "Time taken by merge sort algorithm: ";

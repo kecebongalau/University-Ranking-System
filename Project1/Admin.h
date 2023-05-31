@@ -248,7 +248,7 @@ public:
 
 		MergedSort<HashMapNode<int>> mergeSortClass;
 		mergeSortClass.mergeSort(&(uniToCount->HashMapdll.head), "value");
-
+		uniToCount->HashMapdll.setTail();
 		return uniToCount;
 	}
 	// Modify user
